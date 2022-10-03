@@ -21,10 +21,13 @@ public class AppData {
                 Indicator.CO2_EMISSIONS,
                 new ComponentFetcher(
                         Indicator.AIR_POLLUTION_MEAN,
-                        new BaseFetcher(
-                                country,
-                                fromDate,
-                                toDate
+                        new ComponentFetcher(
+                                Indicator.FOREST_AREA,
+                                new BaseFetcher(
+                                        country,
+                                        fromDate,
+                                        toDate
+                                )
                         )
                 )
         );

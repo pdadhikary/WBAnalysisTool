@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The decorator class of the data fetcher.
+ */
 public final class ComponentFetcher implements DataFetcher {
 
     private static final String WB_LINK = "https://api.worldbank.org/v2/country/%s/indicator/%s?date=%d:%d&format=json";
@@ -28,7 +31,12 @@ public final class ComponentFetcher implements DataFetcher {
     private final int fromDate;
     private final int toDate;
 
-
+    /**
+     * Returns a new ComponentFetcher
+     *
+     * @param indicator the indicator for which to fetch data for
+     * @param fetcher   the decorator data fetcher
+     */
     public ComponentFetcher(Indicator indicator, DataFetcher fetcher) {
         this.fetcher = fetcher;
         this.indicator = indicator;
@@ -39,6 +47,11 @@ public final class ComponentFetcher implements DataFetcher {
 
     }
 
+    /**
+     * Returns the data for the indicator of this Component and the decorator Component
+     *
+     * @return data
+     */
     @Override
     public Map<Indicator, TimeSeries> getData() {
         String link = String.format(
@@ -90,6 +103,12 @@ public final class ComponentFetcher implements DataFetcher {
         return this.toDate;
     }
 
+    /**
+     * Helper function to parse JSON string retrieved from the given url.
+     *
+     * @param url URL to the JSON string to parse
+     * @return parsed JSON objects
+     */
     private static JsonObject[] parseData(URL url) {
         JsonObject[] objects = null;
         try (InputStreamReader reader = new InputStreamReader(url.openStream())) {

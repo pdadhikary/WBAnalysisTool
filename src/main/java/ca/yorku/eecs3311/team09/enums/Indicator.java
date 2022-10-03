@@ -1,5 +1,8 @@
 package ca.yorku.eecs3311.team09.enums;
 
+/**
+ * Encapsulation of an Indicator (type of data) and its World Bank API token.
+ */
 public enum Indicator {
 
     CO2_EMISSIONS(

@@ -1,5 +1,8 @@
 package ca.yorku.eecs3311.team09.enums;
 
+/**
+ * Encapsulation of a Country and its country code.
+ */
 public enum Country {
 
     CANADA("Canada", "can"),

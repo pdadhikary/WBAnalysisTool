@@ -2,6 +2,10 @@ package ca.yorku.eecs3311.team09.enums;
 
 import java.util.Arrays;
 
+/**
+ * Encapsulation of an Analysis and its specification, i.e, what indicators are needed to complete
+ * the analysis.
+ */
 public enum AnalysisSpec {
     APC_CO2_ENG_APOLL(
             "Annual percentage change in CO2 emissions vs energy use & air pollution",
