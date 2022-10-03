@@ -91,18 +91,19 @@ public final class ComponentFetcher implements DataFetcher {
     }
 
     private static JsonObject[] parseData(URL url) {
-        try {
-            InputStreamReader reader = new InputStreamReader(url.openStream());
-            Gson gson = new GsonBuilder().serializeNulls().create();
+        JsonObject[] objects = null;
+        try (InputStreamReader reader = new InputStreamReader(url.openStream())) {
+            Gson gson = new GsonBuilder().setLenient().create();
             Type type = new TypeToken<JsonElement[]>() {
             }.getType();
             JsonElement jsonElement = gson.fromJson(reader, JsonElement.class);
             JsonElement[] resultMap = gson.fromJson(jsonElement.toString(), type);
 
-            return gson.fromJson(resultMap[1], JsonObject[].class);
+            objects = gson.fromJson(resultMap[1], JsonObject[].class);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return null;
         }
+
+        return objects;
     }
 }

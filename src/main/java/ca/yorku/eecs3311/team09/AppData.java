@@ -13,7 +13,7 @@ import java.util.Map;
 public class AppData {
 
     static Country country = Country.CANADA;
-    static int fromDate = 2000;
+    static int fromDate = 2010;
     static int toDate = 2015;
 
     public static void main(String[] args) {
