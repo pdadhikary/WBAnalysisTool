@@ -5,138 +5,97 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 // Using Singleton Design Pattern
 
-public class LoginView implements ActionListener {
+public class LoginView extends JFrame {
 
-    private static final LoginView LoginGui=new LoginView();
+	private static final LoginView LoginGui = new LoginView();
 
+	protected JPanel loginpanel;
 
+	protected JTextField usernameFeild;
+	protected JTextField passwordFeild;
+	
+	protected JButton submitBtn;
+	protected JButton registerBtn;
 
+	private LoginView() {
+		
+		this.loginpanel = new JPanel();
+		final JLabel userlabel = new JLabel("Username");
+		this.usernameFeild = new JTextField();
+		final JLabel passwordlabel = new JLabel("Password");
+		this.passwordFeild = new JPasswordField();
+		this.submitBtn = new JButton();
+		this.registerBtn = new JButton();
 
+		// JFrame loginframe=new JFrame();
+		this.setSize(550, 400);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    private JFrame loginframe=new JFrame();
-    private  JPanel loginpanel=new JPanel();
-    private  JLabel userlabel=new JLabel("Username");
-    private  JTextField usernameFeild=new JTextField(100);
-    private  JLabel passwordlabel= new JLabel("Password");
-    private  JPasswordField passwordFeild=new JPasswordField(100);
-    private  JButton submitBtn=new JButton();
-    private  JButton registerBtn=new JButton();
+		// JPanel loginpanel=new JPanel();
+		loginpanel.setLayout(null);
+		this.add(loginpanel);
 
-    private LoginView(){
+		// JLabel userlabel=new JLabel("Username");
+		userlabel.setBounds(10, 100, 80, 25);
+		loginpanel.add(userlabel);
 
+		// JTextField usernameFeild=new JTextField(100);
 
-       // JFrame loginframe=new JFrame();
-        loginframe.setSize(550,400);
-        loginframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		usernameFeild.setBounds(150, 100, 300, 25);
+		loginpanel.add(usernameFeild);
 
+		// JLabel passwordlabel= new JLabel("Password");
+		passwordlabel.setBounds(10, 200, 80, 25);
+		loginpanel.add(passwordlabel);
 
-       // JPanel loginpanel=new JPanel();
-        loginpanel.setLayout(null);
-        loginframe.add(loginpanel);
+		// JPasswordField passwordFeild=new JPasswordField(100);
+		passwordFeild.setBounds(150, 200, 300, 25);
+		loginpanel.add(passwordFeild);
 
-       // JLabel userlabel=new JLabel("Username");
-        userlabel.setBounds(10,100,80,25);
-        loginpanel.add(userlabel);
+		// JButton submitBtn=new JButton();
+		submitBtn.setBounds(350, 300, 75, 35);
+		submitBtn.setText("Submit");
+		// submitBtn.addActionListener(new LoginView());
+		loginpanel.add(submitBtn);
 
-           // JTextField usernameFeild=new JTextField(100);
+		// JButton registerBtn=new JButton();
+		registerBtn.setBounds(150, 300, 140, 35);
+		registerBtn.setText("Register");
+		loginpanel.add(registerBtn);
+	
+	}
 
-            usernameFeild.setBounds(150,100,300,25);
-            loginpanel.add(usernameFeild);
+	
+	public JTextField getusernameFeild() { // getter for username Jtext feild
 
+		return this.usernameFeild;
 
-          //  JLabel passwordlabel= new JLabel("Password");
-            passwordlabel.setBounds(10,200,80,25);
-            loginpanel.add(passwordlabel);
+	}
 
-           // JPasswordField passwordFeild=new JPasswordField(100);
-            passwordFeild.setBounds(150,200,300,25);
-            loginpanel.add(passwordFeild);
+	public JTextField getpasswordFeild() { // getter for password Jtext feild
 
-           // JButton submitBtn=new JButton();
-            submitBtn.setBounds(350,300,75,35);
-            submitBtn.setText("Submit");
-           // submitBtn.addActionListener(new LoginView());
-            loginpanel.add(submitBtn);
+		return this.passwordFeild;
 
+	}
 
+	public JButton getsubmitBtn() { // getter for Submit button
 
+		return this.submitBtn;
 
-       // JButton registerBtn=new JButton();
-        registerBtn.setBounds(150,300,140,35);
-        registerBtn.setText("Register");
-        loginpanel.add(registerBtn);
-        loginframe.setVisible(true);
-    }
+	}
 
+	public JButton getregisterBtn() { // getter for Register button
 
+		return this.registerBtn;
 
+	}
 
-    public String getPasswordtext(){ // getter for password text
+	public static LoginView getInstance() { // singleton design pattern get instance
 
-        return passwordFeild.getPassword().toString();
+		return LoginView.LoginGui;
+	}
 
 
-    }
-
-    public String getUsernametext(){ // getter for username text
-
-        return usernameFeild.getText();
-
-    }
-
-    public JTextField getusernameFeild(){ // getter for username Jtext feild
-
-        return usernameFeild;
-
-
-    }
-
-
-    public JTextField getpasswordFeild(){  // getter for password  Jtext feild
-
-        return passwordFeild;
-
-
-    }
-
-    public JButton getsubmitBtn(){  // getter for Submit button
-
-        return submitBtn;
-
-
-    }
-
-
-    public JButton getregisterBtn(){ // getter for Register button
-
-        return registerBtn;
-
-
-    }
-
-
-
-    public static LoginView getInstance(){  // singleton design pattern get instance
-
-        return LoginGui;
-    }
-
-
-
-
-
-    public static void main (String[] args){
-        LoginView main= new LoginView();
-
-
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
