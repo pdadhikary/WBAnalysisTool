@@ -1,30 +1,36 @@
 package ca.yorku.eecs3311.team09.models;
 
-public class SQLContext implements DBContext {
+public class DBContext {
+    private static final DBContext INSTANCE = new DBContext();
+    public static final String DEFAULT_DB = "jdbc:sqlite:src/main/resources/database/user.db";
+    protected String connectionString;
+    protected UserMapper userMapper;
 
+    private DBContext() {
+        this.connectionString = DBContext.DEFAULT_DB;
+    }
 
-    @Override
     public String getConnectionString() {
-        return null;
+        return this.connectionString;
     }
 
-    @Override
-    public void setConnectionString() {
-
+    public void setConnectionString(String connectionString) {
+        this.connectionString = connectionString;
     }
 
-    @Override
-    public void getInstance() {
-
+    public UserMapper getUserMapper() {
+        return this.userMapper;
     }
 
-    @Override
-    public void getUserMapper() {
-
+    public void setUserMapper(Class<? extends UserMapper> mapper) {
+        try {
+            this.userMapper = mapper.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    @Override
-    public void setUserMapper() {
-
+    public static DBContext getInstance() {
+        return DBContext.INSTANCE;
     }
 }

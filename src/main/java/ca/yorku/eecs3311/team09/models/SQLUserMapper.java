@@ -4,15 +4,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLUserWriter implements UserWriter {
-    public static final String DEFAULT_DB = "jdbc:sqlite:src/main/resources/database/user.db";
-    protected String connectionString;
+public class SQLUserMapper implements UserMapper {
     protected String tableName;
     protected String idColumn;
     protected String passwordColumn;
 
-    public SQLUserWriter(String connectionString) {
-        this.connectionString = connectionString;
+    public SQLUserMapper() {
         this.tableName = "USER";
         this.idColumn = "user_id";
         this.passwordColumn = "password";
@@ -42,7 +39,7 @@ public class SQLUserWriter implements UserWriter {
                 users.add(user);
             }
         } catch (SQLException e) {
-            System.out.println("error");
+            System.out.println(e.getMessage());
         }
         return users;
     }
@@ -53,7 +50,7 @@ public class SQLUserWriter implements UserWriter {
         UserModel user = null;
 
         String query = String.format(
-                "SELECT %s, %s FROM %s WHERE %s=?",
+                "SELECT %s, %s FROM %s WHERE %s = ?",
                 this.idColumn, this.passwordColumn, this.tableName, this.idColumn
         );
 
@@ -61,10 +58,10 @@ public class SQLUserWriter implements UserWriter {
                 Connection conn = this.connect();
                 PreparedStatement stmnt = conn.prepareStatement(query);
         ) {
-            stmnt.setString(0, username);
+            stmnt.setString(1, username);
             ResultSet rs = stmnt.executeQuery();
 
-            if (rs.first()) {
+            if (rs.next()) {
                 user = new UserModel();
                 user.username = rs.getString(this.idColumn);
                 user.hashedPassword = rs.getString(this.passwordColumn);
@@ -72,7 +69,7 @@ public class SQLUserWriter implements UserWriter {
 
             rs.close();
         } catch (SQLException e) {
-            System.out.println("error");
+            System.out.println(e.getMessage());
         }
 
         return user;
@@ -90,16 +87,40 @@ public class SQLUserWriter implements UserWriter {
                     Connection conn = this.connect();
                     PreparedStatement stmnt = conn.prepareStatement(query);
             ) {
-                stmnt.setString(0, user.getUsername());
-                stmnt.setString(1, user.getHashedPassword());
+                stmnt.setString(1, user.getUsername());
+                stmnt.setString(2, user.getHashedPassword());
 
                 stmnt.executeUpdate();
             } catch (SQLException e) {
-                System.out.println("error");
+                System.out.println(e.getMessage());
             }
 
         } else {
             System.out.println("User already exists");
+        }
+    }
+
+    @Override
+    public void dropUser(String username) {
+        if (usernameExists(username)) {
+            String query = String.format(
+                    "DELETE FROM %s WHERE %s = ?",
+                    this.tableName, this.idColumn
+            );
+
+            try (
+                    Connection conn = this.connect();
+                    PreparedStatement stmnt = conn.prepareStatement(query);
+            ) {
+                stmnt.setString(1, username);
+
+                stmnt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("User does not exist!");
         }
     }
 
@@ -110,9 +131,9 @@ public class SQLUserWriter implements UserWriter {
 
     private Connection connect() {
         Connection conn = null;
-
+        DBContext context = DBContext.getInstance();
         try {
-            conn = DriverManager.getConnection(this.connectionString);
+            conn = DriverManager.getConnection(context.getConnectionString());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -122,11 +143,11 @@ public class SQLUserWriter implements UserWriter {
 
     private void create() {
         String query = String.format(
-                "CREATE TABLE IF NOT EXISTS warehouses (\n"
-                        + "	%s VARCHAR,\n"
-                        + "	%s VARCHAR\n"
+                "CREATE TABLE IF NOT EXISTS %s (\n"
+                        + "	%s VARCHAR PRIMARY KEY,\n"
+                        + "	%s VARCHAR NOT NULL\n"
                         + ");",
-                this.idColumn, this.passwordColumn
+                this.tableName, this.idColumn, this.passwordColumn
         );
 
         try (

@@ -2,14 +2,15 @@ package ca.yorku.eecs3311.team09.models;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.List;
 import java.util.Objects;
 
 public class UserModel {
     protected String username;
     protected String hashedPassword;
 
-    public UserModel(String username) {
-        this.username = username;
+    protected UserModel() {
+        this.username = "";
         this.hashedPassword = "";
     }
 
@@ -24,10 +25,6 @@ public class UserModel {
 
     public String getHashedPassword() {
         return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
     }
 
     public boolean checkPassword(String password) {
@@ -45,5 +42,25 @@ public class UserModel {
     @Override
     public int hashCode() {
         return Objects.hash(username);
+    }
+
+    public static List<UserModel> getAll() {
+        return DBContext.getInstance().getUserMapper().getAllUsers();
+    }
+
+    public static UserModel get(String username) {
+        return DBContext.getInstance().getUserMapper().getUser(username);
+    }
+
+    public static void put(UserModel user) {
+        DBContext.getInstance().getUserMapper().putUser(user);
+    }
+
+    public static void drop(String username) {
+        DBContext.getInstance().getUserMapper().dropUser(username);
+    }
+
+    public static boolean usernameExists(String username) {
+        return DBContext.getInstance().getUserMapper().usernameExists(username);
     }
 }
