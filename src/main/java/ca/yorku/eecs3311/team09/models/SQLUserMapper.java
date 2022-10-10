@@ -4,11 +4,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An Object Relation Mapper (ORM) for the UserModel class.
+ * Represents a strategy to map UserModel to a SQLite Database.
+ * <p>
+ * The Database is location is determined by the {@link DBContext DBContext} connection string.
+ */
 public class SQLUserMapper implements UserMapper {
     protected String tableName;
     protected String idColumn;
     protected String passwordColumn;
 
+    /**
+     * Constructs a new SQLUserMapper.
+     */
     public SQLUserMapper() {
         this.tableName = "USER";
         this.idColumn = "user_id";
@@ -129,6 +138,11 @@ public class SQLUserMapper implements UserMapper {
         return this.getUser(username) != null;
     }
 
+    /**
+     * Creates a connection to the database.
+     *
+     * @return connection to the database.
+     */
     private Connection connect() {
         Connection conn = null;
         DBContext context = DBContext.getInstance();
@@ -141,6 +155,9 @@ public class SQLUserMapper implements UserMapper {
         return conn;
     }
 
+    /**
+     * A helper method that creates the table (if it doesn't already exist) for UserModel data.
+     */
     private void create() {
         String query = String.format(
                 "CREATE TABLE IF NOT EXISTS %s (\n"
