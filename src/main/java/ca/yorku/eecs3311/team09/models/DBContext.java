@@ -12,6 +12,10 @@ public class DBContext implements IDBContext {
      * Connection string to SQLite database.
      */
     public static final String DEFAULT_DB = "jdbc:sqlite:src/main/resources/database/user.db";
+    /**
+     * Connection string to SQLite test database.
+     */
+    public static final String DEFAULT_TEST_DB = "jdbc:sqlite:src/main/resources/database/test/user_test.db";
     protected String connectionString;
     private static final DBContext instance = new DBContext();
 

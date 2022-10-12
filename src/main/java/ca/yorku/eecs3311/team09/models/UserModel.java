@@ -1,15 +1,19 @@
 package ca.yorku.eecs3311.team09.models;
 
+import ca.yorku.eecs3311.team09.exceptions.IncorrectCredentialsException;
+import ca.yorku.eecs3311.team09.exceptions.UsernameTakenException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class UserModel implements IUserModel {
     protected String username;
     protected String hashedPassword;
-    protected List<ILoginObserver> loginObservers;
-    protected List<IRegistrationObserver> registrationObservers;
+    protected List<ILoginObserver> loginObservers = new ArrayList<>();
+    protected List<IRegistrationObserver> registrationObservers = new ArrayList<>();
 
     @Override
     public void setUsername(String username) {
@@ -50,10 +54,10 @@ public abstract class UserModel implements IUserModel {
     }
 
     @Override
-    public abstract void registerUser();
+    public abstract void registerUser() throws UsernameTakenException, SQLException;
 
     @Override
-    public abstract void loginUser();
+    public abstract void loginUser(String username, String password) throws IncorrectCredentialsException, SQLException;
 
     /**
      * Returns true if Object is a UserModel with the same username as this UserModel, false otherwise.

@@ -1,5 +1,10 @@
 package ca.yorku.eecs3311.team09.models;
 
+import ca.yorku.eecs3311.team09.exceptions.IncorrectCredentialsException;
+import ca.yorku.eecs3311.team09.exceptions.UsernameTakenException;
+
+import java.sql.SQLException;
+
 /**
  * Represents a User Entity of the application.
  */
@@ -51,11 +56,19 @@ public interface IUserModel {
 
     /**
      * Registers this User into the database and notifies observers upon success.
+     *
+     * @throws UsernameTakenException if the username is already taken
+     * @throws SQLException           if a database exception occurs
      */
-    void registerUser() throws RuntimeException;
+    void registerUser() throws UsernameTakenException, SQLException;
 
     /**
-     * Attempts to log in this User and notifies observers upon success.
+     * Attempts to log in with the provided credentials.
+     *
+     * @param username username
+     * @param password password
+     * @throws IncorrectCredentialsException if the username/password are not valid credentials
+     * @throws SQLException                  if a database exception occurs
      */
-    void loginUser() throws RuntimeException;
+    void loginUser(String username, String password) throws IncorrectCredentialsException, SQLException;
 }

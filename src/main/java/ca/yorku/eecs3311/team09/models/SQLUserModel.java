@@ -6,6 +6,7 @@ import ca.yorku.eecs3311.team09.exceptions.UsernameTakenException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * A {@link UserModel UserModel} that stores user information in a SQL Database.
@@ -31,54 +32,61 @@ public class SQLUserModel extends UserModel {
     }
 
     @Override
-    public void registerUser() throws RuntimeException {
+    public void registerUser() throws RuntimeException, SQLException {
         if (!this.usernameExists(this.username)) {
             String query = String.format(
                     "INSERT INTO %s (%s, %s) VALUES(?, ?)",
                     this.tableName, this.idColumn, this.passwordColumn
             );
 
-            try (
-                    Connection conn = this.context.getConnection();
-                    PreparedStatement stmnt = conn.prepareStatement(query)
-            ) {
-                stmnt.setString(1, this.username);
-                stmnt.setString(2, this.hashedPassword);
 
-                stmnt.executeUpdate();
+            Connection conn = this.context.getConnection();
+            PreparedStatement stmnt = conn.prepareStatement(query);
 
-                this.notifyRegistrationObservers();
-            } catch (Exception e) {
-                throw new RuntimeException("Could not access database to register user...");
-            }
+            stmnt.setString(1, this.username);
+            stmnt.setString(2, this.hashedPassword);
+
+            stmnt.executeUpdate();
+            stmnt.close();
+            conn.close();
+
+            this.notifyRegistrationObservers();
+
         } else {
             throw new UsernameTakenException("This username is already being used...");
         }
     }
 
     @Override
-    public void loginUser() throws RuntimeException {
+    public void loginUser(String username, String password) throws IncorrectCredentialsException, SQLException {
         String query = String.format(
                 "SELECT %s, %s FROM %s WHERE %s = ?",
                 this.idColumn, this.passwordColumn, this.tableName, this.idColumn
         );
 
-        try (
-                Connection conn = this.context.getConnection();
-                PreparedStatement stmnt = conn.prepareStatement(query)
-        ) {
-            stmnt.setString(1, this.username);
-            ResultSet rs = stmnt.executeQuery();
+        boolean userFound = false;
 
-            if (rs.next() & this.checkPassword(rs.getString(this.passwordColumn))) {
-                notifyLoginObservers();
-            } else {
-                throw new IncorrectCredentialsException("The username/password is incorrect...");
-            }
 
-            rs.close();
-        } catch (Exception e) {
-            throw new RuntimeException("Could not access database to login user...");
+        Connection conn = this.context.getConnection();
+        PreparedStatement stmnt = conn.prepareStatement(query);
+
+        stmnt.setString(1, username);
+        ResultSet rs = stmnt.executeQuery();
+
+        if (rs.next()) {
+            userFound = true;
+            this.username = rs.getString(this.idColumn);
+            this.hashedPassword = rs.getString(this.passwordColumn);
+        }
+
+        rs.close();
+        stmnt.close();
+        conn.close();
+
+        if (userFound && this.checkPassword(password)) {
+            this.notifyLoginObservers();
+        } else {
+            throw new IncorrectCredentialsException("Username/Password is incorrect...");
         }
     }
 
