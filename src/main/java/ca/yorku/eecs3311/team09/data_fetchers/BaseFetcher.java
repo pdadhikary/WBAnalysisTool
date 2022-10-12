@@ -2,7 +2,6 @@ package ca.yorku.eecs3311.team09.data_fetchers;
 
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
-import org.jfree.data.time.TimeSeries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +32,7 @@ public final class BaseFetcher implements DataFetcher {
      *
      * @return empty map
      */
-    public Map<Indicator, TimeSeries> getData() {
+    public Map<Indicator, Map<Integer, Double>> getData() {
         return new HashMap<>();
     }
 
