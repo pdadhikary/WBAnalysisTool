@@ -2,7 +2,6 @@ package ca.yorku.eecs3311.team09.data_fetchers;
 
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
-import org.jfree.data.time.TimeSeries;
 
 import java.util.Map;
 
@@ -15,7 +14,7 @@ public interface DataFetcher {
      *
      * @return data
      */
-    public Map<Indicator, TimeSeries> getData();
+    public Map<Indicator, Map<Integer, Double>> getData();
 
     /**
      * Returns the country of this DataFetcher

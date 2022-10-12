@@ -7,8 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.Year;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The decorator class of the data fetcher.
@@ -53,7 +52,7 @@ public final class ComponentFetcher implements DataFetcher {
      * @return data
      */
     @Override
-    public Map<Indicator, TimeSeries> getData() {
+    public Map<Indicator, Map<Integer, Double>> getData() {
         String link = String.format(
                 ComponentFetcher.WB_LINK,
                 this.country.getCode(),
@@ -69,17 +68,17 @@ public final class ComponentFetcher implements DataFetcher {
 
             assert objects != null;
 
-            TimeSeries timeSeries = new TimeSeries(this.indicator.getLabel());
+            Map<Integer, Double> series = new TreeMap<>();
 
             for (JsonObject j : objects) {
                 int date = j.get("date").getAsInt();
                 Double value = j.get("value").isJsonNull() ? null : j.get("value").getAsDouble();
-                timeSeries.add(new Year(date), value);
+                series.put(date, value);
             }
 
-            Map<Indicator, TimeSeries> data = this.fetcher.getData();
+            Map<Indicator, Map<Integer, Double>> data = this.fetcher.getData();
 
-            data.put(this.indicator, timeSeries);
+            data.put(this.indicator, series);
 
             return data;
         } catch (MalformedURLException e) {
