@@ -57,8 +57,8 @@ public class DataFetcherTest {
                 )
         );
 
-        Map<Indicator, TimeSeries> data = d.getData();
-        
-        assert ((Double) data.get(i).getValue(0) - exp_value) < epsilon;
+        Map<Indicator, Map<Integer, Double>> data = d.getData();
+
+        assert ((Double) data.get(i).get(year) - exp_value) < epsilon;
     }
 }
