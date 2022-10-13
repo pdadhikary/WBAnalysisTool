@@ -35,7 +35,7 @@ public class APCAirPollutionForestArea implements Analysis {
 
     @Override
     public void showResult() {
-        System.out.println("Air Pollution vs Forest Area:");
+        System.out.println(this.title + ":");
         this.strategy.printData();
     }
 

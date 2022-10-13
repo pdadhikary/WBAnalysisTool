@@ -30,6 +30,7 @@ public class HealthCareMortality implements Analysis {
 
     @Override
     public void showResult() {
+        System.out.println(this.title + ":");
         this.strategy.printData();
     }
 

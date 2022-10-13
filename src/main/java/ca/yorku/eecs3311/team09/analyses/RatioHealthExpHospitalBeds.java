@@ -44,7 +44,7 @@ public class RatioHealthExpHospitalBeds implements Analysis {
 
     @Override
     public void showResult() {
-        System.out.println(":");
+        System.out.println(this.title + ":");
         this.strategy.printData();
     }
 
