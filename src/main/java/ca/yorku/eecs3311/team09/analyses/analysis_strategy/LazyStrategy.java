@@ -2,7 +2,9 @@ package ca.yorku.eecs3311.team09.analyses.analysis_strategy;
 
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class LazyStrategy extends AnalysisStrategy {
     protected Map<Indicator, Map<Integer, Double>> result;
@@ -35,6 +37,12 @@ public class LazyStrategy extends AnalysisStrategy {
 
     @Override
     protected void calculate() {
-        this.result = this.data;
+        // create deep copy of data
+        this.result = new HashMap<>();
+
+        for (Indicator indicator : this.data.keySet()) {
+            Map<Integer, Double> dataSeries = new TreeMap<>(this.data.get(indicator));
+            this.result.put(indicator, dataSeries);
+        }
     }
 }
