@@ -15,12 +15,11 @@ public class APCGovExpHealthExp implements Analysis {
     protected String title;
     protected IAnalysisStrategy strategy;
 
-    public void GovExpVSCurHealthExp() {
+    public APCGovExpHealthExp() {
         this.indicators = Arrays.asList(
                 Indicator.GOV_EXPENDITURE_EDU_GDP, Indicator.HEALTH_EXPENDITURE_GDP
         );
-        ;
-        this.title = "Education vs Health Expenditure";
+        this.title = "Education vs health expenditure";
     }
 
     @Override

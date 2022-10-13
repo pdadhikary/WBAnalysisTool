@@ -17,6 +17,6 @@ public class Add implements SeriesOperation {
     public void calculate(Map<Indicator, Map<Integer, Double>> table) {
         Map<Integer, Double> series = table.get(this.indicator);
 
-        series.replaceAll((k, v) -> series.get(k) * this.value);
+        series.replaceAll((k, v) -> series.get(k) + this.value);
     }
 }

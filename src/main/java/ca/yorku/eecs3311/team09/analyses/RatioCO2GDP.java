@@ -19,9 +19,9 @@ public class RatioCO2GDP implements Analysis {
 
 
     public RatioCO2GDP() {
-        this.indicatorsNumerator = Indicator.CO2_EMISSIONS;
-        this.indicatorsDenominator = Indicator.GDP_PER_CAPITA_USD;
-        this.title = "Ratio CO2 Emissions to GDP per capita";
+        this.indicatorsNumerator = Indicator.GDP_PER_CAPITA_USD;
+        this.indicatorsDenominator = Indicator.CO2_EMISSIONS;
+        this.title = "Ratio GDP in USD to CO2 emissions (per capita)";
     }
 
     @Override

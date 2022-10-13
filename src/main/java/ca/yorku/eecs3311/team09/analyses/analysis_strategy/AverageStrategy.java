@@ -14,7 +14,8 @@ public class AverageStrategy extends AnalysisStrategy {
         String fStringLabel = "%" + padding + "s";
         String fStringValue = "%" + padding + ".3f";
 
-        System.out.printf(fStringLabel + fStringLabel, "Indicator", "Average\n");
+        System.out.printf(fStringLabel + fStringLabel, "Indicator", "Average");
+        System.out.print('\n');
 
         for (Map.Entry<Indicator, Double> entry : result.entrySet()) {
             System.out.printf(

@@ -20,18 +20,18 @@ public class RatioHealthExpHospitalBeds implements Analysis {
     protected Indicator denominator;
 
     public RatioHealthExpHospitalBeds() {
-        this.title = "Health Expenditure to Hospital Beds";
+        this.title = "Ratio Health Expenditure to Hospital Beds";
         numerator = Indicator.HEALTH_EXPENDITURE_USD;
         denominator = Indicator.HOSPITAL_BEDS;
     }
 
     @Override
-    public void setData(Country country, int startDate, int fromDate) {
+    public void setData(Country country, int fromDate, int toDate) {
         DataFetcher fetcher = DataFactory.getFetcher(
                 Arrays.asList(numerator, denominator),
                 country,
-                startDate,
-                fromDate
+                fromDate,
+                toDate
         );
 
         // tell strategy to multiply numerator by 1/1000

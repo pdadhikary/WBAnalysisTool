@@ -17,19 +17,18 @@ public class APCAirPollutionForestArea implements Analysis {
     protected List<Indicator> indicators;
 
     public APCAirPollutionForestArea() {
-        this.title = "Air Pollution vs Forest Area";
+        this.title = "Air pollution vs forest area";
         this.indicators = Arrays.asList(Indicator.AIR_POLLUTION_MEAN, Indicator.FOREST_AREA);
     }
 
     @Override
-    public void setData(Country country, int startDate, int fromDate) {
+    public void setData(Country country, int fromDate, int toDate) {
         DataFetcher fetcher = DataFactory.getFetcher(
                 this.indicators,
                 country,
-                startDate - 1,
-                fromDate
+                fromDate - 1,
+                toDate
         );
-
         this.strategy = new AnnualPercentChangeStrategy().performCalculation(fetcher);
     }
 

@@ -1,14 +1,7 @@
 package ca.yorku.eecs3311.team09;
 
-import ca.yorku.eecs3311.team09.analyses.analysis_strategy.*;
-import ca.yorku.eecs3311.team09.data_fetchers.DataFactory;
-import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
+import ca.yorku.eecs3311.team09.analyses.*;
 import ca.yorku.eecs3311.team09.enums.Country;
-import ca.yorku.eecs3311.team09.enums.Indicator;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class AnalysisStrategyExample {
     static Country country = Country.USA;
@@ -16,109 +9,84 @@ public class AnalysisStrategyExample {
     static int toDate = 2015;
 
     public static void main(String[] args) {
-        test_AnnualPercentageChange();
-        test_Average();
-        test_Ratio();
-        test_Lazy();
+        run_analysis1();
+        System.out.println(System.lineSeparator());
+
+        run_analysis2();
+        System.out.println(System.lineSeparator());
+
+        run_analysis3();
+        System.out.println(System.lineSeparator());
+
+        run_analysis4();
+        System.out.println(System.lineSeparator());
+
+        run_analysis5();
+        System.out.println(System.lineSeparator());
+
+        run_analysis6();
+        System.out.println(System.lineSeparator());
+        
+        run_analysis7();
+        System.out.println(System.lineSeparator());
+
+        run_analysis8();
+        System.out.println(System.lineSeparator());
     }
 
-    public static void test_AnnualPercentageChange() {
-        // Date we are interested in
-        List<Indicator> indicators = Arrays.asList(
-                Indicator.CO2_EMISSIONS, Indicator.ENERGY_USE, Indicator.AIR_POLLUTION_MEAN
-        );
-
-        // Initialize fetcher with indicators, country, from and to dates
-        DataFetcher fetcher = DataFactory.getFetcher(
-                indicators,
-                country,
-                fromDate,
-                toDate
-        );
-
-        // Initialize a strategy
-        IAnalysisStrategy strategy = new AnnualPercentChangeStrategy().performCalculation(fetcher);
-
-        // print calculation results
-        System.out.println("Annual Percentage Change:");
-        System.out.println("CO2 vs Energy Use & Air Pollution Annual Percentage Change");
-        strategy.printData();
-        System.out.println("---------------------------------------------------------------------------------------\n");
+    public static void run_analysis1() {
+        Analysis analysis1 = new APCAirPollutionForestArea();
+        analysis1.setData(country, fromDate, toDate);
+        System.out.print("1. ");
+        analysis1.showResult();
     }
 
-    public static void test_Average() {
-        // Date we are interested in
-        List<Indicator> indicators = Collections.singletonList(
-                Indicator.FOREST_AREA
-        );
-
-        // Initialize fetcher with indicators, country, from and to dates
-        DataFetcher fetcher = DataFactory.getFetcher(
-                indicators,
-                country,
-                fromDate,
-                toDate
-        );
-
-        // Initialize a strategy
-        IAnalysisStrategy strategy = new AverageStrategy().performCalculation(fetcher);
-
-        // print calculation results
-        System.out.println("Average:");
-        System.out.println("Average Forest Area (% land area)");
-        strategy.printData();
-        System.out.println("---------------------------------------------------------------------------------------\n");
+    public static void run_analysis2() {
+        Analysis analysis2 = new APCCO2EnergyUseAirPollution();
+        analysis2.setData(country, fromDate, toDate);
+        System.out.print("2. ");
+        analysis2.showResult();
     }
 
-    public static void test_Ratio() {
-// Date we are interested in
-        List<Indicator> indicators = Arrays.asList(
-                Indicator.CO2_EMISSIONS, Indicator.GDP_PER_CAPITA_USD
-        );
-
-        // Initialize fetcher with indicators, country, from and to dates
-        DataFetcher fetcher = DataFactory.getFetcher(
-                indicators,
-                country,
-                fromDate,
-                toDate
-        );
-
-        // Initialize a strategy
-        IAnalysisStrategy strategy = new RatioStrategy()
-                .setNumerator(Indicator.CO2_EMISSIONS)
-                .setDenominator(Indicator.GDP_PER_CAPITA_USD)
-                .performCalculation(fetcher);
-
-        // print calculation results
-        System.out.println("Ratio:");
-        System.out.println("Ratio CO2 Emissions to GDP per capita");
-        strategy.printData();
-        System.out.println("---------------------------------------------------------------------------------------\n");
+    public static void run_analysis3() {
+        Analysis analysis3 = new APCGovExpHealthExp();
+        analysis3.setData(country, fromDate, toDate);
+        System.out.print("3. ");
+        analysis3.showResult();
     }
 
-    public static void test_Lazy() {
-        // Date we are interested in
-        List<Indicator> indicators = Arrays.asList(
-                Indicator.PROBLEM_ACCESSING_HC_WOMEN,
-                Indicator.MORTALITY_RATE_INFANT
-        );
+    public static void run_analysis4() {
+        Analysis analysis4 = new HealthCareMortality();
+        analysis4.setData(country, fromDate, toDate);
+        System.out.print("4. ");
+        analysis4.showResult();
+    }
 
-        // Initialize fetcher with indicators, country, from and to dates
-        DataFetcher fetcher = DataFactory.getFetcher(
-                indicators,
-                country,
-                fromDate,
-                toDate
-        );
+    public static void run_analysis5() {
+        Analysis analysis5 = new RatioCO2GDP();
+        analysis5.setData(country, fromDate, toDate);
+        System.out.print("5. ");
+        analysis5.showResult();
+    }
 
-        // Initialize a strategy
-        IAnalysisStrategy strategy = new LazyStrategy().performCalculation(fetcher);
+    public static void run_analysis6() {
+        Analysis analysis6 = new RatioHealthExpHospitalBeds();
+        analysis6.setData(country, fromDate, toDate);
+        System.out.print("6. ");
+        analysis6.showResult();
+    }
 
-        // print calculation results
-        System.out.println("Lazy:");
-        System.out.println("Problem accessing healthcare (Women) vs Infant mortality rate");
-        strategy.printData();
-        System.out.println("---------------------------------------------------------------------------------------\n");
+    public static void run_analysis7() {
+        Analysis analysis6 = new AvgGovExp();
+        analysis6.setData(country, fromDate, toDate);
+        System.out.print("7. ");
+        analysis6.showResult();
+    }
+
+    public static void run_analysis8() {
+        Analysis analysis6 = new AvgForestArea();
+        analysis6.setData(country, fromDate, toDate);
+        System.out.print("8. ");
+        analysis6.showResult();
     }
 }
