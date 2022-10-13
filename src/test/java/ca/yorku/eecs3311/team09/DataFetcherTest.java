@@ -5,10 +5,8 @@ import ca.yorku.eecs3311.team09.data_fetchers.ComponentFetcher;
 import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
-import org.jfree.data.time.TimeSeries;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class DataFetcherTest {
@@ -21,7 +19,7 @@ public class DataFetcherTest {
                 2004
         );
 
-        assert new HashMap<Indicator, TimeSeries>().equals(b.getData());
+        assert b.getData().size() == 0;
     }
 
     @Test

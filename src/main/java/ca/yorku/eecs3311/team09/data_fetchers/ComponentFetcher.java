@@ -72,7 +72,7 @@ public final class ComponentFetcher implements DataFetcher {
 
             for (JsonObject j : objects) {
                 int date = j.get("date").getAsInt();
-                Double value = j.get("value").isJsonNull() ? null : j.get("value").getAsDouble();
+                Double value = j.get("value").isJsonNull() ? Double.NaN : j.get("value").getAsDouble();
                 series.put(date, value);
             }
 
