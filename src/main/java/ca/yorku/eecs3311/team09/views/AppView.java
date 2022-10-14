@@ -21,6 +21,7 @@ public class AppView extends JFrame {
         this.setTitle("Country Statistics");
         this.setIconImage(new ImageIcon(LoginView.LOGO_URI).getImage());
         this.setSize(1000, 700);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 

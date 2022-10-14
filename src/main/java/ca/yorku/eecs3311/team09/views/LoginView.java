@@ -42,6 +42,7 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
         this.setIconImage(new ImageIcon(LoginView.LOGO_URI).getImage());
         this.setSize(550, 400);
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // create UI Elements
