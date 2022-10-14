@@ -104,7 +104,7 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
     protected void createFields() {
         // username label and field
         final JLabel userLabel = new JLabel("Username");
-        userLabel.setBounds(10, 100, 80, 25);
+        userLabel.setBounds(50, 100, 80, 25);
         loginPanel.add(userLabel);
         this.usernameField = new JTextField();
         usernameField.setBounds(150, 100, 300, 25);
@@ -112,7 +112,7 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
 
         // password label and field
         final JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 200, 80, 25);
+        passwordLabel.setBounds(50, 200, 80, 25);
         loginPanel.add(passwordLabel);
         this.passwordField = new JPasswordField();
         passwordField.setBounds(150, 200, 300, 25);
@@ -122,13 +122,13 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
     protected void createButtons() {
         // submit button
         this.submitBtn = new JButton("Submit");
-        submitBtn.setBounds(350, 300, 75, 35);
+        submitBtn.setBounds(350, 300, 90, 35);
         this.submitBtn.addActionListener(this);
         loginPanel.add(submitBtn);
 
         // register button
         this.registerBtn = new JButton("Register");
-        registerBtn.setBounds(150, 300, 140, 35);
+        registerBtn.setBounds(150, 300, 130, 35);
         this.registerBtn.addActionListener(this);
         loginPanel.add(registerBtn);
     }

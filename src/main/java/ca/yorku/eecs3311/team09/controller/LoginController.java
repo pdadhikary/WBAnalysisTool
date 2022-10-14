@@ -19,28 +19,34 @@ public class LoginController implements ILoginController, ILoginObserver {
         this.model.addLoginObserver(this);
 
         this.view = new LoginView(model, this);
-
-        this.view.setVisible(true);
     }
 
     @Override
     public void register(String username, String password) throws ValidationException, UsernameTakenException, SQLException {
-        // Validate data
+        // Validate username
         FormValidationUtility.checkNotNull(username, "username");
         FormValidationUtility.checkNotEmpty(username, "username");
         FormValidationUtility.notContainSpace(username, "username");
-
+        // Validate password
         FormValidationUtility.checkNotNull(password, "password");
         FormValidationUtility.checkNotEmpty(password, "password");
 
-        this.model.setUsername(username);
-        this.model.setPassword(password);
-        this.model.registerUser();
+        this.model.registerUser(username, password);
     }
 
     @Override
     public void submit(String username, String password) throws IncorrectCredentialsException, SQLException {
         this.model.loginUser(username, password);
+    }
+
+    @Override
+    public void showLoginView() {
+        this.view.setVisible(true);
+    }
+
+    @Override
+    public void disposeLoginView() {
+        this.view.dispose();
     }
 
     @Override

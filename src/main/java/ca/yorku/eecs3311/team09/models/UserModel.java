@@ -11,22 +11,11 @@ import java.util.Objects;
 
 public abstract class UserModel implements IUserModel {
     protected String username;
-    protected String hashedPassword;
     protected List<ILoginObserver> loginObservers = new ArrayList<>();
     protected List<IRegistrationObserver> registrationObservers = new ArrayList<>();
 
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     @Override
@@ -54,7 +43,7 @@ public abstract class UserModel implements IUserModel {
     }
 
     @Override
-    public abstract void registerUser() throws UsernameTakenException, SQLException;
+    public abstract void registerUser(String username, String password) throws UsernameTakenException, SQLException;
 
     @Override
     public abstract void loginUser(String username, String password) throws IncorrectCredentialsException, SQLException;
@@ -89,7 +78,11 @@ public abstract class UserModel implements IUserModel {
      * @param password rew text password to check.
      * @return true if the password belongs to this UserModel, false otherwise.
      */
-    protected boolean checkPassword(String password) {
-        return BCrypt.checkpw(password, this.hashedPassword);
+    protected boolean checkPassword(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
+    }
+
+    protected String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }

@@ -10,4 +10,8 @@ public interface ILoginController {
     void register(String username, String password) throws ValidationException, UsernameTakenException, SQLException;
 
     void submit(String username, String password) throws IncorrectCredentialsException, SQLException;
+
+    void showLoginView();
+
+    void disposeLoginView();
 }

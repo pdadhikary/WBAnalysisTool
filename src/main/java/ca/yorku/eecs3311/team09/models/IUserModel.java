@@ -10,25 +10,11 @@ import java.sql.SQLException;
  */
 public interface IUserModel {
     /**
-     * Sets the username of this User.
-     *
-     * @param username username
-     */
-    void setUsername(String username);
-
-    /**
      * Returns the username of this User.
      *
      * @return username of this user
      */
     String getUsername();
-
-    /**
-     * Sets the password of this user. The raw text password will be hashed before it is set.
-     *
-     * @param password raw text password
-     */
-    void setPassword(String password);
 
     /**
      * Registers a login observer.
@@ -60,7 +46,7 @@ public interface IUserModel {
      * @throws UsernameTakenException if the username is already taken
      * @throws SQLException           if a database exception occurs
      */
-    void registerUser() throws UsernameTakenException, SQLException;
+    void registerUser(String username, String password) throws UsernameTakenException, SQLException;
 
     /**
      * Attempts to log in with the provided credentials.

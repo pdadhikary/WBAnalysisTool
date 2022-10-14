@@ -2,10 +2,7 @@ package ca.yorku.eecs3311.team09.data_fetchers;
 
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -118,8 +115,11 @@ public final class ComponentFetcher implements DataFetcher {
             JsonElement[] resultMap = gson.fromJson(jsonElement.toString(), type);
 
             objects = gson.fromJson(resultMap[1], JsonObject[].class);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (IOException | JsonIOException e) {
+            e.printStackTrace(System.out);
+        } catch (Exception e) {
+            System.out.println("Error Occurred!");
+            e.printStackTrace(System.out);
         }
 
         return objects;

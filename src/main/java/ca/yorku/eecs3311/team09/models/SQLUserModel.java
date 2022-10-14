@@ -32,8 +32,8 @@ public class SQLUserModel extends UserModel {
     }
 
     @Override
-    public void registerUser() throws RuntimeException, SQLException {
-        if (!this.usernameExists(this.username)) {
+    public void registerUser(String username, String password) throws RuntimeException, SQLException {
+        if (!this.usernameExists(username)) {
             String query = String.format(
                     "INSERT INTO %s (%s, %s) VALUES(?, ?)",
                     this.tableName, this.idColumn, this.passwordColumn
@@ -43,8 +43,8 @@ public class SQLUserModel extends UserModel {
             Connection conn = this.context.getConnection();
             PreparedStatement stmnt = conn.prepareStatement(query);
 
-            stmnt.setString(1, this.username);
-            stmnt.setString(2, this.hashedPassword);
+            stmnt.setString(1, username);
+            stmnt.setString(2, this.hashPassword(password));
 
             stmnt.executeUpdate();
             stmnt.close();
@@ -73,17 +73,18 @@ public class SQLUserModel extends UserModel {
         stmnt.setString(1, username);
         ResultSet rs = stmnt.executeQuery();
 
+        String hashedPassword = null;
         if (rs.next()) {
             userFound = true;
-            this.username = rs.getString(this.idColumn);
-            this.hashedPassword = rs.getString(this.passwordColumn);
+            hashedPassword = rs.getString(this.passwordColumn);
         }
 
         rs.close();
         stmnt.close();
         conn.close();
 
-        if (userFound && this.checkPassword(password)) {
+        if (userFound && this.checkPassword(password, hashedPassword)) {
+            this.username = username;
             this.notifyLoginObservers();
         } else {
             throw new IncorrectCredentialsException("Username/Password is incorrect...");

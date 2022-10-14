@@ -9,7 +9,9 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        LoginControllerValidationTest.class,
+        SQLUserModelTest.class,
         DataFetcherTest.class
 })
-public class AppTest {
+public class AllTests {
 }
