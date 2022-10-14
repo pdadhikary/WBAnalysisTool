@@ -12,9 +12,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// Using Singleton Design Pattern
-
 public class LoginView extends JFrame implements ActionListener, IRegistrationObserver, ILoginObserver {
+    public static final String LOGO_URI = "src/main/resources/static/image/wb_logo.png";
+
     protected IUserModel model;
     protected ILoginController controller;
 
@@ -38,7 +38,10 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
         loginPanel.setLayout(null);
 
         // frame settings
+        this.setTitle("Login");
+        this.setIconImage(new ImageIcon(LoginView.LOGO_URI).getImage());
         this.setSize(550, 400);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // create UI Elements
