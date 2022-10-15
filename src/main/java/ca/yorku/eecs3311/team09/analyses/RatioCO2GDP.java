@@ -10,17 +10,33 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Analyzes the ratio of CO2 emissions (as metric tons per capita) to GDP per capita (current US$).
+ */
 public class RatioCO2GDP implements Analysis {
+    /**
+     * numerator indicator of this analysis
+     */
     protected Indicator indicatorsNumerator;
+    /**
+     * numerator indicator of this analysis
+     */
     protected Indicator indicatorsDenominator;
-    protected DataFetcher data;
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
 
-
+    /**
+     * Returns a new instance of this analysis.
+     */
     public RatioCO2GDP() {
-        this.indicatorsNumerator = Indicator.GDP_PER_CAPITA_USD;
-        this.indicatorsDenominator = Indicator.CO2_EMISSIONS;
+        this.indicatorsNumerator = Indicator.CO2_EMISSIONS;
+        this.indicatorsDenominator = Indicator.GDP_PER_CAPITA_USD;
         this.title = "Ratio GDP in USD to CO2 emissions (per capita)";
     }
 
@@ -37,7 +53,6 @@ public class RatioCO2GDP implements Analysis {
                 fromDate,
                 toDate
         );
-        this.data = fetcher;
 
         // Initialize a strategy
         this.strategy = new RatioStrategy()

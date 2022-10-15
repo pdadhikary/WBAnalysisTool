@@ -6,15 +6,23 @@ import ca.yorku.eecs3311.team09.enums.Country;
 public interface Analysis {
 
     /**
-     * Uses the DataFactory to create a custom data fetcher,
-     * passes the data fetcher to AnalysisStrategy.
+     * Use a {@link IAnalysisStrategy IAnalysisStrategy} to perform analysis on a set of data.
+     *
+     * @param country  country for which to perform the analysis on.
+     * @param fromDate start date of the data.
+     * @param toDate   end date of the data.
      */
     void setData(Country country, int fromDate, int toDate);
 
     /**
-     * Calls the print() method on the analysis strategy.
+     * Prints the result of the analysis to the standard output.
      */
     void showResult();
 
+    /**
+     * Returns the {@link IAnalysisStrategy IAnalysisStrategy} used to perform the calculation.
+     *
+     * @return analysis strategy
+     */
     IAnalysisStrategy getStrategy();
 }

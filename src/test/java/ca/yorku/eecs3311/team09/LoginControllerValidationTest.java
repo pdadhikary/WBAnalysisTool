@@ -11,8 +11,6 @@ import ca.yorku.eecs3311.team09.models.IUserModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
-
 import static org.junit.Assert.assertEquals;
 
 public class LoginControllerValidationTest {
@@ -24,17 +22,24 @@ public class LoginControllerValidationTest {
     }
 
     /**
-     * @testId LoginControllerValidationTest01
-     * @category Tests the empty username validation checker of the LoginController.
-     * @testCoverage UC1-Registration-Empty-Username-Validation
-     * @precondition username is empty.
-     * @procedure Steps required for this test:
-     * 1. Initialize a ILoginController.
-     * 1. Call the register() method of the ILoginController with an empty username.
-     * @expectedOutcome Throws a ValidationException with a useful message.
+     * Test ID: LoginControllerValidationTest01
+     * <p>
+     * Category: Tests the empty username validation checker of the LoginController.
+     * <p>
+     * Requirement Coverage: UC1-Registration-Empty-Username-Validation.
+     * <p>
+     * Initial Condition: username is empty.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Initialize a ILoginController.
+     * <p>
+     * - 2. Call the register() method of the ILoginController with an empty username.
+     * <p>
+     * Expected Outcome: Throws a ValidationException with a useful message.
      */
     @Test
-    public void LoginControllerValidationTest01() throws SQLException {
+    public void LoginControllerValidationTest01() {
         String password = "pass1";
 
         String expectedMessage = "username cannot be empty!";
@@ -50,17 +55,24 @@ public class LoginControllerValidationTest {
     }
 
     /**
-     * @testId LoginControllerValidationTest02
-     * @category Tests the spaced username validation checker of the LoginController.
-     * @testCoverage UC1-Registration-Spaced-Username-Validation
-     * @precondition username contains spaces.
-     * @procedure Steps required for this test:
-     * 1. Initialize a ILoginController.
-     * 1. Call the register() method of the ILoginController with a username containing spaces.
-     * @expectedOutcome Throws a ValidationException with a useful message.
+     * Test ID: LoginControllerValidationTest02
+     * <p>
+     * Category: Tests the spaced username validation checker of the LoginController.
+     * <p>
+     * Requirement Coverage: UC1-Registration-Spaced-Username-Validation
+     * <p>
+     * Initial Condition: username contains spaces.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Initialize a ILoginController.
+     * <p>
+     * - 2. Call the register() method of the ILoginController with a username containing spaces.
+     * <p>
+     * Expected Outcome: Throws a ValidationException with a useful message.
      */
     @Test
-    public void LoginControllerValidationTest02() throws SQLException {
+    public void LoginControllerValidationTest02() {
         String password = "pass1";
 
         String expectedMessage = "username cannot contain spaces!";
@@ -76,17 +88,24 @@ public class LoginControllerValidationTest {
     }
 
     /**
-     * @testId LoginControllerValidationTest03
-     * @category Tests the empty password validation checker of the LoginController.
-     * @testCoverage UC1-Registration-Empty-Password-Validation
-     * @precondition Password is empty.
-     * @procedure Steps required for this test:
-     * 1. Initialize a ILoginController.
-     * 1. Call the register() method of the ILoginController with an empty password.
-     * @expectedOutcome Throws a ValidationException with a useful message.
+     * Test ID: LoginControllerValidationTest03
+     * <p>
+     * Category: Tests the empty password validation checker of the LoginController.
+     * <p>
+     * Requirement Coverage: UC1-Registration-Empty-Password-Validation
+     * <p>
+     * Initial Condition: Password is empty.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Initialize a ILoginController.
+     * <p>
+     * - 2. Call the register() method of the ILoginController with an empty password.
+     * <p>
+     * Expected Outcome: Throws a ValidationException with a useful message.
      */
     @Test
-    public void LoginControllerValidationTest03() throws SQLException {
+    public void LoginControllerValidationTest03() {
         String username = "user1";
 
         String expectedMessage = "password cannot be empty!";

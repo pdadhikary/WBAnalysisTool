@@ -12,18 +12,50 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The login GUI.
+ */
 public class LoginView extends JFrame implements ActionListener, IRegistrationObserver, ILoginObserver {
+    /**
+     * path to the logo for this app.
+     */
     public static final String LOGO_URI = "src/main/resources/static/image/wb_logo.png";
 
+    /**
+     * model of this view.
+     */
     protected IUserModel model;
+    /**
+     * controller of this view.
+     */
     protected ILoginController controller;
-
+    /**
+     * panel containing the fields, labels and buttons.
+     */
     protected JPanel loginPanel;
+    /**
+     * username field
+     */
     protected JTextField usernameField;
+    /**
+     * password field
+     */
     protected JTextField passwordField;
+    /**
+     * submit button
+     */
     protected JButton submitBtn;
+    /**
+     * register button
+     */
     protected JButton registerBtn;
 
+    /**
+     * Returns a new LoginView
+     *
+     * @param model      the model of this view
+     * @param controller the controller of this view
+     */
     public LoginView(IUserModel model, ILoginController controller) {
 
         this.controller = controller;
@@ -101,6 +133,9 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
         );
     }
 
+    /**
+     * Creates all the input fields and labels for this view.
+     */
     protected void createFields() {
         // username label and field
         final JLabel userLabel = new JLabel("Username");
@@ -119,6 +154,9 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
         loginPanel.add(passwordField);
     }
 
+    /**
+     * Creates all the buttons for this view.
+     */
     protected void createButtons() {
         // submit button
         this.submitBtn = new JButton("Submit");

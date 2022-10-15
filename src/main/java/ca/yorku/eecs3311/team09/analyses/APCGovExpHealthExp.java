@@ -10,11 +10,27 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Analyzes the annual percent change of Government expenditure on education, total (% of GDP) vs
+ * Current health expenditure (% of GDP).
+ */
 public class APCGovExpHealthExp implements Analysis {
-    protected List<Indicator> indicators;
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
+    /**
+     * list of indicators used for this analysis.
+     */
+    protected List<Indicator> indicators;
 
+    /**
+     * Returns a new instance of this analysis.
+     */
     public APCGovExpHealthExp() {
         this.indicators = Arrays.asList(
                 Indicator.GOV_EXPENDITURE_EDU_GDP, Indicator.HEALTH_EXPENDITURE_GDP

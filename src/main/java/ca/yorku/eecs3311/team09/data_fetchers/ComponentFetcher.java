@@ -10,17 +10,22 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * The decorator class of the data fetcher.
+ * The decorator component class of the {@link DataFetcher DataFetcher}.
  */
 public final class ComponentFetcher implements DataFetcher {
 
+    /**
+     * Link to World Bank API
+     */
     private static final String WB_LINK = "https://api.worldbank.org/v2/country/%s/indicator/%s?date=%d:%d&format=json";
-
+    
+    /**
+     * Child decorator
+     */
     private final DataFetcher fetcher;
     private final Indicator indicator;
     private final Country country;
@@ -31,7 +36,7 @@ public final class ComponentFetcher implements DataFetcher {
      * Returns a new ComponentFetcher
      *
      * @param indicator the indicator for which to fetch data for
-     * @param fetcher   the decorator data fetcher
+     * @param fetcher   the child decorator
      */
     public ComponentFetcher(Indicator indicator, DataFetcher fetcher) {
         this.fetcher = fetcher;
@@ -44,7 +49,7 @@ public final class ComponentFetcher implements DataFetcher {
     }
 
     /**
-     * Returns the data for the indicator of this Component and the decorator Component
+     * Returns the data for the indicator of this component and the child component.
      *
      * @return data
      */
@@ -79,22 +84,23 @@ public final class ComponentFetcher implements DataFetcher {
 
             return data;
         } catch (MalformedURLException e) {
-            System.out.println("URL was incorrect: " + link);
+            throw new RuntimeException("URL was incorrect: " + link);
         } catch (UnsupportedOperationException | NumberFormatException e) {
-            System.out.println("Data could not be parsed for: " + this.indicator.getIndicator_token());
+            throw new RuntimeException("Data could not be parsed for: " + this.indicator.getIndicator_token());
         }
-
-        return new HashMap<>();
     }
 
+    @Override
     public Country getCountry() {
         return this.country;
     }
 
+    @Override
     public int getFromDate() {
         return this.fromDate;
     }
 
+    @Override
     public int getToDate() {
         return this.toDate;
     }
@@ -116,10 +122,9 @@ public final class ComponentFetcher implements DataFetcher {
 
             objects = gson.fromJson(resultMap[1], JsonObject[].class);
         } catch (IOException | JsonIOException e) {
-            e.printStackTrace(System.out);
+            throw new RuntimeException("could not connect to the URL: " + e);
         } catch (Exception e) {
-            System.out.println("Error Occurred!");
-            e.printStackTrace(System.out);
+            throw new RuntimeException("Json data could not be read: " + e);
         }
 
         return objects;

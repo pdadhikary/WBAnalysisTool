@@ -4,8 +4,17 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 
 import java.util.Map;
 
+/**
+ * Multiples the indicator data by a constant.
+ */
 public class Multiply implements SeriesOperation {
+    /**
+     * indicator to perform operation on
+     */
     protected Indicator indicator;
+    /**
+     * constant value to multiply
+     */
     protected Double value;
 
     public Multiply(Indicator indicator, Double value) {

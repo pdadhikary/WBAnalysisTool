@@ -10,13 +10,26 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Analyzes the average Forest area (% of land area).
+ */
 public class AvgForestArea implements Analysis {
-    // fields
-    protected List<Indicator> indicators;
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
+    /**
+     * list of indicators used for this analysis.
+     */
+    protected List<Indicator> indicators;
 
-    // Base Constructor
+    /**
+     * Returns a new instance of this analysis.
+     */
     public AvgForestArea() {
         this.title = "Average Forest area (% of land area)";
         this.indicators = Collections.singletonList(Indicator.FOREST_AREA);

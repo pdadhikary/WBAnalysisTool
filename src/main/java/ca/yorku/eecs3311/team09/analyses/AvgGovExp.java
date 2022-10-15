@@ -10,11 +10,26 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Government expenditure on education, total (% of GDP).
+ */
 public class AvgGovExp implements Analysis {
-    protected List<Indicator> indicators;
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
+    /**
+     * list of indicators used for this analysis.
+     */
+    protected List<Indicator> indicators;
 
+    /**
+     * Returns a new instance of this analysis.
+     */
     public AvgGovExp() {
         this.title = "Average government expenditure on education (% of GDP)";
         this.indicators = Collections.singletonList(Indicator.GOV_EXPENDITURE_EDU_GDP);

@@ -36,5 +36,8 @@ public abstract class AnalysisStrategy implements IAnalysisStrategy {
     @Override
     public abstract void printData();
 
+    /**
+     * Helper function that defines the analysis algorithm and manipulates the data.
+     */
     protected abstract void calculate();
 }

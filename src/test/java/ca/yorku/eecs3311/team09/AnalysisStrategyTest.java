@@ -21,14 +21,21 @@ public class AnalysisStrategyTest {
     private static final AnalysisAdapter ADAPTER = new AnalysisAdapter();
 
     /**
-     * @testId AnalysisStrategyTest01
-     * @category Tests the annual percent change strategy.
-     * @testCoverage UC3-Analysis-Strategy-APC
-     * @precondition DataFetcher returns the data to perform analysis on.
-     * @procedure Steps required for this test:
-     * 1. Create a fetcher containing the indicator data.
-     * 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
-     * @expectedOutcome Expected result should match the actual result.
+     * Test ID: AnalysisStrategyTest01
+     * <p>
+     * Category: Tests the annual percent change strategy.
+     * <p>
+     * Requirements Coverage: UC3-Analysis-Strategy-APC
+     * <p>
+     * Initial Condition: DataFetcher returns the data to perform analysis on.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a fetcher containing the indicator data.
+     * <p>
+     * - 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
+     * <p>
+     * Expected Outcome: Expected result matches the actual result.
      */
     @Test
     public void AnalysisStrategyTest01() {
@@ -61,14 +68,21 @@ public class AnalysisStrategyTest {
     }
 
     /**
-     * @testId AnalysisStrategyTest02
-     * @category Tests the ratio strategy.
-     * @testCoverage UC3-Analysis-Strategy-Ratio
-     * @precondition DataFetcher returns the data to perform analysis on.
-     * @procedure Steps required for this test:
-     * 1. Create a fetcher containing the indicator data.
-     * 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
-     * @expectedOutcome Expected result should match the actual result.
+     * Test ID: AnalysisStrategyTest02
+     * <p>
+     * Category: Tests the ratio strategy.
+     * <p>
+     * Requirement Coverage: UC3-Analysis-Strategy-Ratio.
+     * <p>
+     * Initial Condition: DataFetcher returns the data to perform analysis on.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a fetcher containing the indicator data.
+     * <p>
+     * - 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
+     * <p>
+     * Expected Outcome: Expected result matches the actual result.
      */
     @Test
     public void AnalysisStrategyTest02() {
@@ -91,15 +105,24 @@ public class AnalysisStrategyTest {
     }
 
     /**
-     * @testId AnalysisStrategyTest03
-     * @category Tests the series operations on an analysis strategy.
-     * @testCoverage UC3-Analysis-Strategy-SeriesOperation
-     * @precondition DataFetcher returns the data, the list of operations contains an ordered set of operations.
-     * @procedure Steps required for this test:
-     * 1. Create a fetcher containing the indicator data.
-     * 2. Create a list of operations to be performed before analysis calculation.
-     * 2. Pass the data fetcher and list of operations to the IAnalysisStrategy.performCalculation() method.
-     * @expectedOutcome Expected result should match the actual result.
+     * Test ID: AnalysisStrategyTest03
+     * <p>
+     * Category: Tests the series operations on an analysis strategy.
+     * <p>
+     * Requirement Coverage: UC3-Analysis-Strategy-SeriesOperation
+     * <p>
+     * Initial Condition: DataFetcher returns the data, the list of operations
+     * contains an ordered set of operations.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a fetcher containing the indicator data.
+     * <p>
+     * - 2. Create a list of operations to be performed before analysis calculation.
+     * <p>
+     * - 3. Pass the data fetcher and list of operations to the IAnalysisStrategy.performCalculation() method.
+     * <p>
+     * Expected Outcome: Expected result matches the actual result.
      */
     @Test
     public void AnalysisStrategyTest03() {
@@ -128,14 +151,21 @@ public class AnalysisStrategyTest {
     }
 
     /**
-     * @testId AnalysisStrategyTest04
-     * @category Tests the average strategy.
-     * @testCoverage UC3-Analysis-Strategy-Average
-     * @precondition DataFetcher returns the data to perform analysis on.
-     * @procedure Steps required for this test:
-     * 1. Create a fetcher containing the indicator data.
-     * 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
-     * @expectedOutcome Expected result should match the actual result.
+     * Test ID: AnalysisStrategyTest04
+     * <p>
+     * Category: Tests the average strategy.
+     * <p>
+     * Requirement Coverage: UC3-Analysis-Strategy-Average.
+     * <p>
+     * Initial Condition: DataFetcher returns the data to perform analysis on.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a fetcher containing the indicator data.
+     * <p>
+     * - 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
+     * <p>
+     * Expected Outcome: Expected result matches the actual result.
      */
     @Test
     public void AnalysisStrategyTest04() {

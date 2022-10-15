@@ -16,17 +16,25 @@ import static org.junit.Assert.assertEquals;
 
 public class DataFetcherTest {
     private static final double EPSILON = 0.0001;
-    
+
     /**
-     * @testId DataFetcherTest01
-     * @category Tests the base class of the DateFetcher decorator.
-     * @testCoverage UC3-DataFetcher-BaseFetcher
-     * @precondition toDate >= fromDate
-     * @procedure Steps required for this test:
-     * 1. Initialize a BaseFetcher with Country, fromDate and toDate
-     * 2. Call the getData() method on the fetcher.
-     * 3. Check if the data container is empty.
-     * @expectedOutcome returns an empty container
+     * Test ID: DataFetcherTest01
+     * <p>
+     * Category: Tests the base class of the DateFetcher decorator.
+     * <p>
+     * Requirement Coverage: UC3-DataFetcher-BaseFetcher
+     * <p>
+     * Initial Condition: toDate greater than or equal to fromDate
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Initialize a BaseFetcher with Country, fromDate and toDate
+     * <p>
+     * - 2. Call the getData() method on the fetcher.
+     * <p>
+     * - 3. Check if the data container is empty.
+     * <p>
+     * Expected Outcome: returns an empty container
      */
     @Test
     public void DataFetcherTest01() {
@@ -46,15 +54,24 @@ public class DataFetcherTest {
     }
 
     /**
-     * @testId DataFetcherTest02
-     * @category Tests the component class of the DateFetcher decorator.
-     * @testCoverage UC3-DataFetcher-ComponentFetcher
-     * @precondition the BaseFetcher is initialized with a country, fromDate & toDate (toDate >= fromDate)
-     * @procedure Steps required for this test:
-     * 1. Initialize a ComponentFetcher with an indicator and BaseFetcher
-     * 2. Call the getData() method on the fetcher.
-     * 3. Check if the value of the provided years matches upto 3 decimal points.
-     * @expectedOutcome returns the corresponding values on the WorldBank api
+     * Test ID: DataFetcherTest02
+     * <p>
+     * Category: Tests the component class of the DateFetcher decorator.
+     * <p>
+     * Requirement Coverage: UC3-DataFetcher-ComponentFetcher
+     * <p>
+     * Initial Condition: the BaseFetcher is initialized with a country,
+     * fromDate and toDate (toDate greater than or equal to fromDate)
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Initialize a ComponentFetcher with an indicator and BaseFetcher
+     * <p>
+     * - 2. Call the getData() method on the fetcher.
+     * <p>
+     * - 3. Check if the value of the provided years matches upto 3 decimal points.
+     * <p>
+     * Expected Outcome: returns the corresponding values on the WorldBank API.
      */
     @Test
     public void DataFetcherTest02() {
@@ -88,15 +105,23 @@ public class DataFetcherTest {
     }
 
     /**
-     * @testId DataFetcherTest03
-     * @category Tests the DataFactory with multiple indicators.
-     * @testCoverage UC3-DataFetcher-DataFactory-Multiple-Indicators
-     * @precondition fromDate >= toDate
-     * @procedure Steps required for this test:
-     * 1. Call the static DataFactory method with country, fromDate & toDate to get the DataFetcher.
-     * 2. Call the getData() method on the fetcher.
-     * 3. Check if the value of each indicator matches upto 3 decimal points.
-     * @expectedOutcome returns the corresponding values on the WorldBank api
+     * Test ID: DataFetcherTest03
+     * <p>
+     * Category: Tests the DataFactory with multiple indicators.
+     * <p>
+     * Requirement Coverage: UC3-DataFetcher-DataFactory-Multiple-Indicators
+     * <p>
+     * Initial Condition: fromDate less than or equal to toDate
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Call the static DataFactory method with country, fromDate and toDate to get the DataFetcher.
+     * <p>
+     * - 2. Call the getData() method on the fetcher.
+     * <p>
+     * - 3. Check if the value of each indicator matches upto 3 decimal points.
+     * <p>
+     * Expected Outcome: returns the corresponding values on the WorldBank api
      */
     @Test
     public void DataFetcherTest03() {

@@ -46,15 +46,25 @@ public class SQLUserModelTest implements ILoginObserver, IRegistrationObserver {
     }
 
     /**
-     * @testId DBContextTest01
-     * @category Tests DBContext connection.
-     * @testCoverage UC1-Database-DBContext
-     * @precondition user_test.db is present in src/main/resources/database/test/
-     * @procedure Steps required for this test:
-     * 1. Create a test database (automated).
-     * 2. Set DBContext connection string to point to the test database.
-     * 3. Call getConnection() method on the DBContext instance.
-     * @expectedOutcome returns connection to the test database.
+     * Test ID: DBContextTest01
+     * <p>
+     * Category: Tests DBContext connection.
+     * <p>
+     * Requirement Coverage: UC1-Database-DBContext
+     * <p>
+     * Initial Condition: user_test.db is present in src/main/resources/database/test/
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a test database (automated).
+     * <p>
+     * - 2. Set DBContext connection string to point to the test database.
+     * <p>
+     * - 3. Call getConnection() method on the DBContext instance.
+     * <p>
+     * Expected Outcome: returns connection to the test database.
+     *
+     * @throws SQLException if database connection could not be made
      */
     @Test
     public void DBContextTest01() throws SQLException {
@@ -64,20 +74,30 @@ public class SQLUserModelTest implements ILoginObserver, IRegistrationObserver {
     }
 
     /**
-     * @testId SQLUserModelTest01
-     * @category Tests user registration into database.
-     * @testCoverage UC1-User-Registration-SQLUserModel
-     * @precondition user_test.db is present in src/main/resources/database/test/ & USER table is present
-     * @procedure Steps required for this test:
-     * 1. Create a test database (automated).
-     * 2. Create USER table if not present (automated).
-     * 3. Initialize SQLUserModel with a IDBContext instance.
-     * 4. Set username and password.
-     * 5. Call registerUser() method on the UserModel.
-     * @expectedOutcome the SuccessfulRegistrationObservers get notified and the user is registered.
+     * Test ID: SQLUserModelTest01
+     * <p>
+     * Category: Tests user registration into database.
+     * <p>
+     * Requirement Coverage: UC1-User-Registration-SQLUserModel
+     * <p>
+     * Initial Condition: user_test.db is present in src/main/resources/database/test/ and USER table is present
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a test database (automated).
+     * <p>
+     * - 2. Create USER table if not present (automated).
+     * <p>
+     * - 3. Initialize SQLUserModel with a IDBContext instance.
+     * <p>
+     * - 4. Set username and password.
+     * <p>
+     * - 5. Call registerUser() method on the UserModel.
+     * <p>
+     * Expected Outcome: the SuccessfulRegistrationObservers get notified and the user is registered.
      */
     @Test
-    public void SQLUserModelTest01() throws SQLException {
+    public void SQLUserModelTest01() {
         String username = "user1";
         String password = "userpass";
 
@@ -92,20 +112,30 @@ public class SQLUserModelTest implements ILoginObserver, IRegistrationObserver {
     }
 
     /**
-     * @testId SQLUserModelTest02
-     * @category Tests user registration error into database.
-     * @testCoverage UC1-User-Registration-Error-SQLUserModel
-     * @precondition The user already exists in the database.
-     * @procedure Steps required for this test:
-     * 1. Create a test database (automated).
-     * 2. Create USER table if not present (automated).
-     * 3. Initialize SQLUserModel with a IDBContext instance.
-     * 4. Insert the user into the database.
-     * 5. Try and register the user again in the database.
-     * @expectedOutcome throws an UsernameTakenException.
+     * Test ID: SQLUserModelTest02
+     * <p>
+     * Category: Tests user registration error into database.
+     * <p>
+     * Requirement Coverage: UC1-User-Registration-Error-SQLUserModel
+     * <p>
+     * Initial Condition: The user already exists in the database.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a test database (automated).
+     * <p>
+     * - 2. Create USER table if not present (automated).
+     * <p>
+     * - 3. Initialize SQLUserModel with a IDBContext instance.
+     * <p>
+     * - 4. Insert the user into the database.
+     * <p>
+     * - 5. Try and register the user again in the database.
+     * <p>
+     * Expected Outcome: throws an UsernameTakenException.
      */
     @Test(expected = UsernameTakenException.class)
-    public void SQLUserModelTest02() throws SQLException {
+    public void SQLUserModelTest02() {
         String username = "user1";
         String password = "userpass";
 
@@ -117,20 +147,29 @@ public class SQLUserModelTest implements ILoginObserver, IRegistrationObserver {
     }
 
     /**
-     * @testId SQLUserModelTest03
-     * @category Tests user login.
-     * @testCoverage UC1-User-Login-SQLUserModel
-     * @precondition The user already exists in the database.
-     * @procedure Steps required for this test:
-     * 1. Create a test database (automated).
-     * 2. Create USER table if not present (automated).
-     * 3. Initialize SQLUserModel with a IDBContext instance.
-     * 4. Insert the user into the database.
-     * 5. Try and login the user again.
-     * @expectedOutcome the SuccessfulLoginObservers get notified and the user is logged in.
+     * Test ID: SQLUserModelTest03
+     * <p>
+     * Category: Tests user login.
+     * <p>
+     * Requirement Coverage: UC1-User-Login-SQLUserModel
+     * <p>
+     * Initial Condition: The user already exists in the database.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a test database (automated).
+     * <p>
+     * - 2. Create USER table if not present (automated).
+     * <p>
+     * - 3. Initialize SQLUserModel with a IDBContext instance.
+     * <p>
+     * - 4. Insert the user into the database.
+     * <p>
+     * - 5. Try and login the user again.
+     * Expected Outcome: the SuccessfulLoginObservers get notified and the user is logged in.
      */
     @Test
-    public void SQLUserModelTest03() throws SQLException {
+    public void SQLUserModelTest03() {
         String username = "user1";
         String password = "userpass";
 
@@ -146,20 +185,30 @@ public class SQLUserModelTest implements ILoginObserver, IRegistrationObserver {
     }
 
     /**
-     * @testId SQLUserModelTest04
-     * @category Tests user login error.
-     * @testCoverage UC1-User-Login-Error-SQLUserModel
-     * @precondition The user does not exist or the password does not match.
-     * @procedure Steps required for this test:
-     * 1. Create a test database (automated).
-     * 2. Create USER table if not present (automated).
-     * 3. Initialize SQLUserModel with a IDBContext instance.
-     * * 4. Insert the user into the database.
-     * 5. Try and login the user with incorrect username/password.
-     * @expectedOutcome throws an IncorrectCredentialsException.
+     * Test ID: SQLUserModelTest04
+     * <p>
+     * Category: Tests user login error.
+     * <p>
+     * Requirement Coverage: UC1-User-Login-Error-SQLUserModel
+     * <p>
+     * Initial Condition: The user does not exist or the password does not match.
+     * <p>
+     * Steps required for this test:
+     * <p>
+     * - 1. Create a test database (automated).
+     * <p>
+     * - 2. Create USER table if not present (automated).
+     * <p>
+     * - 3. Initialize SQLUserModel with a IDBContext instance.
+     * <p>
+     * - 4. Insert the user into the database.
+     * <p>
+     * - 5. Try and login the user with incorrect username/password.
+     * <p>
+     * Expected Outcome: throws an IncorrectCredentialsException.
      */
     @Test(expected = IncorrectCredentialsException.class)
-    public void SQLUserModelTest04() throws SQLException {
+    public void SQLUserModelTest04() {
         String username = "user1";
         String password = "userpass";
         String incorrectPassword = "wrongpassword";

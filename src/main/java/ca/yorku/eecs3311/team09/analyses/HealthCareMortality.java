@@ -10,12 +10,27 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Analyzes Problems in accessing health care (% of women): Q1 (lowest) vs
+ * Mortality rate, infant (per 1,000 live births).
+ */
 public class HealthCareMortality implements Analysis {
-    protected List<Indicator> indicators;
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
+    /**
+     * list of indicators used for this analysis.
+     */
+    protected List<Indicator> indicators;
 
-
+    /**
+     * Returns a new instance of this analysis.
+     */
     public HealthCareMortality() {
         this.indicators = Arrays.asList(Indicator.PROBLEM_ACCESSING_HC_WOMEN, Indicator.MORTALITY_RATE_INFANT);
         this.title = "Problems accessing health care (Women) Vs. mortality rate";

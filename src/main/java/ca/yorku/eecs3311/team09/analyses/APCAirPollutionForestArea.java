@@ -10,12 +10,27 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Analyzes the annual percent change of
+ * PM2.5 air pollution, mean annual exposure (micrograms per cubic meter) vs Forest area (% of land area).
+ */
 public class APCAirPollutionForestArea implements Analysis {
-
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
+    /**
+     * list of indicators used for this analysis.
+     */
     protected List<Indicator> indicators;
 
+    /**
+     * Returns a new instance of this analysis.
+     */
     public APCAirPollutionForestArea() {
         this.title = "Air pollution vs forest area";
         this.indicators = Arrays.asList(Indicator.AIR_POLLUTION_MEAN, Indicator.FOREST_AREA);
