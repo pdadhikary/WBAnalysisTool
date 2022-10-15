@@ -33,6 +33,11 @@ public class AvgGovExp implements Analysis {
     }
 
     @Override
+    public IAnalysisStrategy getStrategy() {
+        return this.strategy;
+    }
+
+    @Override
     public String toString() {
         return this.title;
     }

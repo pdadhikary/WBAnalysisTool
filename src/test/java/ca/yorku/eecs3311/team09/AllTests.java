@@ -9,9 +9,10 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        LoginControllerValidationTest.class,
+        DataFetcherTest.class,
+        AnalysisStrategyTest.class,
         SQLUserModelTest.class,
-        DataFetcherTest.class
+        LoginControllerValidationTest.class
 })
 public class AllTests {
 }

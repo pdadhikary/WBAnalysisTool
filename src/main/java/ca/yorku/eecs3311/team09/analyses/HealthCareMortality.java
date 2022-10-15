@@ -34,6 +34,11 @@ public class HealthCareMortality implements Analysis {
         this.strategy.printData();
     }
 
+    @Override
+    public IAnalysisStrategy getStrategy() {
+        return this.strategy;
+    }
+
     public String toString() {
         return title;
     }

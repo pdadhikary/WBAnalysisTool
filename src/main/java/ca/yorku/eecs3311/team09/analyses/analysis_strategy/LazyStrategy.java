@@ -9,6 +9,10 @@ import java.util.TreeMap;
 public class LazyStrategy extends AnalysisStrategy {
     protected Map<Indicator, Map<Integer, Double>> result;
 
+    public Map<Indicator, Map<Integer, Double>> getResult() {
+        return this.result;
+    }
+
     @Override
     public void printData() {
         int padding = 20;

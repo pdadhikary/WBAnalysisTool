@@ -8,6 +8,10 @@ import java.util.Map;
 public class AverageStrategy extends AnalysisStrategy {
     protected Map<Indicator, Double> result;
 
+    public Map<Indicator, Double> getResult() {
+        return this.result;
+    }
+
     @Override
     public void printData() {
         int padding = 20;

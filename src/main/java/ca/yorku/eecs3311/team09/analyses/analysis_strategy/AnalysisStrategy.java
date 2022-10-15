@@ -33,6 +33,7 @@ public abstract class AnalysisStrategy implements IAnalysisStrategy {
         return this;
     }
 
+    @Override
     public abstract void printData();
 
     protected abstract void calculate();

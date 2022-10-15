@@ -1,5 +1,6 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.analyses.analysis_strategy.IAnalysisStrategy;
 import ca.yorku.eecs3311.team09.enums.Country;
 
 public interface Analysis {
@@ -14,4 +15,6 @@ public interface Analysis {
      * Calls the print() method on the analysis strategy.
      */
     void showResult();
+
+    IAnalysisStrategy getStrategy();
 }

@@ -8,6 +8,10 @@ import java.util.Map;
 public class AnnualPercentChangeStrategy extends AnalysisStrategy {
     protected Map<Indicator, Map<Integer, Double>> result;
 
+    public Map<Indicator, Map<Integer, Double>> getResult() {
+        return this.result;
+    }
+
     @Override
     public void printData() {
         int padding = 20;
@@ -49,7 +53,7 @@ public class AnnualPercentChangeStrategy extends AnalysisStrategy {
             for (int year = fromDate; year <= toDate; year++) {
                 resultSeries.put(
                         year,
-                        (1 - dataSeries.get(year) / dataSeries.get(year - 1)) * 100
+                        (dataSeries.get(year) / dataSeries.get(year - 1) - 1) * 100
                 );
             }
 

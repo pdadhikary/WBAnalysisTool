@@ -10,6 +10,10 @@ public class RatioStrategy extends AnalysisStrategy {
     protected Indicator numerator;
     protected Indicator denominator;
 
+    public Map<Integer, Double> getResult() {
+        return this.result;
+    }
+
     public RatioStrategy setNumerator(Indicator numerator) {
         this.numerator = numerator;
         return this;
