@@ -22,7 +22,7 @@ public class DataFetcherTest {
      * <p>
      * Category: Tests the base class of the DateFetcher decorator.
      * <p>
-     * Requirement Coverage: UC3-DataFetcher-BaseFetcher
+     * Requirement Coverage: UC2-DataFetcher-BaseFetcher
      * <p>
      * Initial Condition: toDate greater than or equal to fromDate
      * <p>
@@ -58,7 +58,7 @@ public class DataFetcherTest {
      * <p>
      * Category: Tests the component class of the DateFetcher decorator.
      * <p>
-     * Requirement Coverage: UC3-DataFetcher-ComponentFetcher
+     * Requirement Coverage: UC2-DataFetcher-ComponentFetcher
      * <p>
      * Initial Condition: the BaseFetcher is initialized with a country,
      * fromDate and toDate (toDate greater than or equal to fromDate)
@@ -109,7 +109,7 @@ public class DataFetcherTest {
      * <p>
      * Category: Tests the DataFactory with multiple indicators.
      * <p>
-     * Requirement Coverage: UC3-DataFetcher-DataFactory-Multiple-Indicators
+     * Requirement Coverage: UC2-DataFetcher-DataFactory-Multiple-Indicators
      * <p>
      * Initial Condition: fromDate less than or equal to toDate
      * <p>

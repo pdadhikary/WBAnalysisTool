@@ -166,6 +166,7 @@ public class SQLUserModelTest implements ILoginObserver, IRegistrationObserver {
      * - 4. Insert the user into the database.
      * <p>
      * - 5. Try and login the user again.
+     * <p>
      * Expected Outcome: the SuccessfulLoginObservers get notified and the user is logged in.
      */
     @Test
