@@ -6,8 +6,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Does not perform any analysis, simple creates a deep copy of the data and stores it as result.
+ */
 public class LazyStrategy extends AnalysisStrategy {
+    /**
+     * holds the result of the analysis.
+     */
     protected Map<Indicator, Map<Integer, Double>> result;
+
+    /**
+     * Returns a new LazyStrategy.
+     */
+    public LazyStrategy() {
+        this.result = new HashMap<>();
+    }
+
+    /**
+     * Returns the result of the analysis.
+     *
+     * @return result
+     */
+    public Map<Indicator, Map<Integer, Double>> getResult() {
+        return this.result;
+    }
 
     @Override
     public void printData() {

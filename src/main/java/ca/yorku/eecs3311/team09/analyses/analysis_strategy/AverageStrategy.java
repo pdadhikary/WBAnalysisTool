@@ -5,8 +5,30 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * For each indicator calculates the average value of all data range.
+ */
 public class AverageStrategy extends AnalysisStrategy {
+    /**
+     * holds the result of the analysis.
+     */
     protected Map<Indicator, Double> result;
+
+    /**
+     * Returns a new AverageStrategy
+     */
+    public AverageStrategy() {
+        this.result = new HashMap<>();
+    }
+
+    /**
+     * Returns the result of the analysis.
+     *
+     * @return result
+     */
+    public Map<Indicator, Double> getResult() {
+        return this.result;
+    }
 
     @Override
     public void printData() {

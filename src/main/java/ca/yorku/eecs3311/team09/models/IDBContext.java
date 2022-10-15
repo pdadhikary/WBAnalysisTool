@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Provides the necessary context and connection for Database operation in a Model.
+ * Provides the necessary context and connection for Database operation in a {@link SQLUserModel SQLUserModel}.
  */
 public interface IDBContext {
     /**

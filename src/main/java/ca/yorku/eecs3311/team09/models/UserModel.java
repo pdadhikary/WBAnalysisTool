@@ -4,29 +4,17 @@ import ca.yorku.eecs3311.team09.exceptions.IncorrectCredentialsException;
 import ca.yorku.eecs3311.team09.exceptions.UsernameTakenException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class UserModel implements IUserModel {
     protected String username;
-    protected String hashedPassword;
     protected List<ILoginObserver> loginObservers = new ArrayList<>();
     protected List<IRegistrationObserver> registrationObservers = new ArrayList<>();
 
     @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     @Override
@@ -54,42 +42,29 @@ public abstract class UserModel implements IUserModel {
     }
 
     @Override
-    public abstract void registerUser() throws UsernameTakenException, SQLException;
+    public abstract void registerUser(String username, String password) throws UsernameTakenException;
 
     @Override
-    public abstract void loginUser(String username, String password) throws IncorrectCredentialsException, SQLException;
+    public abstract void loginUser(String username, String password) throws IncorrectCredentialsException;
 
     /**
-     * Returns true if Object is a UserModel with the same username as this UserModel, false otherwise.
+     * Checks whether the plain text password matches the hashed password.
      *
-     * @param o Object to compare
-     * @return true if Object is a UserModel with the same username as this UserModel, false otherwise
+     * @param plainTextPassword plain text password to check
+     * @param hashedPassword    hashed password to check against
+     * @return true if the plainTextPassword matches hashedPassword, false otherwise.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SQLUserModel)) return false;
-        SQLUserModel SQLUserModel = (SQLUserModel) o;
-        return this.username.equals(SQLUserModel.getUsername());
+    protected boolean checkPassword(String plainTextPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainTextPassword, hashedPassword);
     }
 
     /**
-     * Returns the hash code of this UserModel
+     * Hash a password using the OpenBSD bcrypt scheme.
      *
-     * @return hash code of this UserModel
+     * @param plainTextPassword plain text password
+     * @return the hashed password.
      */
-    @Override
-    public int hashCode() {
-        return Objects.hash(username);
-    }
-
-    /**
-     * Checks whether the provided raw text password belongs this UserModel.
-     *
-     * @param password rew text password to check.
-     * @return true if the password belongs to this UserModel, false otherwise.
-     */
-    protected boolean checkPassword(String password) {
-        return BCrypt.checkpw(password, this.hashedPassword);
+    protected String hashPassword(String plainTextPassword) {
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
     }
 }

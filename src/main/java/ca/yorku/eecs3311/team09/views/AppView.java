@@ -8,15 +8,39 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Vector;
 
+/**
+ * The main app GUI.
+ */
 public class AppView extends JFrame {
+    /**
+     * list of countries users can select from.
+     */
     protected JComboBox<Country> countriesList;
+    /**
+     * list if analyses users can select from.
+     */
     protected JComboBox<Analysis> analysisList;
+    /**
+     * recalculate button.
+     */
     protected JButton recalculateButton;
 
+    /**
+     * panel containing data selection fields.
+     */
     protected JPanel north;
+    /**
+     * panel containing analysis selection fields.
+     */
     protected JPanel south;
+    /**
+     * panel containing graph panels.
+     */
     protected JPanel center;
 
+    /**
+     * returns a new AppView
+     */
     public AppView() {
         this.setTitle("Country Statistics");
         this.setIconImage(new ImageIcon(LoginView.LOGO_URI).getImage());
@@ -29,7 +53,7 @@ public class AppView extends JFrame {
         this.south = new JPanel();
         this.center = new JPanel();
 
-        createCountrySelection();
+        createDataSelection();
         createAnalysisSelection();
 
         this.recalculateButton = new JButton("Recalculate");
@@ -40,6 +64,9 @@ public class AppView extends JFrame {
         this.add(south, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates analysis selection fields.
+     */
     protected void createAnalysisSelection() {
         JLabel analysisName = new JLabel("Choose Analysis Method ");
         this.analysisList = new JComboBox<>(
@@ -61,7 +88,10 @@ public class AppView extends JFrame {
         this.south.add(analysisList);
     }
 
-    protected void createCountrySelection() {
+    /**
+     * Creates data selection fields
+     */
+    protected void createDataSelection() {
         JLabel countryName = new JLabel("Choose A Country: ");
 
         this.countriesList = new JComboBox<>(

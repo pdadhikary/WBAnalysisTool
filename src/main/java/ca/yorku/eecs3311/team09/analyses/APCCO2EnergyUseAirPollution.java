@@ -10,12 +10,28 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Analyzes the annual percent change of CO2 emissions (as metric tons per capita)
+ * vs Energy use (kg of oil equivalent per capita) and PM2.5 air pollution, mean
+ * annual exposure (micrograms per cubic meter).
+ */
 public class APCCO2EnergyUseAirPollution implements Analysis {
+    /**
+     * title of this analysis.
+     */
     protected String title;
+    /**
+     * analysis strategy for this analysis.
+     */
     protected IAnalysisStrategy strategy;
+    /**
+     * list of indicators used for this analysis.
+     */
     protected List<Indicator> indicators;
 
-
+    /**
+     * Returns a new instance of this analysis.
+     */
     public APCCO2EnergyUseAirPollution() {
         this.title = "CO2 emissions vs energy use & air pollution";
         this.indicators = Arrays.asList(Indicator.CO2_EMISSIONS, Indicator.ENERGY_USE, Indicator.AIR_POLLUTION_MEAN);
@@ -37,6 +53,11 @@ public class APCCO2EnergyUseAirPollution implements Analysis {
     public void showResult() {
         System.out.println(this.title + ":");
         this.strategy.printData();
+    }
+
+    @Override
+    public IAnalysisStrategy getStrategy() {
+        return this.strategy;
     }
 
     @Override

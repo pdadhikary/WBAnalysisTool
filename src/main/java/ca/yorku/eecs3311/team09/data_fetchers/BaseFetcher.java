@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Base component of the decorator data fetcher.
+ * Base component of the {@link DataFetcher DataFetcher}.
  */
 public final class BaseFetcher implements DataFetcher {
     private final Country country;
@@ -17,7 +17,7 @@ public final class BaseFetcher implements DataFetcher {
     /**
      * Returns a new BaseFetcher
      *
-     * @param country  country to fetch data from
+     * @param country  country to fetch data for
      * @param fromDate start date for data
      * @param toDate   end date for data
      */
@@ -32,18 +32,22 @@ public final class BaseFetcher implements DataFetcher {
      *
      * @return empty map
      */
+    @Override
     public Map<Indicator, Map<Integer, Double>> getData() {
         return new HashMap<>();
     }
 
+    @Override
     public Country getCountry() {
         return this.country;
     }
 
+    @Override
     public int getFromDate() {
         return this.fromDate;
     }
 
+    @Override
     public int getToDate() {
         return this.toDate;
     }

@@ -6,7 +6,7 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.Map;
 
 /**
- * Date fetching interface, uses Decorator Pattern.
+ * Provides an interface to fetch data from the World Bank API, uses the decorator pattern.
  */
 public interface DataFetcher {
     /**
@@ -17,21 +17,21 @@ public interface DataFetcher {
     public Map<Indicator, Map<Integer, Double>> getData();
 
     /**
-     * Returns the country of this DataFetcher
+     * Returns the country of which the data belongs to.
      *
      * @return country
      */
     public Country getCountry();
 
     /**
-     * Returns the start date of this DataFetcher
+     * Returns the start date of the data.
      *
      * @return start date
      */
     public int getFromDate();
 
     /**
-     * Returns the end date of this DataFetcher
+     * Returns the end date of the data.
      *
      * @return end date
      */

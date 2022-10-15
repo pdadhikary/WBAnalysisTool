@@ -9,18 +9,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * A {@link UserModel UserModel} that stores user information in a SQL Database.
+ * A {@link IUserModel IUserModel} that stores user information in an SQL Database.
  * <p>
- * Uses {@link IDBContext IDBContext} object to determine which database to store data in.
+ * Uses an {@link IDBContext IDBContext} object to determine which database to store data in.
  */
 public class SQLUserModel extends UserModel {
     protected IDBContext context;
 
-    // Table information
+    /**
+     * Name of the table to store data in.
+     */
     protected String tableName;
+    /**
+     * Name of the username column.
+     */
     protected String idColumn;
+    /**
+     * Name of the password column.
+     */
     protected String passwordColumn;
 
+    /**
+     * Returns a new SQLUserModel and creates the User table if it does not already exist.
+     *
+     * @param context database context object
+     * @throws RuntimeException if the database file is not found.
+     */
     public SQLUserModel(IDBContext context) throws RuntimeException {
         this.context = context;
 
@@ -32,58 +46,59 @@ public class SQLUserModel extends UserModel {
     }
 
     @Override
-    public void registerUser() throws RuntimeException, SQLException {
-        if (!this.usernameExists(this.username)) {
-            String query = String.format(
-                    "INSERT INTO %s (%s, %s) VALUES(?, ?)",
-                    this.tableName, this.idColumn, this.passwordColumn
-            );
+    public void registerUser(String username, String password) throws RuntimeException {
+        if (this.usernameExists(username)) {
+            throw new UsernameTakenException("This username is already being used...");
+        }
 
+        String query = String.format(
+                "INSERT INTO %s (%s, %s) VALUES(?, ?)",
+                this.tableName, this.idColumn, this.passwordColumn
+        );
 
-            Connection conn = this.context.getConnection();
-            PreparedStatement stmnt = conn.prepareStatement(query);
-
-            stmnt.setString(1, this.username);
-            stmnt.setString(2, this.hashedPassword);
+        try (
+                Connection conn = this.context.getConnection();
+                PreparedStatement stmnt = conn.prepareStatement(query);
+        ) {
+            stmnt.setString(1, username);
+            stmnt.setString(2, this.hashPassword(password));
 
             stmnt.executeUpdate();
-            stmnt.close();
-            conn.close();
 
             this.notifyRegistrationObservers();
-
-        } else {
-            throw new UsernameTakenException("This username is already being used...");
+        } catch (SQLException e) {
+            throw new RuntimeException("database error: " + e);
         }
     }
 
     @Override
-    public void loginUser(String username, String password) throws IncorrectCredentialsException, SQLException {
+    public void loginUser(String username, String password) throws IncorrectCredentialsException {
         String query = String.format(
                 "SELECT %s, %s FROM %s WHERE %s = ?",
                 this.idColumn, this.passwordColumn, this.tableName, this.idColumn
         );
 
         boolean userFound = false;
+        String hashedPassword = null;
 
+        try (
+                Connection conn = this.context.getConnection();
+                PreparedStatement stmnt = conn.prepareStatement(query);
+        ) {
+            stmnt.setString(1, username);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                userFound = true;
+                hashedPassword = rs.getString(this.passwordColumn);
+            }
 
-        Connection conn = this.context.getConnection();
-        PreparedStatement stmnt = conn.prepareStatement(query);
-
-        stmnt.setString(1, username);
-        ResultSet rs = stmnt.executeQuery();
-
-        if (rs.next()) {
-            userFound = true;
-            this.username = rs.getString(this.idColumn);
-            this.hashedPassword = rs.getString(this.passwordColumn);
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("database error: " + e);
         }
 
-        rs.close();
-        stmnt.close();
-        conn.close();
-
-        if (userFound && this.checkPassword(password)) {
+        if (userFound && this.checkPassword(password, hashedPassword)) {
+            this.username = username;
             this.notifyLoginObservers();
         } else {
             throw new IncorrectCredentialsException("Username/Password is incorrect...");
@@ -116,14 +131,14 @@ public class SQLUserModel extends UserModel {
 
             rs.close();
         } catch (Exception e) {
-            throw new RuntimeException("Could not access database...");
+            throw new RuntimeException("database error: " + e);
         }
 
         return exists;
     }
 
     /**
-     * Creates a sql User table if it does not exist.
+     * Creates a sql user table if it does not exist.
      *
      * @throws RuntimeException if the connection string is invalid.
      */

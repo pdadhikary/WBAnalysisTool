@@ -4,8 +4,17 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 
 import java.util.Map;
 
+/**
+ * Adds a constant to the indicator data.
+ */
 public class Add implements SeriesOperation {
+    /**
+     * indicator to perform operation on
+     */
     protected Indicator indicator;
+    /**
+     * constant value to add
+     */
     protected Double value;
 
     public Add(Indicator indicator, Double value) {

@@ -6,7 +6,7 @@ package ca.yorku.eecs3311.team09.enums;
 public enum Indicator {
 
     CO2_EMISSIONS(
-            "CO2 emmissions (as metric tons per capita)",
+            "CO2 emissions (as metric tons per capita)",
             "EN.ATM.CO2E.PC"
     ),
 

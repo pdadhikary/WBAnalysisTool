@@ -5,8 +5,31 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Calculates the annual percentage change of each indication from the previous year.
+ * i.e. ( data(thisYear) / data(previousYear) - 1 ) * 100
+ */
 public class AnnualPercentChangeStrategy extends AnalysisStrategy {
+    /**
+     * holds the result of the analysis.
+     */
     protected Map<Indicator, Map<Integer, Double>> result;
+
+    /**
+     * Returns a new AnnualPercentChangeStrategy.
+     */
+    public AnnualPercentChangeStrategy() {
+        this.result = new HashMap<>();
+    }
+
+    /**
+     * Returns the result of the analysis.
+     *
+     * @return result
+     */
+    public Map<Indicator, Map<Integer, Double>> getResult() {
+        return this.result;
+    }
 
     @Override
     public void printData() {
@@ -49,7 +72,7 @@ public class AnnualPercentChangeStrategy extends AnalysisStrategy {
             for (int year = fromDate; year <= toDate; year++) {
                 resultSeries.put(
                         year,
-                        (1 - dataSeries.get(year) / dataSeries.get(year - 1)) * 100
+                        (dataSeries.get(year) / dataSeries.get(year - 1) - 1) * 100
                 );
             }
 

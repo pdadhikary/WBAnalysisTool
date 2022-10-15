@@ -26,7 +26,7 @@ public class AnalysisStrategyExample {
 
         run_analysis6();
         System.out.println(System.lineSeparator());
-        
+
         run_analysis7();
         System.out.println(System.lineSeparator());
 

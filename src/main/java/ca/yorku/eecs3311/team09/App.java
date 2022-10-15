@@ -19,6 +19,7 @@ public class App {
 
         IUserModel model = new SQLUserModel(dbContext);
         ILoginController controller = new LoginController(model);
+        controller.showLoginView();
     }
 
     public static void main(String[] args) {
@@ -30,9 +31,9 @@ public class App {
 
     public static void make_test_db() {
         File dbFile = new File("src/main/resources/database/test/user_test.db");
-        dbFile.getParentFile().mkdirs();
+        boolean dirCreated = dbFile.getParentFile().mkdirs();
         try {
-            dbFile.createNewFile();
+            boolean dbFileCreate = dbFile.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
