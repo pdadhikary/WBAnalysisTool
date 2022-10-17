@@ -39,12 +39,30 @@ public abstract class Analysis implements IAnalysis {
         this.calculate(fetcher.getData());
     }
 
+    /**
+     * Returns a {@link DataFetcher DataFetcher} instance from which data can be retrieved.
+     * The country, fromDate and toDate of the fetcher is the same as this.
+     *
+     * @return a {@link DataFetcher DataFetcher} instance
+     */
     protected DataFetcher getFetcher() {
         return DataFactory.getFetcher(this.getIndicators(), this.country, this.fromDate, this.toDate);
     }
 
+    /**
+     * Performs the analysis on the data.
+     *
+     * @param data data to perform analysis on
+     */
     protected abstract void calculate(Map<Indicator, Map<Integer, Double>> data);
 
+    /**
+     * Multiplies the values of the indicator row by value.
+     *
+     * @param data      data
+     * @param indicator indicator row to multiply
+     * @param value     value to multiply by
+     */
     protected static void multiply(
             Map<Indicator, Map<Integer, Double>> data,
             Indicator indicator,

@@ -4,6 +4,9 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 
 import java.util.*;
 
+/**
+ * A class that does not perform any analysis, simply creates a deep copy of the data and stores it as result.
+ */
 public abstract class LazyAnalysis extends Analysis {
     /**
      * holds the result of the analysis.

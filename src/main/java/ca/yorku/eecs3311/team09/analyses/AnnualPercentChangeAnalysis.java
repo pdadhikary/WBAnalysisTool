@@ -4,6 +4,10 @@ import ca.yorku.eecs3311.team09.enums.Indicator;
 
 import java.util.*;
 
+/**
+ * A class that calculates the annual percent change of indicators of each year from the previous.
+ * i.e. ( data(thisYear) / data(previousYear) - 1 ) * 100
+ */
 public abstract class AnnualPercentChangeAnalysis extends Analysis {
     /**
      * holds the result of the analysis.

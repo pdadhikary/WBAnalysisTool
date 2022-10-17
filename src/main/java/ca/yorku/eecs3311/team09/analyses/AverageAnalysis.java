@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A class that calculates the average of each indicator over the range [fromDate, toDate].
+ */
 public abstract class AverageAnalysis extends Analysis {
     /**
      * holds the result of the analysis.

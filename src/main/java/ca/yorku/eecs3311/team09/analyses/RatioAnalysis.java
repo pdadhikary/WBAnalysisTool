@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * A class that calculates the ratio between two indicators over the range [fromDate, toDate].
+ * i.e. data(numeratorIndicator) / data(denominatorIndicator)
+ */
 public abstract class RatioAnalysis extends Analysis {
     /**
      * holds the result of the analysis.
