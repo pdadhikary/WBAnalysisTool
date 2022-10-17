@@ -19,7 +19,7 @@ public class AppView extends JFrame {
     /**
      * list if analyses users can select from.
      */
-    protected JComboBox<Analysis> analysisList;
+    protected JComboBox<String> analysisList;
     /**
      * recalculate button.
      */
@@ -72,14 +72,14 @@ public class AppView extends JFrame {
         this.analysisList = new JComboBox<>(
                 new Vector<>(
                         Arrays.asList(
-                                new APCAirPollutionForestArea(),
-                                new APCCO2EnergyUseAirPollution(),
-                                new APCGovExpHealthExp(),
-                                new AvgForestArea(),
-                                new AvgGovExp(),
-                                new HealthCareMortality(),
-                                new RatioCO2GDP(),
-                                new RatioHealthExpHospitalBeds()
+                                CO2EnergyUseAirPollution.TITLE,
+                                AirPollutionForestArea.TITLE,
+                                CO2GDP.TITLE,
+                                ForestArea.TITLE,
+                                GovernmentExpenditure.TITLE,
+                                HealthExpenditureHospitalBeds.TITLE,
+                                HealthCareMortality.TITLE,
+                                GovEducationHealthExpenditure.TITLE
                         )
                 )
         );

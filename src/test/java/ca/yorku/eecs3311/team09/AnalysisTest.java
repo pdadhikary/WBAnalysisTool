@@ -1,39 +1,47 @@
 package ca.yorku.eecs3311.team09;
 
-import ca.yorku.eecs3311.team09.analyses.analysis_strategy.AnnualPercentChangeStrategy;
-import ca.yorku.eecs3311.team09.analyses.analysis_strategy.AverageStrategy;
-import ca.yorku.eecs3311.team09.analyses.analysis_strategy.IAnalysisStrategy;
-import ca.yorku.eecs3311.team09.analyses.analysis_strategy.RatioStrategy;
-import ca.yorku.eecs3311.team09.analyses.data_manipulation.Add;
-import ca.yorku.eecs3311.team09.analyses.data_manipulation.Multiply;
-import ca.yorku.eecs3311.team09.analyses.data_manipulation.SeriesOperation;
+import ca.yorku.eecs3311.team09.analyses.CO2EnergyUseAirPollution;
+import ca.yorku.eecs3311.team09.analyses.CO2GDP;
+import ca.yorku.eecs3311.team09.analyses.ForestArea;
+import ca.yorku.eecs3311.team09.analyses.IAnalysis;
 import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
-import ca.yorku.eecs3311.team09.helpers.AnalysisAdapter;
+import ca.yorku.eecs3311.team09.helpers.StringifyAnalysisVisitor;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertEquals;
 
-public class AnalysisStrategyTest {
-    private static final AnalysisAdapter ADAPTER = new AnalysisAdapter();
+public class AnalysisTest {
+    private StringifyAnalysisVisitor stringifyVisitor;
+
+    @Before
+    public void before() {
+        this.stringifyVisitor = new StringifyAnalysisVisitor();
+    }
 
     /**
-     * Test ID: AnalysisStrategyTest01
+     * Test ID: AnalysisTest01
      * <p>
-     * Category: Tests the annual percent change strategy.
+     * Category: Tests an annual percent change analysis.
      * <p>
-     * Requirements Coverage: UC3-Analysis-Strategy-APC
+     * Requirements Coverage: UC3-Analysis-APC
      * <p>
-     * Initial Condition: DataFetcher returns the data to perform analysis on.
+     * Initial Condition: toDate is greater than or equal to fromDate and
+     * the range [fromDate, toDate] is greater than one year.
      * <p>
      * Steps required for this test:
      * <p>
-     * - 1. Create a fetcher containing the indicator data.
+     * - 1. Create a new instance of the analysis.
      * <p>
-     * - 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
+     * - 2. Call the performCalculation() function of the analysis.
+     * <p>
+     * - 3. visit the analysis class to retrieve the result in String form.
      * <p>
      * Expected Outcome: Expected result matches the actual result.
      */
@@ -53,16 +61,16 @@ public class AnalysisStrategyTest {
             put(2003, percentChange(3.7, 2.9));
         }};
         Map<Indicator, Map<Integer, Double>> map = new HashMap<Indicator, Map<Integer, Double>>() {{
-            put(Indicator.FOREST_AREA, row1);
-            put(Indicator.CO2_EMISSIONS, row2);
+            put(Indicator.CO2_EMISSIONS, row1);
+            put(Indicator.ENERGY_USE, row2);
             put(Indicator.AIR_POLLUTION_MEAN, row3);
         }};
         String expected = map.toString();
 
-        // Run strategy algorithm
-        IAnalysisStrategy strategy = new AnnualPercentChangeStrategy()
-                .performCalculation(new DummyDataFetcherThreeSeries());
-        String actual = ADAPTER.convert((AnnualPercentChangeStrategy) strategy);
+        IAnalysis analysis = new MyCO2EnergyUseAirPollution();
+        analysis.performCalculation();
+        analysis.accept(stringifyVisitor);
+        String actual = stringifyVisitor.analysisStringResult;
 
         assertEquals("The analysis result was incorrect", expected, actual);
     }
@@ -70,36 +78,35 @@ public class AnalysisStrategyTest {
     /**
      * Test ID: AnalysisStrategyTest02
      * <p>
-     * Category: Tests the ratio strategy.
+     * Category: Tests an average analysis.
      * <p>
-     * Requirement Coverage: UC3-Analysis-Strategy-Ratio.
+     * Requirement Coverage: UC3-Analysis-Average.
      * <p>
-     * Initial Condition: DataFetcher returns the data to perform analysis on.
+     * Initial Condition: toDate is greater than or equal to fromDate.
      * <p>
      * Steps required for this test:
      * <p>
-     * - 1. Create a fetcher containing the indicator data.
+     * - 1. Create a new instance of the analysis.
      * <p>
-     * - 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
+     * - 2. Call the performCalculation() function of the analysis.
+     * <p>
+     * - 3. visit the analysis class to retrieve the result in String form.
      * <p>
      * Expected Outcome: Expected result matches the actual result.
      */
     @Test
     public void AnalysisStrategyTest02() {
         // Calculate expected value
-        Map<Integer, Double> map = new TreeMap<Integer, Double>() {{
-            put(2001, ratio(2.4, 2.4));
-            put(2002, ratio(1.1, 5.1));
-            put(2003, ratio(6.2, 3.5));
+        Map<Indicator, Double> map = new TreeMap<Indicator, Double>() {{
+            put(Indicator.FOREST_AREA, average(3.5, 4.1, 4.4, 6.2));
         }};
         String expected = map.toString();
 
         // Run strategy algorithm
-        IAnalysisStrategy strategy = new RatioStrategy()
-                .setNumerator(Indicator.HEALTH_EXPENDITURE_GDP)
-                .setDenominator(Indicator.AIR_POLLUTION_MEAN)
-                .performCalculation(new DummyDataFetcherTwoSeries());
-        String actual = ADAPTER.convert((RatioStrategy) strategy);
+        IAnalysis analysis = new MyForestArea();
+        analysis.performCalculation();
+        analysis.accept(stringifyVisitor);
+        String actual = stringifyVisitor.analysisStringResult;
 
         assertEquals("The analysis result was incorrect", expected, actual);
     }
@@ -107,12 +114,11 @@ public class AnalysisStrategyTest {
     /**
      * Test ID: AnalysisStrategyTest03
      * <p>
-     * Category: Tests the series operations on an analysis strategy.
+     * Category: Tests a ratio analysis
      * <p>
-     * Requirement Coverage: UC3-Analysis-Strategy-SeriesOperation
+     * Requirement Coverage: UC3-Analysis-Ratio
      * <p>
-     * Initial Condition: DataFetcher returns the data, the list of operations
-     * contains an ordered set of operations.
+     * Initial Condition: toDate is greater than or equal to fromDate.
      * <p>
      * Steps required for this test:
      * <p>
@@ -127,58 +133,19 @@ public class AnalysisStrategyTest {
     @Test
     public void AnalysisStrategyTest03() {
         // Calculate expected value
-        Double c = 1.5;
-        Double d = 1.7;
+        Double c = 0.001;
         Map<Integer, Double> map = new TreeMap<Integer, Double>() {{
-            put(2001, ratio(2.4 * c, 2.4 + d));
-            put(2002, ratio(1.1 * c, 5.1 + d));
-            put(2003, ratio(6.2 * c, 3.5 + d));
+            put(2001, ratio(2.4, 2.4));
+            put(2002, ratio(1.1, 5.1));
+            put(2003, ratio(6.2, 3.5));
         }};
         String expected = map.toString();
 
         // Run strategy algorithm
-        List<SeriesOperation> operations = Arrays.asList(
-                new Multiply(Indicator.HEALTH_EXPENDITURE_GDP, c),
-                new Add(Indicator.AIR_POLLUTION_MEAN, d)
-        );
-        IAnalysisStrategy strategy = new RatioStrategy()
-                .setNumerator(Indicator.HEALTH_EXPENDITURE_GDP)
-                .setDenominator(Indicator.AIR_POLLUTION_MEAN)
-                .performCalculation(new DummyDataFetcherTwoSeries(), operations);
-        String actual = ADAPTER.convert((RatioStrategy) strategy);
-
-        assertEquals("The analysis result was incorrect", expected, actual);
-    }
-
-    /**
-     * Test ID: AnalysisStrategyTest04
-     * <p>
-     * Category: Tests the average strategy.
-     * <p>
-     * Requirement Coverage: UC3-Analysis-Strategy-Average.
-     * <p>
-     * Initial Condition: DataFetcher returns the data to perform analysis on.
-     * <p>
-     * Steps required for this test:
-     * <p>
-     * - 1. Create a fetcher containing the indicator data.
-     * <p>
-     * - 2. Pass the data fetcher to the IAnalysisStrategy.performCalculation() method.
-     * <p>
-     * Expected Outcome: Expected result matches the actual result.
-     */
-    @Test
-    public void AnalysisStrategyTest04() {
-        // Calculate expected value
-        Map<Indicator, Double> map = new TreeMap<Indicator, Double>() {{
-            put(Indicator.FOREST_AREA, average(3.5, 4.1, 4.4, 6.2));
-        }};
-        String expected = map.toString();
-
-        // Run strategy algorithm
-        IAnalysisStrategy strategy = new AverageStrategy()
-                .performCalculation(new DummyDataFetcherOneSeries());
-        String actual = ADAPTER.convert((AverageStrategy) strategy);
+        IAnalysis analysis = new MyCO2GDP();
+        analysis.performCalculation();
+        analysis.accept(stringifyVisitor);
+        String actual = stringifyVisitor.analysisStringResult;
 
         assertEquals("The analysis result was incorrect", expected, actual);
     }
@@ -199,9 +166,41 @@ public class AnalysisStrategyTest {
         return sum / (double) numbers.length;
     }
 
+    private static class MyCO2GDP extends CO2GDP {
+        public MyCO2GDP() {
+            super(Country.INDIA, 2001, 2003);
+        }
+
+        @Override
+        protected DataFetcher getFetcher() {
+            return new DummyDataFetcherTwoSeries();
+        }
+    }
+
+    private static class MyForestArea extends ForestArea {
+        public MyForestArea() {
+            super(Country.INDIA, 2001, 2003);
+        }
+
+        @Override
+        protected DataFetcher getFetcher() {
+            return new DummyDataFetcherOneSeries();
+        }
+    }
+
+    private static class MyCO2EnergyUseAirPollution extends CO2EnergyUseAirPollution {
+        public MyCO2EnergyUseAirPollution() {
+            super(Country.INDIA, 2001, 2003);
+        }
+
+        @Override
+        protected DataFetcher getFetcher() {
+            return new DummyDataFetcherThreeSeries();
+        }
+    }
+
     // Hard code return data
     private static class DummyDataFetcherThreeSeries implements DataFetcher {
-
         @Override
         public Map<Indicator, Map<Integer, Double>> getData() {
             Map<Integer, Double> row1 = new TreeMap<Integer, Double>() {{
@@ -223,8 +222,8 @@ public class AnalysisStrategyTest {
             }};
 
             return new HashMap<Indicator, Map<Integer, Double>>() {{
-                put(Indicator.FOREST_AREA, row1);
-                put(Indicator.CO2_EMISSIONS, row2);
+                put(Indicator.CO2_EMISSIONS, row1);
+                put(Indicator.ENERGY_USE, row2);
                 put(Indicator.AIR_POLLUTION_MEAN, row3);
             }};
         }
@@ -263,8 +262,8 @@ public class AnalysisStrategyTest {
             }};
 
             return new HashMap<Indicator, Map<Integer, Double>>() {{
-                put(Indicator.HEALTH_EXPENDITURE_GDP, row1);
-                put(Indicator.AIR_POLLUTION_MEAN, row2);
+                put(Indicator.CO2_EMISSIONS, row1);
+                put(Indicator.GDP_PER_CAPITA_USD, row2);
             }};
         }
 

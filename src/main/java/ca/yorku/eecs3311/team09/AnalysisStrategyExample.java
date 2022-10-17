@@ -8,6 +8,8 @@ public class AnalysisStrategyExample {
     static int fromDate = 2010;
     static int toDate = 2015;
 
+    static AnalysisVisitor printVisitor = new PrinterAnalysisVisitor();
+
     public static void main(String[] args) {
         run_analysis1();
         System.out.println(System.lineSeparator());
@@ -35,58 +37,58 @@ public class AnalysisStrategyExample {
     }
 
     public static void run_analysis1() {
-        Analysis analysis1 = new APCAirPollutionForestArea();
-        analysis1.setData(country, fromDate, toDate);
+        IAnalysis analysis1 = new AirPollutionForestArea(country, fromDate, toDate);
+        analysis1.performCalculation();
         System.out.print("1. ");
-        analysis1.showResult();
+        analysis1.accept(printVisitor);
     }
 
     public static void run_analysis2() {
-        Analysis analysis2 = new APCCO2EnergyUseAirPollution();
-        analysis2.setData(country, fromDate, toDate);
+        IAnalysis analysis2 = new CO2EnergyUseAirPollution(country, fromDate, toDate);
+        analysis2.performCalculation();
         System.out.print("2. ");
-        analysis2.showResult();
+        analysis2.accept(printVisitor);
     }
 
     public static void run_analysis3() {
-        Analysis analysis3 = new APCGovExpHealthExp();
-        analysis3.setData(country, fromDate, toDate);
+        IAnalysis analysis3 = new GovEducationHealthExpenditure(country, fromDate, toDate);
+        analysis3.performCalculation();
         System.out.print("3. ");
-        analysis3.showResult();
+        analysis3.accept(printVisitor);
     }
 
     public static void run_analysis4() {
-        Analysis analysis4 = new HealthCareMortality();
-        analysis4.setData(country, fromDate, toDate);
+        IAnalysis analysis4 = new HealthCareMortality(country, fromDate, toDate);
+        analysis4.performCalculation();
         System.out.print("4. ");
-        analysis4.showResult();
+        analysis4.accept(printVisitor);
     }
 
     public static void run_analysis5() {
-        Analysis analysis5 = new RatioCO2GDP();
-        analysis5.setData(country, fromDate, toDate);
+        IAnalysis analysis5 = new CO2GDP(country, fromDate, toDate);
+        analysis5.performCalculation();
         System.out.print("5. ");
-        analysis5.showResult();
+        analysis5.accept(printVisitor);
     }
 
     public static void run_analysis6() {
-        Analysis analysis6 = new RatioHealthExpHospitalBeds();
-        analysis6.setData(country, fromDate, toDate);
+        IAnalysis analysis6 = new HealthExpenditureHospitalBeds(country, fromDate, toDate);
+        analysis6.performCalculation();
         System.out.print("6. ");
-        analysis6.showResult();
+        analysis6.accept(printVisitor);
     }
 
     public static void run_analysis7() {
-        Analysis analysis6 = new AvgGovExp();
-        analysis6.setData(country, fromDate, toDate);
+        IAnalysis analysis7 = new GovernmentExpenditure(country, fromDate, toDate);
+        analysis7.performCalculation();
         System.out.print("7. ");
-        analysis6.showResult();
+        analysis7.accept(printVisitor);
     }
 
     public static void run_analysis8() {
-        Analysis analysis6 = new AvgForestArea();
-        analysis6.setData(country, fromDate, toDate);
+        IAnalysis analysis8 = new ForestArea(country, fromDate, toDate);
+        analysis8.performCalculation();
         System.out.print("8. ");
-        analysis6.showResult();
+        analysis8.accept(printVisitor);
     }
 }
