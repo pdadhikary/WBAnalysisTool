@@ -17,6 +17,10 @@ public class AirPollutionForestArea extends AnnualPercentChangeAnalysis {
 
     /**
      * Returns a new instance of this analysis.
+     *
+     * @param country  country
+     * @param fromDate start date of analysis
+     * @param toDate   end date of analysis
      */
     public AirPollutionForestArea(Country country, Integer fromDate, Integer toDate) {
         this.title = AirPollutionForestArea.TITLE;

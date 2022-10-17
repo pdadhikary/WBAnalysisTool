@@ -14,6 +14,10 @@ public class CO2GDP extends RatioAnalysis {
 
     /**
      * Returns a new instance of this analysis.
+     *
+     * @param country  country
+     * @param fromDate start date of the analysis
+     * @param toDate   end date of the analysis
      */
     public CO2GDP(Country country, Integer fromDate, Integer toDate) {
         this.title = CO2GDP.TITLE;
