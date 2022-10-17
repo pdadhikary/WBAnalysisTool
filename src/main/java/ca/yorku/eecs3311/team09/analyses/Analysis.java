@@ -1,28 +1,74 @@
 package ca.yorku.eecs3311.team09.analyses;
 
-import ca.yorku.eecs3311.team09.analyses.analysis_strategy.IAnalysisStrategy;
+import ca.yorku.eecs3311.team09.data_fetchers.DataFactory;
+import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
 import ca.yorku.eecs3311.team09.enums.Country;
+import ca.yorku.eecs3311.team09.enums.Indicator;
 
-public interface Analysis {
+import java.util.Map;
+
+public abstract class Analysis implements IAnalysis {
+    protected String title;
+    protected Country country;
+    protected Integer fromDate;
+    protected Integer toDate;
+
+    @Override
+    public String getTitle() {
+        return this.title;
+    }
+
+    @Override
+    public Country getCountry() {
+        return this.country;
+    }
+
+    @Override
+    public Integer getFromDate() {
+        return this.fromDate;
+    }
+
+    @Override
+    public Integer getToDate() {
+        return this.toDate;
+    }
+
+    @Override
+    public void performCalculation() {
+        DataFetcher fetcher = this.getFetcher();
+        this.calculate(fetcher.getData());
+    }
 
     /**
-     * Use a {@link IAnalysisStrategy IAnalysisStrategy} to perform analysis on a set of data.
+     * Returns a {@link DataFetcher DataFetcher} instance from which data can be retrieved.
+     * The country, fromDate and toDate of the fetcher is the same as this.
      *
-     * @param country  country for which to perform the analysis on.
-     * @param fromDate start date of the data.
-     * @param toDate   end date of the data.
+     * @return a {@link DataFetcher DataFetcher} instance
      */
-    void setData(Country country, int fromDate, int toDate);
+    protected DataFetcher getFetcher() {
+        return DataFactory.getFetcher(this.getIndicators(), this.country, this.fromDate, this.toDate);
+    }
 
     /**
-     * Prints the result of the analysis to the standard output.
-     */
-    void showResult();
-
-    /**
-     * Returns the {@link IAnalysisStrategy IAnalysisStrategy} used to perform the calculation.
+     * Performs the analysis on the data.
      *
-     * @return analysis strategy
+     * @param data data to perform analysis on
      */
-    IAnalysisStrategy getStrategy();
+    protected abstract void calculate(Map<Indicator, Map<Integer, Double>> data);
+
+    /**
+     * Multiplies the values of the indicator row by value.
+     *
+     * @param data      data
+     * @param indicator indicator row to multiply
+     * @param value     value to multiply by
+     */
+    protected static void multiply(
+            Map<Indicator, Map<Integer, Double>> data,
+            Indicator indicator,
+            Double value) {
+        Map<Integer, Double> series = data.get(indicator);
+
+        series.replaceAll((k, v) -> series.get(k) * value);
+    }
 }

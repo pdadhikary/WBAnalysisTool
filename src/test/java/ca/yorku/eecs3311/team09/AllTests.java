@@ -10,7 +10,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         DataFetcherTest.class,
-        AnalysisStrategyTest.class,
+        AnalysisTest.class,
         SQLUserModelTest.class,
         LoginControllerValidationTest.class
 })
