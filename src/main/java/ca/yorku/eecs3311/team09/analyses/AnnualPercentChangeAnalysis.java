@@ -1,5 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.data_fetchers.DataFactory;
+import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
 import java.util.*;
@@ -37,10 +39,15 @@ public abstract class AnnualPercentChangeAnalysis extends Analysis {
     }
 
     @Override
+    protected DataFetcher getFetcher() {
+        return DataFactory.getFetcher(this.getIndicators(), this.country, this.fromDate - 1, this.toDate);
+    }
+
+    @Override
     protected void calculate(Map<Indicator, Map<Integer, Double>> data) {
         this.result = new HashMap<>();
 
-        int start = this.fromDate + 1;
+        int start = this.fromDate;
         int end = this.toDate;
 
         for (Indicator indicator : data.keySet()) {

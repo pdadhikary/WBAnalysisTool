@@ -50,7 +50,7 @@ public class PrinterAnalysisVisitor implements AnalysisVisitor {
     @Override
     public void visitAnalysis(LazyAnalysis analysis) {
         System.out.println(analysis.getTitle() + ":");
-        this.defaultPrint(analysis.getResult(), analysis.getFromDate(), analysis.getToDate() + 1);
+        this.defaultPrint(analysis.getResult(), analysis.getFromDate(), analysis.getToDate());
     }
 
     /**
@@ -65,11 +65,11 @@ public class PrinterAnalysisVisitor implements AnalysisVisitor {
         String fStringLabel = "%" + padding + "s";
         String fStringValue = "%" + padding + ".3f";
 
-        for (int i = fromDate; i <= toDate; i++) {
+        for (int i = fromDate; i <= toDate + 1; i++) {
             if (i == fromDate)
                 System.out.printf(fStringLabel, "Indicator/Year");
             else
-                System.out.printf(fStringLabel, i);
+                System.out.printf(fStringLabel, i - 1);
         }
         System.out.print("\n");
 
