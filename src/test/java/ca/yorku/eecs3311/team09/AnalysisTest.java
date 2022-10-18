@@ -49,14 +49,17 @@ public class AnalysisTest {
     public void AnalysisStrategyTest01() {
         // Calculate expected value
         Map<Integer, Double> row1 = new TreeMap<Integer, Double>() {{
+            put(2001, percentChange(3.3, 3.4));
             put(2002, percentChange(3.4, 4.1));
             put(2003, percentChange(4.1, 6.2));
         }};
         Map<Integer, Double> row2 = new TreeMap<Integer, Double>() {{
+            put(2001, percentChange(1.4, 1.4));
             put(2002, percentChange(1.4, 2.1));
             put(2003, percentChange(2.1, 3.5));
         }};
         Map<Integer, Double> row3 = new TreeMap<Integer, Double>() {{
+            put(2001, percentChange(3.9, 4.2));
             put(2002, percentChange(4.2, 3.7));
             put(2003, percentChange(3.7, 2.9));
         }};
@@ -204,18 +207,21 @@ public class AnalysisTest {
         @Override
         public Map<Indicator, Map<Integer, Double>> getData() {
             Map<Integer, Double> row1 = new TreeMap<Integer, Double>() {{
+                put(2000, 3.3);
                 put(2001, 3.4);
                 put(2002, 4.1);
                 put(2003, 6.2);
             }};
 
             Map<Integer, Double> row2 = new TreeMap<Integer, Double>() {{
+                put(2000, 1.4);
                 put(2001, 1.4);
                 put(2002, 2.1);
                 put(2003, 3.5);
             }};
 
             Map<Integer, Double> row3 = new TreeMap<Integer, Double>() {{
+                put(2000, 3.9);
                 put(2001, 4.2);
                 put(2002, 3.7);
                 put(2003, 2.9);
