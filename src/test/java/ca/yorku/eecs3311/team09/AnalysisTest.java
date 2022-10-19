@@ -46,7 +46,7 @@ public class AnalysisTest {
      * Expected Outcome: Expected result matches the actual result.
      */
     @Test
-    public void AnalysisStrategyTest01() {
+    public void AnalysisTest01() {
         // Calculate expected value
         Map<Integer, Double> row1 = new TreeMap<Integer, Double>() {{
             put(2001, percentChange(3.3, 3.4));
@@ -79,7 +79,7 @@ public class AnalysisTest {
     }
 
     /**
-     * Test ID: AnalysisStrategyTest02
+     * Test ID: AnalysisTest02
      * <p>
      * Category: Tests an average analysis.
      * <p>
@@ -98,7 +98,7 @@ public class AnalysisTest {
      * Expected Outcome: Expected result matches the actual result.
      */
     @Test
-    public void AnalysisStrategyTest02() {
+    public void AnalysisTest02() {
         // Calculate expected value
         Map<Indicator, Double> map = new TreeMap<Indicator, Double>() {{
             put(Indicator.FOREST_AREA, average(3.5, 4.1, 4.4, 6.2));
@@ -115,7 +115,7 @@ public class AnalysisTest {
     }
 
     /**
-     * Test ID: AnalysisStrategyTest03
+     * Test ID: AnalysisTest03
      * <p>
      * Category: Tests a ratio analysis
      * <p>
@@ -134,7 +134,7 @@ public class AnalysisTest {
      * Expected Outcome: Expected result matches the actual result.
      */
     @Test
-    public void AnalysisStrategyTest03() {
+    public void AnalysisTest03() {
         // Calculate expected value
         Double c = 0.001;
         Map<Integer, Double> map = new TreeMap<Integer, Double>() {{
