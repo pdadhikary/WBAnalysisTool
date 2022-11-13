@@ -1,6 +1,8 @@
 package ca.yorku.eecs3311.team09;
 
 import ca.yorku.eecs3311.team09.analyses.*;
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PrinterAnalysisVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 
 public class AnalysisStrategyExample {
