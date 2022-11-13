@@ -3,17 +3,18 @@ package ca.yorku.eecs3311.team09.plots;
 import ca.yorku.eecs3311.team09.analyses.*;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 import ca.yorku.eecs3311.team09.exceptions.IncompatibleAnalysisException;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import java.awt.*;
 import java.util.Map;
 
+/**
+ * Generates a {@link javax.swing.JComponent Panel} containing a bar chart of the visited analysis result.
+ */
 public class BarPlot extends Plot {
 
     @Override
@@ -29,34 +30,15 @@ public class BarPlot extends Plot {
         Map<Integer, Double> forestArea = result.get(Indicator.FOREST_AREA);
         String label2 = "Forest Area";
 
-        for (Integer year : airPollution.keySet()) {
-            dataset.setValue(
-                    airPollution.get(year),
-                    label1,
-                    year
-            );
+        BarPlot.insertData(dataset, airPollution, label1);
+        BarPlot.insertData(dataset, forestArea, label2);
 
-            dataset.setValue(
-                    forestArea.get(year),
-                    label2,
-                    year
-            );
-        }
-
-        CategoryPlot plot = new CategoryPlot();
-        BarRenderer renderer = new BarRenderer();
-
-        plot.setDataset(dataset);
-        plot.setRenderer(renderer);
-
-        CategoryAxis domainAxis = new CategoryAxis("Year");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(new NumberAxis("% Annual Change"));
-
-        plot.mapDatasetToRangeAxis(0, 0);
-
-        JFreeChart barChart = new JFreeChart("Air Pollution vs Forest Area (% annual change)",
-                new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
+        JFreeChart barChart = ChartFactory.createBarChart(
+                analysis.getTitle(),
+                "Year",
+                "% Annual Change",
+                dataset
+        );
 
         this.plot = new ChartPanel(barChart);
     }
@@ -75,42 +57,18 @@ public class BarPlot extends Plot {
         String label2 = "Energy Use kg per capita";
 
         Map<Integer, Double> airPollution = result.get(Indicator.AIR_POLLUTION_MEAN);
-        String label3 = "Air Pollution per cubic meter";
+        String label3 = "Air Pollution per m^3";
 
-        for (Integer year : airPollution.keySet()) {
-            dataset.setValue(
-                    co2Emissions.get(year),
-                    label1,
-                    year
-            );
+        BarPlot.insertData(dataset, co2Emissions, label1);
+        BarPlot.insertData(dataset, energyUse, label2);
+        BarPlot.insertData(dataset, airPollution, label3);
 
-            dataset.setValue(
-                    energyUse.get(year),
-                    label2,
-                    year
-            );
-
-            dataset.setValue(
-                    airPollution.get(year),
-                    label3,
-                    year
-            );
-        }
-
-        CategoryPlot plot = new CategoryPlot();
-        BarRenderer renderer = new BarRenderer();
-
-        plot.setDataset(dataset);
-        plot.setRenderer(renderer);
-
-        CategoryAxis domainAxis = new CategoryAxis("Year");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(new NumberAxis("% Annual Change"));
-
-        plot.mapDatasetToRangeAxis(0, 0);
-
-        JFreeChart barChart = new JFreeChart("CO2 Emissions, Energy Use & Air Pollution (% annual change)",
-                new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
+        JFreeChart barChart = ChartFactory.createBarChart(
+                analysis.getTitle(),
+                "Year",
+                "% Annual Change",
+                dataset
+        );
 
         this.plot = new ChartPanel(barChart);
     }
@@ -122,14 +80,9 @@ public class BarPlot extends Plot {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         Map<Integer, Double> result = analysis.getResult();
+        String label = "CO2 Emission to GDP per capita";
 
-        for (Integer year : result.keySet()) {
-            dataset.setValue(
-                    result.get(year),
-                    "",
-                    year
-            );
-        }
+        BarPlot.insertData(dataset, result, label);
 
         CategoryPlot plot = new CategoryPlot();
         BarRenderer renderer = new BarRenderer();
@@ -137,14 +90,12 @@ public class BarPlot extends Plot {
         plot.setDataset(dataset);
         plot.setRenderer(renderer);
 
-        CategoryAxis domainAxis = new CategoryAxis("Year");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(new NumberAxis("Ratio CO2 Emissions to GDP per capita"));
-
-        plot.mapDatasetToRangeAxis(0, 0);
-
-        JFreeChart barChart = new JFreeChart("Ratio CO2 Emissions to GDP per capita",
-                new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
+        JFreeChart barChart = ChartFactory.createBarChart(
+                analysis.getTitle(),
+                "Year",
+                "Ratio",
+                dataset
+        );
 
         this.plot = new ChartPanel(barChart);
     }
@@ -167,34 +118,15 @@ public class BarPlot extends Plot {
         Map<Integer, Double> healthExpenditure = result.get(Indicator.HEALTH_EXPENDITURE_GDP);
         String label2 = "Government Expenditure on Health";
 
-        for (Integer year : eduExpenditure.keySet()) {
-            dataset.setValue(
-                    eduExpenditure.get(year),
-                    label1,
-                    year
-            );
+        BarPlot.insertData(dataset, eduExpenditure, label1);
+        BarPlot.insertData(dataset, healthExpenditure, label2);
 
-            dataset.setValue(
-                    healthExpenditure.get(year),
-                    label2,
-                    year
-            );
-        }
-
-        CategoryPlot plot = new CategoryPlot();
-        BarRenderer renderer = new BarRenderer();
-
-        plot.setDataset(dataset);
-        plot.setRenderer(renderer);
-
-        CategoryAxis domainAxis = new CategoryAxis("Year");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(new NumberAxis("% Annual Change"));
-
-        plot.mapDatasetToRangeAxis(0, 0);
-
-        JFreeChart barChart = new JFreeChart("Government Expenditure on Education vs Health (% annual change)",
-                new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
+        JFreeChart barChart = ChartFactory.createBarChart(
+                analysis.getTitle(),
+                "Year",
+                "Ratio",
+                dataset
+        );
 
         this.plot = new ChartPanel(barChart);
     }
@@ -217,35 +149,14 @@ public class BarPlot extends Plot {
         Map<Integer, Double> mortality = result.get(Indicator.MORTALITY_RATE_INFANT);
         String label2 = "Mortality rate, infant";
 
-        for (Integer year : womenHCProblem.keySet()) {
-            dataset.setValue(
-                    womenHCProblem.get(year),
-                    label1,
-                    year
-            );
+        BarPlot.insertData(dataset, womenHCProblem, label1);
+        BarPlot.insertData(dataset, mortality, label2);
 
-            dataset.setValue(
-                    mortality.get(year),
-                    label2,
-                    year
-            );
-        }
-
-        CategoryPlot plot = new CategoryPlot();
-        BarRenderer renderer = new BarRenderer();
-
-        plot.setDataset(dataset);
-        plot.setRenderer(renderer);
-
-        CategoryAxis domainAxis = new CategoryAxis("Year");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(new NumberAxis("% Annual Change"));
-
-        plot.mapDatasetToRangeAxis(0, 0);
-
-        JFreeChart barChart = new JFreeChart(
-                "Problems accessing health care (Women) Vs. mortality rate (% annual change)",
-                new Font("Serif", java.awt.Font.BOLD, 18), plot, true
+        JFreeChart barChart = ChartFactory.createBarChart(
+                analysis.getTitle(),
+                "Year",
+                "Ratio",
+                dataset
         );
 
         this.plot = new ChartPanel(barChart);
@@ -258,30 +169,31 @@ public class BarPlot extends Plot {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         Map<Integer, Double> result = analysis.getResult();
+        String label = "Expenditure to GDP ratio";
 
-        for (Integer year : result.keySet()) {
+        BarPlot.insertData(dataset, result, label);
+
+        JFreeChart barChart = ChartFactory.createBarChart(
+                analysis.getTitle(),
+                "Year",
+                "Ratio",
+                dataset
+        );
+
+        this.plot = new ChartPanel(barChart);
+    }
+
+    private static void insertData(
+            DefaultCategoryDataset dataset,
+            Map<Integer, Double> column,
+            String label
+    ) {
+        for (Integer year : column.keySet()) {
             dataset.setValue(
-                    result.get(year),
-                    "Expenditure to GDP ratio",
+                    column.get(year),
+                    label,
                     year
             );
         }
-
-        CategoryPlot plot = new CategoryPlot();
-        BarRenderer renderer = new BarRenderer();
-
-        plot.setDataset(dataset);
-        plot.setRenderer(renderer);
-
-        CategoryAxis domainAxis = new CategoryAxis("Year");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(new NumberAxis(""));
-
-        plot.mapDatasetToRangeAxis(0, 0);
-
-        JFreeChart barChart = new JFreeChart("Ratio Government Health Care Expenditure to GDP per capita",
-                new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
-
-        this.plot = new ChartPanel(barChart);
     }
 }

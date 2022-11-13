@@ -1,12 +1,12 @@
 package ca.yorku.eecs3311.team09;
 
-import ca.yorku.eecs3311.team09.analyses.AirPollutionForestArea;
-import ca.yorku.eecs3311.team09.analyses.Analysis;
 import ca.yorku.eecs3311.team09.analyses.HealthExpenditureHospitalBeds;
-import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
-import ca.yorku.eecs3311.team09.analyses.visitors.PrinterAnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.IAnalysis;
 import ca.yorku.eecs3311.team09.enums.Country;
+import ca.yorku.eecs3311.team09.exceptions.IncompatibleAnalysisException;
+import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 import ca.yorku.eecs3311.team09.plots.BarPlot;
+import ca.yorku.eecs3311.team09.plots.Plot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,23 +14,17 @@ import java.util.Vector;
 
 public class PlotDemo {
     public static void main(String[] args) {
-//        JFrame frame = getFrame();
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(900, 600);
-//        frame.pack();
-//        frame.setVisible(true);
-
-        Analysis analysis = new AirPollutionForestArea(
-                Country.INDIA,
-                2010,
-                2015
-        );
-
-        analysis.performCalculation();
-
-        AnalysisVisitor visitor = new PrinterAnalysisVisitor();
-
-        analysis.accept(visitor);
+        try {
+            JFrame frame = getFrame();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(900, 600);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (MissingDataException e) {
+            System.out.println("Not enough data to perform analysis");
+        } catch (IncompatibleAnalysisException e) {
+            System.out.println("The analysis and view are incompatible");
+        }
     }
 
     private static JFrame getFrame() {
@@ -122,13 +116,13 @@ public class PlotDemo {
         Integer fromDate = 2010;
         Integer toDate = 2015;
 
-        Analysis analysis = new HealthExpenditureHospitalBeds(
+        IAnalysis analysis = new HealthExpenditureHospitalBeds(
                 country,
                 fromDate,
                 toDate
         );
 
-        BarPlot plot = new BarPlot();
+        Plot plot = new BarPlot();
         analysis.accept(plot);
 
         JComponent chartPanel = plot.getPlot();

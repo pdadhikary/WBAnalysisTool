@@ -7,7 +7,7 @@ import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 
 public class AnalysisStrategyExample {
-    static Country country = Country.INDIA;
+    static Country country = Country.BRAZIL;
     static int fromDate = 2010;
     static int toDate = 2015;
 
