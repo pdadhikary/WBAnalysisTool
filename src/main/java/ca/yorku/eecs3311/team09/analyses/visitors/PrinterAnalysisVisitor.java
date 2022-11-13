@@ -21,7 +21,7 @@ public class PrinterAnalysisVisitor implements AnalysisVisitor {
     @Override
     public void visitAnalysis(AnnualPercentChangeAnalysis analysis) {
         System.out.println(analysis.getTitle() + ":");
-        this.defaultPrint(analysis.getResult(), analysis.getFromDate(), analysis.getToDate());
+        this.defaultPrint(analysis.getResult());
     }
 
     /**
@@ -43,7 +43,7 @@ public class PrinterAnalysisVisitor implements AnalysisVisitor {
     @Override
     public void visitAnalysis(RatioAnalysis analysis) {
         System.out.println(analysis.getTitle() + ":");
-        this.ratioPrint(analysis.getResult(), analysis.getFromDate(), analysis.getToDate());
+        this.ratioPrint(analysis.getResult());
     }
 
     /**
@@ -54,51 +54,50 @@ public class PrinterAnalysisVisitor implements AnalysisVisitor {
     @Override
     public void visitAnalysis(LazyAnalysis analysis) {
         System.out.println(analysis.getTitle() + ":");
-        this.defaultPrint(analysis.getResult(), analysis.getFromDate(), analysis.getToDate());
+        this.defaultPrint(analysis.getResult());
     }
 
     /**
      * Helper function to print an analysis.
      *
-     * @param result   analysis result
-     * @param fromDate start date of analysis
-     * @param toDate   end date of analysis
+     * @param result analysis result
      */
-    protected void defaultPrint(Map<Indicator, Map<Integer, Double>> result, Integer fromDate, Integer toDate) {
+    protected void defaultPrint(Map<Indicator, Map<Integer, Double>> result) {
         int padding = 20;
         String fStringLabel = "%" + padding + "s";
         String fStringValue = "%" + padding + ".3f";
 
-        for (int i = fromDate; i <= toDate + 1; i++) {
-            if (i == fromDate)
-                System.out.printf(fStringLabel, "Indicator/Year");
-            else
-                System.out.printf(fStringLabel, i - 1);
-        }
-        System.out.print("\n");
+        System.out.printf(fStringLabel, "Indicator/Year");
 
-        for (Indicator i : result.keySet()) {
-            System.out.printf(fStringLabel, i.getIndicator_token());
-            for (Double d : result.get(i).values()) {
-                System.out.printf(fStringValue, d);
+        boolean years_printed = false;
+
+        for (Indicator indicator : result.keySet()) {
+            if (!years_printed) {
+                for (Integer year : result.get(indicator).keySet()) {
+                    System.out.printf(fStringLabel, year);
+                }
+                System.out.print('\n');
+                years_printed = true;
             }
-            System.out.print("\n");
+            System.out.printf(fStringLabel, indicator.getIndicator_token());
+            for (Integer year : result.get(indicator).keySet()) {
+                System.out.printf(fStringValue, result.get(indicator).get(year));
+            }
+            System.out.print('\n');
         }
     }
 
     /**
      * Helper function to print the result of a ratio analysis.
      *
-     * @param result   analysis result
-     * @param fromDate start date of analysis
-     * @param toDate   end date of analysis
+     * @param result analysis result
      */
-    protected void ratioPrint(Map<Integer, Double> result, Integer fromDate, Integer toDate) {
+    protected void ratioPrint(Map<Integer, Double> result) {
         int padding = 20;
         String fStringLabel = "%" + padding + "s";
         String fStringValue = "%" + padding + ".3f";
 
-        for (int year = fromDate; year <= toDate; year++) {
+        for (Integer year : result.keySet()) {
             System.out.printf(fStringLabel, year);
         }
 

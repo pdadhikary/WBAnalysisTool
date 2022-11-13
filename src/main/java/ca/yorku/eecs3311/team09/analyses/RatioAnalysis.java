@@ -1,6 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
 import ca.yorku.eecs3311.team09.enums.Indicator;
+import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +39,20 @@ public abstract class RatioAnalysis extends Analysis {
     protected void calculate(Map<Indicator, Map<Integer, Double>> data) {
         this.result = new TreeMap<>();
 
+        Analysis.nanFilter(
+                data,
+                this.fromDate,
+                this.toDate
+        );
+
         Map<Integer, Double> numerators = data.get(numerator);
         Map<Integer, Double> denominators = data.get(denominator);
 
-        for (int year = this.fromDate; year <= this.toDate; year++) {
+        if (numerators.isEmpty()) {
+            throw new MissingDataException("Dataset is empty...");
+        }
+
+        for (Integer year : numerators.keySet()) {
             this.result.put(
                     year,
                     numerators.get(year) / denominators.get(year)

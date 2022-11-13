@@ -4,38 +4,80 @@ import ca.yorku.eecs3311.team09.analyses.*;
 import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
 import ca.yorku.eecs3311.team09.analyses.visitors.PrinterAnalysisVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
+import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 
 public class AnalysisStrategyExample {
-    static Country country = Country.USA;
+    static Country country = Country.INDIA;
     static int fromDate = 2010;
     static int toDate = 2015;
 
     static AnalysisVisitor printVisitor = new PrinterAnalysisVisitor();
 
     public static void main(String[] args) {
-        run_analysis1();
-        System.out.println(System.lineSeparator());
 
-        run_analysis2();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis1();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
 
-        run_analysis3();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis2();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
 
-        run_analysis4();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis3();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
 
-        run_analysis5();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis4();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
 
-        run_analysis6();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis5();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
 
-        run_analysis7();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis6();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
 
-        run_analysis8();
-        System.out.println(System.lineSeparator());
+        try {
+            run_analysis7();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+
+        try {
+            run_analysis8();
+            System.out.println(System.lineSeparator());
+        } catch (MissingDataException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
     }
 
     public static void run_analysis1() {

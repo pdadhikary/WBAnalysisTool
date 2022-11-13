@@ -3,6 +3,7 @@ package ca.yorku.eecs3311.team09.analyses;
 import ca.yorku.eecs3311.team09.data_fetchers.DataFactory;
 import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
 import ca.yorku.eecs3311.team09.enums.Indicator;
+import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 
 import java.util.*;
 
@@ -47,19 +48,33 @@ public abstract class AnnualPercentChangeAnalysis extends Analysis {
     protected void calculate(Map<Indicator, Map<Integer, Double>> data) {
         this.result = new HashMap<>();
 
-        int start = this.fromDate;
-        int end = this.toDate;
+        Analysis.nanFilter(
+                data,
+                this.fromDate - 1,
+                this.toDate
+        );
 
         for (Indicator indicator : data.keySet()) {
-            Map<Integer, Double> dataSeries = data.get(indicator);
+            Iterator<Integer> iterator1 = data.get(indicator).keySet().iterator();
+            Iterator<Integer> iterator2 = data.get(indicator).keySet().iterator();
+
+            if (iterator2.hasNext()) {
+                iterator2.next();
+            } else {
+                throw new MissingDataException("Data has less than two non-nan values...");
+            }
+
             Map<Integer, Double> resultSeries = new HashMap<>();
 
+            while (iterator2.hasNext()) {
+                Integer year = iterator2.next();
+                Integer prevYear = iterator1.next();
 
-            for (int year = start; year <= end; year++) {
-                resultSeries.put(
-                        year,
-                        (dataSeries.get(year) / dataSeries.get(year - 1) - 1) * 100
-                );
+                Double year_value = data.get(indicator).get(year);
+                Double prevYear_value = data.get(indicator).get(prevYear);
+
+                Double percent_change = (year_value / prevYear_value - 1) * 100;
+                resultSeries.put(year, percent_change);
             }
 
             this.result.put(indicator, resultSeries);

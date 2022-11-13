@@ -1,6 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
 import ca.yorku.eecs3311.team09.enums.Indicator;
+import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 
 import java.util.*;
 
@@ -37,6 +38,18 @@ public abstract class LazyAnalysis extends Analysis {
 
     @Override
     protected void calculate(Map<Indicator, Map<Integer, Double>> data) {
+        Analysis.nanFilter(
+                data,
+                this.fromDate,
+                this.toDate
+        );
+
+        Indicator indicator = this.indicators.get(0);
+
+        if (data.get(indicator).keySet().isEmpty()) {
+            throw new MissingDataException("Dataset is empty...");
+        }
+
         this.result = data;
     }
 }

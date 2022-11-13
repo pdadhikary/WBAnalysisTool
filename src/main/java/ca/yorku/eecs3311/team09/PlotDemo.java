@@ -1,7 +1,10 @@
 package ca.yorku.eecs3311.team09;
 
+import ca.yorku.eecs3311.team09.analyses.AirPollutionForestArea;
 import ca.yorku.eecs3311.team09.analyses.Analysis;
 import ca.yorku.eecs3311.team09.analyses.HealthExpenditureHospitalBeds;
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PrinterAnalysisVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.plots.BarPlot;
 
@@ -11,11 +14,23 @@ import java.util.Vector;
 
 public class PlotDemo {
     public static void main(String[] args) {
-        JFrame frame = getFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 600);
-        frame.pack();
-        frame.setVisible(true);
+//        JFrame frame = getFrame();
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(900, 600);
+//        frame.pack();
+//        frame.setVisible(true);
+
+        Analysis analysis = new AirPollutionForestArea(
+                Country.INDIA,
+                2010,
+                2015
+        );
+
+        analysis.performCalculation();
+
+        AnalysisVisitor visitor = new PrinterAnalysisVisitor();
+
+        analysis.accept(visitor);
     }
 
     private static JFrame getFrame() {
@@ -104,8 +119,8 @@ public class PlotDemo {
 
     private static void createBar(JPanel west) {
         Country country = Country.BRAZIL;
-        Integer fromDate = 2000;
-        Integer toDate = 2005;
+        Integer fromDate = 2010;
+        Integer toDate = 2015;
 
         Analysis analysis = new HealthExpenditureHospitalBeds(
                 country,
