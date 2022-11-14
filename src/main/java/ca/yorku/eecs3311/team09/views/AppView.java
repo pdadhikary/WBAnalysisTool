@@ -17,9 +17,29 @@ public class AppView extends JFrame {
      */
     protected JComboBox<Country> countriesList;
     /**
-     * list if analyses users can select from.
+     * list of analyses users can select from.
      */
     protected JComboBox<String> analysisList;
+
+
+    /**
+     * list of beginning dates users can select from.
+     */
+    protected JComboBox<Integer> fromDate;
+
+
+    /**
+     * list of end dates users can select from.
+     */
+    protected JComboBox<Integer> toDate;
+
+
+    /**
+     * list of plot types users can select from.
+     */
+    protected JComboBox<String> plotType;
+
+
     /**
      * recalculate button.
      */
@@ -53,8 +73,11 @@ public class AppView extends JFrame {
         this.south = new JPanel();
         this.center = new JPanel();
 
+        createPlotTypeSelection();
         createDataSelection();
         createAnalysisSelection();
+        createDateSelection();
+
 
         this.recalculateButton = new JButton("Recalculate");
         south.add(recalculateButton);
@@ -100,5 +123,52 @@ public class AppView extends JFrame {
 
         this.north.add(countryName);
         this.north.add(countriesList);
+    }
+
+
+    /**
+     * Creates DATE selection fields
+     */
+    protected void createDateSelection() {
+        JLabel fromLabel = new JLabel("From");
+        JLabel toLabel = new JLabel("To");
+
+        // general list of dates
+
+        Integer[] dateList = {2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020};
+        this.fromDate = new JComboBox<>(
+                new Vector<>(Arrays.asList(dateList)));
+
+
+        this.toDate = new JComboBox<>(
+                new Vector<>(Arrays.asList(dateList)));
+
+        this.north.add(fromLabel);
+        this.north.add(fromDate);
+        this.north.add(toLabel);
+        this.north.add(toDate);
+    }
+
+
+    /**
+     * Creates DATE selection fields
+     */
+    protected void createPlotTypeSelection() {
+        JLabel plotLabel = new JLabel("Available Views");
+
+
+        // general list of dates
+
+        String[] plotList = {"Pie Chart", "Line Chart", "Bar Chart", "Scatter Chart", "Report"};
+        this.plotType = new JComboBox<>(
+                new Vector<>(Arrays.asList(plotList)));
+        JButton plusButton = new JButton("+");
+        JButton minusButton = new JButton("-");
+
+
+        this.south.add(plotLabel);
+        this.south.add(plotType);
+        this.south.add(plusButton);
+        this.south.add(minusButton);
     }
 }
