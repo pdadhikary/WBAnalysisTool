@@ -1,6 +1,7 @@
 package ca.yorku.eecs3311.team09.plots;
 
 import ca.yorku.eecs3311.team09.analyses.visitors.PlotVisitor;
+import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
 
 import javax.swing.*;
 
@@ -9,6 +10,7 @@ import javax.swing.*;
  */
 public abstract class Plot implements PlotVisitor {
     JComponent plot;
+    PlotDesigner designer;
 
     /**
      * Return the plot generated after this {@link PlotVisitor PlotVisitor} is accepted

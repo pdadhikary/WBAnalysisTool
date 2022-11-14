@@ -1,12 +1,14 @@
 package ca.yorku.eecs3311.team09;
 
-import ca.yorku.eecs3311.team09.analyses.HealthExpenditureHospitalBeds;
+import ca.yorku.eecs3311.team09.analyses.GovEducationHealthExpenditure;
 import ca.yorku.eecs3311.team09.analyses.IAnalysis;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.exceptions.IncompatibleAnalysisException;
 import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
-import ca.yorku.eecs3311.team09.plots.BarPlot;
+import ca.yorku.eecs3311.team09.plots.LinePlot;
 import ca.yorku.eecs3311.team09.plots.Plot;
+import ca.yorku.eecs3311.team09.plots.designer.DefaultPlotDesigner;
+import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
 
 import javax.swing.*;
 import java.awt.*;
@@ -102,7 +104,6 @@ public class PlotDemo {
 
         // TODO: Test Plots here
         createBar(west);
-
         frame.getContentPane().add(north, BorderLayout.NORTH);
         frame.getContentPane().add(east, BorderLayout.EAST);
         frame.getContentPane().add(south, BorderLayout.SOUTH);
@@ -112,23 +113,22 @@ public class PlotDemo {
     }
 
     private static void createBar(JPanel west) {
-        Country country = Country.BRAZIL;
+        Country country = Country.INDIA;
         Integer fromDate = 2010;
         Integer toDate = 2015;
 
-        IAnalysis analysis = new HealthExpenditureHospitalBeds(
+        IAnalysis analysis = new GovEducationHealthExpenditure(
                 country,
                 fromDate,
                 toDate
         );
 
-        Plot plot = new BarPlot();
+        PlotDesigner designer = DefaultPlotDesigner.getInstance();
+
+        Plot plot = new LinePlot(designer);
         analysis.accept(plot);
 
         JComponent chartPanel = plot.getPlot();
-        chartPanel.setPreferredSize(new Dimension(400, 300));
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        chartPanel.setBackground(Color.white);
 
         west.add(chartPanel);
     }

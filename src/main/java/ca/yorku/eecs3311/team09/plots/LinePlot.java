@@ -7,23 +7,23 @@ import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import java.util.Map;
 
 /**
- * Generates a {@link javax.swing.JComponent Panel} containing a bar chart of the visited analysis result.
+ * Generates a {@link javax.swing.JComponent Panel} containing a line chart of the visited analysis result.
  */
-public class BarPlot extends Plot {
-    public BarPlot(PlotDesigner designer) {
+public class LinePlot extends Plot {
+    public LinePlot(PlotDesigner designer) {
         this.designer = designer;
     }
 
     @Override
     public void plotAnalysis(AirPollutionForestArea analysis) {
         analysis.performCalculation();
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> airPollution = result.get(Indicator.AIR_POLLUTION_MEAN);
@@ -32,27 +32,27 @@ public class BarPlot extends Plot {
         Map<Integer, Double> forestArea = result.get(Indicator.FOREST_AREA);
         String label2 = "Forest Area";
 
-        BarPlot.insertData(dataset, airPollution, label1);
-        BarPlot.insertData(dataset, forestArea, label2);
+        XYSeries series1 = LinePlot.createSeries(airPollution, label1);
+        XYSeries series2 = LinePlot.createSeries(forestArea, label2);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        XYSeriesCollection dataset = new XYSeriesCollection();
+
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        JFreeChart lineChart = ChartFactory.createXYLineChart(
                 analysis.getTitle(),
                 "Year",
                 "% Annual Change",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.plot = new ChartPanel(lineChart);
     }
 
     @Override
     public void plotAnalysis(CO2EnergyUseAirPollution analysis) {
         analysis.performCalculation();
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> co2Emissions = result.get(Indicator.CO2_EMISSIONS);
@@ -64,19 +64,26 @@ public class BarPlot extends Plot {
         Map<Integer, Double> airPollution = result.get(Indicator.AIR_POLLUTION_MEAN);
         String label3 = "Air Pollution per m^3";
 
-        BarPlot.insertData(dataset, co2Emissions, label1);
-        BarPlot.insertData(dataset, energyUse, label2);
-        BarPlot.insertData(dataset, airPollution, label3);
+        XYSeries series1 = LinePlot.createSeries(co2Emissions, label1);
+        XYSeries series2 = LinePlot.createSeries(energyUse, label2);
+        XYSeries series3 = LinePlot.createSeries(airPollution, label3);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+        dataset.addSeries(series3);
+
+        JFreeChart lineChart = ChartFactory.createXYLineChart(
                 analysis.getTitle(),
                 "Year",
                 "% Annual Change",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
+        this.designer.applyTheme(lineChart);
+        XYPlot xyPlot = lineChart.getXYPlot();
+        this.designer.designPlot(xyPlot);
+        ChartPanel panel = new ChartPanel(lineChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }
@@ -85,22 +92,25 @@ public class BarPlot extends Plot {
     public void plotAnalysis(CO2GDP analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
         Map<Integer, Double> result = analysis.getResult();
         String label = "CO2 Emission to GDP per capita";
 
-        BarPlot.insertData(dataset, result, label);
+        XYSeries series = LinePlot.createSeries(result, label);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+
+        JFreeChart lineChart = ChartFactory.createXYLineChart(
                 analysis.getTitle(),
                 "Year",
                 "Ratio",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
+        this.designer.applyTheme(lineChart);
+        XYPlot xyPlot = lineChart.getXYPlot();
+        this.designer.designPlot(xyPlot);
+        ChartPanel panel = new ChartPanel(lineChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }
@@ -113,8 +123,6 @@ public class BarPlot extends Plot {
     @Override
     public void plotAnalysis(GovEducationHealthExpenditure analysis) {
         analysis.performCalculation();
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> eduExpenditure = result.get(Indicator.GOV_EXPENDITURE_EDU_GDP);
@@ -123,18 +131,24 @@ public class BarPlot extends Plot {
         Map<Integer, Double> healthExpenditure = result.get(Indicator.HEALTH_EXPENDITURE_GDP);
         String label2 = "Government Expenditure on Health";
 
-        BarPlot.insertData(dataset, eduExpenditure, label1);
-        BarPlot.insertData(dataset, healthExpenditure, label2);
+        XYSeries series1 = LinePlot.createSeries(eduExpenditure, label1);
+        XYSeries series2 = LinePlot.createSeries(healthExpenditure, label2);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        JFreeChart lineChart = ChartFactory.createXYLineChart(
                 analysis.getTitle(),
                 "Year",
                 "% Annual Change",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
+        this.designer.applyTheme(lineChart);
+        XYPlot xyPlot = lineChart.getXYPlot();
+        this.designer.designPlot(xyPlot);
+        ChartPanel panel = new ChartPanel(lineChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }
@@ -147,8 +161,6 @@ public class BarPlot extends Plot {
     @Override
     public void plotAnalysis(HealthCareMortality analysis) {
         analysis.performCalculation();
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> womenHCProblem = result.get(Indicator.PROBLEM_ACCESSING_HC_WOMEN);
@@ -157,18 +169,24 @@ public class BarPlot extends Plot {
         Map<Integer, Double> mortality = result.get(Indicator.MORTALITY_RATE_INFANT);
         String label2 = "Mortality rate, infant";
 
-        BarPlot.insertData(dataset, womenHCProblem, label1);
-        BarPlot.insertData(dataset, mortality, label2);
+        XYSeries series1 = LinePlot.createSeries(womenHCProblem, label1);
+        XYSeries series2 = LinePlot.createSeries(mortality, label2);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        JFreeChart lineChart = ChartFactory.createXYLineChart(
                 analysis.getTitle(),
                 "Year",
-                "Indcidents/per 1,000 births",
+                "Incidents per 1,000/births",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
+        this.designer.applyTheme(lineChart);
+        XYPlot xyPlot = lineChart.getXYPlot();
+        this.designer.designPlot(xyPlot);
+        ChartPanel panel = new ChartPanel(lineChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }
@@ -177,37 +195,39 @@ public class BarPlot extends Plot {
     public void plotAnalysis(HealthExpenditureHospitalBeds analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
         Map<Integer, Double> result = analysis.getResult();
         String label = "Expenditure to GDP ratio";
 
-        BarPlot.insertData(dataset, result, label);
+        XYSeries series = LinePlot.createSeries(result, label);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+
+        JFreeChart lineChart = ChartFactory.createXYLineChart(
                 analysis.getTitle(),
                 "Year",
                 "Ratio",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
+        this.designer.applyTheme(lineChart);
+        XYPlot xyPlot = lineChart.getXYPlot();
+        this.designer.designPlot(xyPlot);
+        ChartPanel panel = new ChartPanel(lineChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }
 
-    private static void insertData(
-            DefaultCategoryDataset dataset,
-            Map<Integer, Double> column,
-            String label
-    ) {
-        for (Integer year : column.keySet()) {
-            dataset.setValue(
-                    column.get(year),
-                    label,
-                    year
+    public static XYSeries createSeries(Map<Integer, Double> colum, String label) {
+        XYSeries series = new XYSeries(label);
+
+        for (Integer year : colum.keySet()) {
+            series.add(
+                    year,
+                    colum.get(year)
             );
         }
+
+        return series;
     }
 }
