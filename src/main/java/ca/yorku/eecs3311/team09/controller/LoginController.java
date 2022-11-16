@@ -82,7 +82,7 @@ public class LoginController implements ILoginController, ILoginObserver {
     @Override
     public void successfulLogin() {
         // TODO: refactor code to AppController
-        AppView app = new AppView();
-        app.setVisible(true);
+//        AppView app = new AppView();
+//        app.setVisible(true);
     }
 }

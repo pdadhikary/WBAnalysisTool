@@ -1,12 +1,16 @@
 package ca.yorku.eecs3311.team09.views;
 
-import ca.yorku.eecs3311.team09.analyses.*;
+import ca.yorku.eecs3311.team09.analyses.factory.AnalysisFactory;
+import ca.yorku.eecs3311.team09.controller.IAppController;
 import ca.yorku.eecs3311.team09.enums.Country;
+import org.jfree.chart.plot.Plot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The main app GUI.
@@ -19,8 +23,7 @@ public class AppView extends JFrame {
     /**
      * list of analyses users can select from.
      */
-    protected JComboBox<String> analysisList;
-
+    protected JComboBox<AnalysisFactory> analysisList;
 
     /**
      * list of beginning dates users can select from.
@@ -37,9 +40,7 @@ public class AppView extends JFrame {
     /**
      * list of plot types users can select from.
      */
-    protected JComboBox<String> plotType;
-
-
+    protected JComboBox<Plot> plotType;
     /**
      * recalculate button.
      */
@@ -58,10 +59,14 @@ public class AppView extends JFrame {
      */
     protected JPanel center;
 
+    protected IAppController controller;
+
     /**
      * returns a new AppView
      */
-    public AppView() {
+    public AppView(IAppController controller) {
+        this.controller = controller;
+
         this.setTitle("Country Statistics");
         this.setIconImage(new ImageIcon(LoginView.LOGO_URI).getImage());
         this.setSize(1000, 700);
@@ -73,7 +78,7 @@ public class AppView extends JFrame {
         this.south = new JPanel();
         this.center = new JPanel();
 
-        createPlotTypeSelection();
+        createPlotViewSelection();
         createDataSelection();
         createAnalysisSelection();
         createDateSelection();
@@ -94,16 +99,7 @@ public class AppView extends JFrame {
         JLabel analysisName = new JLabel("Choose Analysis Method ");
         this.analysisList = new JComboBox<>(
                 new Vector<>(
-                        Arrays.asList(
-                                CO2EnergyUseAirPollution.TITLE,
-                                AirPollutionForestArea.TITLE,
-                                CO2GDP.TITLE,
-                                ForestArea.TITLE,
-                                GovernmentExpenditure.TITLE,
-                                HealthExpenditureHospitalBeds.TITLE,
-                                HealthCareMortality.TITLE,
-                                GovEducationHealthExpenditure.TITLE
-                        )
+                        this.controller.getAnalyses()
                 )
         );
 
@@ -117,9 +113,7 @@ public class AppView extends JFrame {
     protected void createDataSelection() {
         JLabel countryName = new JLabel("Choose A Country: ");
 
-        this.countriesList = new JComboBox<>(
-                new Vector<>(Arrays.asList(Country.values()))
-        );
+        this.countriesList = new JComboBox<>();
 
         this.north.add(countryName);
         this.north.add(countriesList);
@@ -133,15 +127,22 @@ public class AppView extends JFrame {
         JLabel fromLabel = new JLabel("From");
         JLabel toLabel = new JLabel("To");
 
-        // general list of dates
+        List<Integer> dates = IntStream.range(
+                this.controller.getMinDate(),
+                this.controller.getMaxDate()
+        ).boxed().collect(Collectors.toList());
 
-        Integer[] dateList = {2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020};
         this.fromDate = new JComboBox<>(
-                new Vector<>(Arrays.asList(dateList)));
-
+                new Vector<>(
+                        dates
+                )
+        );
 
         this.toDate = new JComboBox<>(
-                new Vector<>(Arrays.asList(dateList)));
+                new Vector<>(
+                        dates
+                )
+        );
 
         this.north.add(fromLabel);
         this.north.add(fromDate);
@@ -153,15 +154,13 @@ public class AppView extends JFrame {
     /**
      * Creates DATE selection fields
      */
-    protected void createPlotTypeSelection() {
+    protected void createPlotViewSelection() {
         JLabel plotLabel = new JLabel("Available Views");
-
-
-        // general list of dates
-
-        String[] plotList = {"Pie Chart", "Line Chart", "Bar Chart", "Scatter Chart", "Report"};
         this.plotType = new JComboBox<>(
-                new Vector<>(Arrays.asList(plotList)));
+                new Vector<>(
+                        this.controller.getPlotViews()
+                )
+        );
         JButton plusButton = new JButton("+");
         JButton minusButton = new JButton("-");
 
