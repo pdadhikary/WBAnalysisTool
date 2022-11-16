@@ -1,6 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
 import ca.yorku.eecs3311.team09.enums.Indicator;
+import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,17 @@ public abstract class AverageAnalysis extends Analysis {
     protected void calculate(Map<Indicator, Map<Integer, Double>> data) {
         this.result = new HashMap<>();
 
+        Analysis.nanFilter(
+                data,
+                this.fromDate,
+                this.toDate
+        );
+
         for (Indicator indicator : data.keySet()) {
+            if (data.get(indicator).keySet().isEmpty()) {
+                throw new MissingDataException("Dataset is empty...");
+            }
+
             Double average = data.get(indicator)
                     .values()
                     .stream()
