@@ -12,7 +12,7 @@ public class CO2GDP extends RatioAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Ratio GDP in USD to CO2 emissions (per capita)";
+    public static final String TITLE = "GDP to CO2 ratio";
 
     /**
      * Returns a new instance of this analysis.

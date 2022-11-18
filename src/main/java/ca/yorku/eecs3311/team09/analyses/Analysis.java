@@ -17,7 +17,13 @@ public abstract class Analysis implements IAnalysis {
 
     @Override
     public String getTitle() {
-        return this.title;
+        return String.format(
+                "%s (%s) [%d - %d]",
+                this.title,
+                this.country,
+                this.fromDate,
+                this.toDate
+        );
     }
 
     @Override

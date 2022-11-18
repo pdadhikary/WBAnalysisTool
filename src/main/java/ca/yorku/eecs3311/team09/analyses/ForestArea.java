@@ -14,7 +14,7 @@ public class ForestArea extends AverageAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Average Forest area (% of land area)";
+    public static final String TITLE = "Forest area average";
 
     /**
      * Returns a new instance of this analysis.

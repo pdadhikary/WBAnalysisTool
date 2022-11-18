@@ -4,6 +4,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
@@ -13,7 +14,7 @@ import java.text.DecimalFormat;
 
 public class DefaultPlotDesigner implements PlotDesigner {
 
-    private StandardChartTheme chartTheme;
+    private final StandardChartTheme chartTheme;
 
     private static final PlotDesigner designer = new DefaultPlotDesigner();
 
@@ -68,6 +69,7 @@ public class DefaultPlotDesigner implements PlotDesigner {
     public void setYearFormat(JFreeChart chart) {
         final NumberAxis rangeAxis = (NumberAxis) chart.getXYPlot().getDomainAxis();
         final DecimalFormat format = new DecimalFormat("####");
+        rangeAxis.setTickUnit(new NumberTickUnit(1));
         rangeAxis.setNumberFormatOverride(format);
     }
 
@@ -76,5 +78,11 @@ public class DefaultPlotDesigner implements PlotDesigner {
         panel.setPreferredSize(new Dimension(400, 300));
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         panel.setBackground(Color.white);
+    }
+
+    @Override
+    public void setScrollSize(JScrollPane pane) {
+        pane.setPreferredSize(new Dimension(400, 300));
+        pane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
     }
 }

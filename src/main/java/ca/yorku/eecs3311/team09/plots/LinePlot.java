@@ -48,6 +48,7 @@ public class LinePlot extends Plot {
         );
 
         this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
         XYPlot xyPlot = lineChart.getXYPlot();
         this.designer.designPlot(xyPlot);
         ChartPanel panel = new ChartPanel(lineChart);
@@ -86,6 +87,7 @@ public class LinePlot extends Plot {
         );
 
         this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
         XYPlot xyPlot = lineChart.getXYPlot();
         this.designer.designPlot(xyPlot);
         ChartPanel panel = new ChartPanel(lineChart);
@@ -113,6 +115,7 @@ public class LinePlot extends Plot {
         );
 
         this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
         XYPlot xyPlot = lineChart.getXYPlot();
         this.designer.designPlot(xyPlot);
         ChartPanel panel = new ChartPanel(lineChart);
@@ -122,7 +125,7 @@ public class LinePlot extends Plot {
 
     @Override
     public void plotAnalysis(ForestArea analysis) {
-        throw new IncompatibleAnalysisException("This analysis is incompatible with a bar plot!");
+        throw new IncompatibleAnalysisException("This analysis is incompatible with a line plot!");
     }
 
     @Override
@@ -151,6 +154,7 @@ public class LinePlot extends Plot {
         );
 
         this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
         XYPlot xyPlot = lineChart.getXYPlot();
         this.designer.designPlot(xyPlot);
         ChartPanel panel = new ChartPanel(lineChart);
@@ -160,7 +164,7 @@ public class LinePlot extends Plot {
 
     @Override
     public void plotAnalysis(GovernmentExpenditure analysis) {
-        throw new IncompatibleAnalysisException("This analysis is incompatible with a bar plot!");
+        throw new IncompatibleAnalysisException("This analysis is incompatible with a line plot!");
     }
 
     @Override
@@ -189,6 +193,7 @@ public class LinePlot extends Plot {
         );
 
         this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
         XYPlot xyPlot = lineChart.getXYPlot();
         this.designer.designPlot(xyPlot);
         ChartPanel panel = new ChartPanel(lineChart);
@@ -216,6 +221,7 @@ public class LinePlot extends Plot {
         );
 
         this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
         XYPlot xyPlot = lineChart.getXYPlot();
         this.designer.designPlot(xyPlot);
         ChartPanel panel = new ChartPanel(lineChart);
@@ -234,5 +240,10 @@ public class LinePlot extends Plot {
         }
 
         return series;
+    }
+
+    @Override
+    public String toString() {
+        return "Line Chart";
     }
 }

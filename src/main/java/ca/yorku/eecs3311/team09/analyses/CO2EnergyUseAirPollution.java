@@ -16,7 +16,7 @@ public class CO2EnergyUseAirPollution extends AnnualPercentChangeAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "CO2 emissions vs energy use & air pollution";
+    public static final String TITLE = "CO2 vs energy use & air pollution";
 
     /**
      * Returns a new instance of this analysis.

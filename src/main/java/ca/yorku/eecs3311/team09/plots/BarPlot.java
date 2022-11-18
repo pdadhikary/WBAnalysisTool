@@ -163,7 +163,7 @@ public class BarPlot extends Plot {
         JFreeChart barChart = ChartFactory.createBarChart(
                 analysis.getTitle(),
                 "Year",
-                "Indcidents/per 1,000 births",
+                "Incidents/per 1,000 births",
                 dataset
         );
 
@@ -209,5 +209,10 @@ public class BarPlot extends Plot {
                     year
             );
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Bar Chart";
     }
 }

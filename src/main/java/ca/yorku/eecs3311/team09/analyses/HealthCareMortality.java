@@ -15,7 +15,7 @@ public class HealthCareMortality extends LazyAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Problems accessing health care (Women) Vs. mortality rate";
+    public static final String TITLE = "Health care vs mortality rate";
 
     /**
      * Returns a new instance of this analysis.

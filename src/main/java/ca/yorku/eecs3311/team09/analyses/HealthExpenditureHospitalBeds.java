@@ -16,7 +16,7 @@ public class HealthExpenditureHospitalBeds extends RatioAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Ratio Health Expenditure to Hospital Beds";
+    public static final String TITLE = "Health expenditure to hospital beds ratio";
 
     /**
      * Returns a new instance of this analysis.

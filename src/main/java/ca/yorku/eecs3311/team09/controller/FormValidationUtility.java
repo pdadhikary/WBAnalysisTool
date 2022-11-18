@@ -2,6 +2,8 @@ package ca.yorku.eecs3311.team09.controller;
 
 import ca.yorku.eecs3311.team09.exceptions.ValidationException;
 
+import java.util.List;
+
 /**
  * Provides utility functions to validate input fields.
  */
@@ -47,5 +49,10 @@ public class FormValidationUtility {
         if (str.indexOf(' ') != -1) {
             throw new ValidationException(fieldName + " cannot contain spaces!");
         }
+    }
+
+    // TODO: implement validation result
+    public static void isInBetween(Integer fromDate, Integer toDate, List<Integer> exclusionList) {
+
     }
 }

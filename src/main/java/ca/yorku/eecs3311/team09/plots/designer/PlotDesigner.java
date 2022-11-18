@@ -16,4 +16,6 @@ public interface PlotDesigner {
     void setYearFormat(JFreeChart chart);
 
     void formatChartPanel(ChartPanel panel);
+
+    void setScrollSize(JScrollPane pane);
 }
