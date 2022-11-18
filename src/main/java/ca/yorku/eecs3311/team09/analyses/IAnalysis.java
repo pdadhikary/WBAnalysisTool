@@ -1,5 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PlotVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
@@ -52,4 +54,6 @@ public interface IAnalysis {
      * @param visitor visitor
      */
     void accept(AnalysisVisitor visitor);
+
+    void accept(PlotVisitor visitor);
 }

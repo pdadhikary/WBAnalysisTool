@@ -1,5 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PlotVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
@@ -12,7 +14,7 @@ public class GovernmentExpenditure extends AverageAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Average government expenditure on education (% of GDP)";
+    public static final String TITLE = "Government education expenditure";
 
     /**
      * Returns a new instance of this analysis.
@@ -33,5 +35,10 @@ public class GovernmentExpenditure extends AverageAnalysis {
     @Override
     public void accept(AnalysisVisitor visitor) {
         visitor.visitAnalysis(this);
+    }
+
+    @Override
+    public void accept(PlotVisitor visitor) {
+        visitor.plotAnalysis(this);
     }
 }

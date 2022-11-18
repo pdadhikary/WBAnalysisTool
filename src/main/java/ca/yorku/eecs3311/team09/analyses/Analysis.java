@@ -5,6 +5,8 @@ import ca.yorku.eecs3311.team09.data_fetchers.DataFetcher;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Analysis implements IAnalysis {
@@ -15,7 +17,13 @@ public abstract class Analysis implements IAnalysis {
 
     @Override
     public String getTitle() {
-        return this.title;
+        return String.format(
+                "%s (%s) [%d - %d]",
+                this.title,
+                this.country,
+                this.fromDate,
+                this.toDate
+        );
     }
 
     @Override
@@ -70,5 +78,42 @@ public abstract class Analysis implements IAnalysis {
         Map<Integer, Double> series = data.get(indicator);
 
         series.replaceAll((k, v) -> series.get(k) * value);
+    }
+
+    /**
+     * Utility method to filter out entire year rows if any of them contain a Double.NaN
+     *
+     * @param data     data to filter
+     * @param fromDate start date to filter from
+     * @param toDate   end data to filter to
+     */
+    protected static void nanFilter(
+            Map<Indicator, Map<Integer, Double>> data,
+            Integer fromDate,
+            Integer toDate
+    ) {
+        List<Integer> years_to_delete = new ArrayList<>();
+
+        for (int year = fromDate; year <= toDate; year++) {
+            // for each year check if data is available for all indicators
+            boolean data_available = true;
+            for (Indicator indicator : data.keySet()) {
+                data_available &= !Double.isNaN(
+                        data.get(indicator).get(year)
+                );
+            }
+
+            // if data is not available queue it up for deletion
+            if (!data_available) {
+                years_to_delete.add(year);
+            }
+        }
+
+        // remove data rows for the years with missing data
+        for (Integer year : years_to_delete) {
+            for (Indicator indicator : data.keySet()) {
+                data.get(indicator).remove(year);
+            }
+        }
     }
 }

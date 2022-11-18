@@ -1,5 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PlotVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
@@ -14,7 +16,7 @@ public class CO2EnergyUseAirPollution extends AnnualPercentChangeAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "CO2 emissions vs energy use & air pollution";
+    public static final String TITLE = "CO2 vs energy use & air pollution";
 
     /**
      * Returns a new instance of this analysis.
@@ -35,5 +37,10 @@ public class CO2EnergyUseAirPollution extends AnnualPercentChangeAnalysis {
     @Override
     public void accept(AnalysisVisitor visitor) {
         visitor.visitAnalysis(this);
+    }
+
+    @Override
+    public void accept(PlotVisitor visitor) {
+        visitor.plotAnalysis(this);
     }
 }

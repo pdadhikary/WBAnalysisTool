@@ -1,5 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PlotVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
@@ -10,7 +12,7 @@ public class CO2GDP extends RatioAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Ratio GDP in USD to CO2 emissions (per capita)";
+    public static final String TITLE = "GDP to CO2 ratio";
 
     /**
      * Returns a new instance of this analysis.
@@ -32,5 +34,10 @@ public class CO2GDP extends RatioAnalysis {
     @Override
     public void accept(AnalysisVisitor visitor) {
         visitor.visitAnalysis(this);
+    }
+
+    @Override
+    public void accept(PlotVisitor visitor) {
+        visitor.plotAnalysis(this);
     }
 }

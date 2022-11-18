@@ -4,6 +4,7 @@ import ca.yorku.eecs3311.team09.exceptions.IncorrectCredentialsException;
 import ca.yorku.eecs3311.team09.exceptions.UsernameTakenException;
 import ca.yorku.eecs3311.team09.exceptions.ValidationException;
 import ca.yorku.eecs3311.team09.models.ILoginObserver;
+import ca.yorku.eecs3311.team09.models.IRegistrationObserver;
 import ca.yorku.eecs3311.team09.models.IUserModel;
 import ca.yorku.eecs3311.team09.views.AppView;
 import ca.yorku.eecs3311.team09.views.LoginView;
@@ -12,7 +13,7 @@ import ca.yorku.eecs3311.team09.views.LoginView;
  * Defines the strategy to handle UI interactions of the {@link LoginView LoginView}.
  * Uses the {@link IUserModel IUserModel} interface to register and login users to the system.
  */
-public class LoginController implements ILoginController, ILoginObserver {
+public class LoginController implements ILoginController, ILoginObserver, IRegistrationObserver {
     protected IUserModel model;
     protected LoginView view;
 
@@ -24,8 +25,9 @@ public class LoginController implements ILoginController, ILoginObserver {
     public LoginController(IUserModel model) {
         this.model = model;
         this.model.addLoginObserver(this);
+        this.model.addRegistrationObserver(this);
 
-        this.view = new LoginView(model, this);
+        this.view = new LoginView(this);
     }
 
     /**
@@ -81,8 +83,11 @@ public class LoginController implements ILoginController, ILoginObserver {
      */
     @Override
     public void successfulLogin() {
-        // TODO: refactor code to AppController
-        AppView app = new AppView();
-        app.setVisible(true);
+        this.view.dispose();
+    }
+
+    @Override
+    public void successfulRegistration() {
+        this.view.showRegistrationSuccess();
     }
 }

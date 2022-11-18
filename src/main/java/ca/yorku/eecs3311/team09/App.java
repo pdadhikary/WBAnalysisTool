@@ -1,11 +1,10 @@
 package ca.yorku.eecs3311.team09;
 
+import ca.yorku.eecs3311.team09.controller.AppController;
+import ca.yorku.eecs3311.team09.controller.IAppController;
 import ca.yorku.eecs3311.team09.controller.ILoginController;
 import ca.yorku.eecs3311.team09.controller.LoginController;
-import ca.yorku.eecs3311.team09.models.DBContext;
-import ca.yorku.eecs3311.team09.models.IDBContext;
-import ca.yorku.eecs3311.team09.models.IUserModel;
-import ca.yorku.eecs3311.team09.models.SQLUserModel;
+import ca.yorku.eecs3311.team09.models.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +16,13 @@ public class App {
         IDBContext dbContext = DBContext.getInstance();
         dbContext.setConnectionString(connectionString);
 
-        IUserModel model = new SQLUserModel(dbContext);
-        ILoginController controller = new LoginController(model);
-        controller.showLoginView();
+        IUserModel userModel = new SQLUserModel(dbContext);
+        ILoginController loginController = new LoginController(userModel);
+
+        IPlotsModel plotsModel = new PlotsModel();
+        IAppController appController = new AppController(userModel, plotsModel);
+
+        loginController.showLoginView();
     }
 
     public static void main(String[] args) {

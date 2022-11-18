@@ -4,9 +4,6 @@ import ca.yorku.eecs3311.team09.controller.ILoginController;
 import ca.yorku.eecs3311.team09.exceptions.IncorrectCredentialsException;
 import ca.yorku.eecs3311.team09.exceptions.UsernameTakenException;
 import ca.yorku.eecs3311.team09.exceptions.ValidationException;
-import ca.yorku.eecs3311.team09.models.ILoginObserver;
-import ca.yorku.eecs3311.team09.models.IRegistrationObserver;
-import ca.yorku.eecs3311.team09.models.IUserModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,16 +12,12 @@ import java.awt.event.ActionListener;
 /**
  * The login GUI.
  */
-public class LoginView extends JFrame implements ActionListener, IRegistrationObserver, ILoginObserver {
+public class LoginView extends JFrame implements ActionListener {
     /**
      * path to the logo for this app.
      */
     public static final String LOGO_URI = "src/main/resources/static/image/wb_logo.png";
 
-    /**
-     * model of this view.
-     */
-    protected IUserModel model;
     /**
      * controller of this view.
      */
@@ -53,17 +46,11 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
     /**
      * Returns a new LoginView
      *
-     * @param model      the model of this view
      * @param controller the controller of this view
      */
-    public LoginView(IUserModel model, ILoginController controller) {
+    public LoginView(ILoginController controller) {
 
         this.controller = controller;
-        this.model = model;
-
-        // Register as observers
-        model.addLoginObserver(this);
-        model.addRegistrationObserver(this);
 
         // panel settings
         this.loginPanel = new JPanel();
@@ -112,19 +99,7 @@ public class LoginView extends JFrame implements ActionListener, IRegistrationOb
         }
     }
 
-    @Override
-    public void successfulLogin() {
-        this.dispose();
-        JOptionPane.showMessageDialog(
-                null,
-                "Welcome, " + this.model.getUsername() + "!",
-                "Successfully Logged In",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-    }
-
-    @Override
-    public void successfulRegistration() {
+    public void showRegistrationSuccess() {
         JOptionPane.showMessageDialog(
                 this,
                 "Registration was successful!",

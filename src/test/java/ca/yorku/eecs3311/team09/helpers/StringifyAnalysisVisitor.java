@@ -1,6 +1,10 @@
 package ca.yorku.eecs3311.team09.helpers;
 
-import ca.yorku.eecs3311.team09.analyses.*;
+import ca.yorku.eecs3311.team09.analyses.AnnualPercentChangeAnalysis;
+import ca.yorku.eecs3311.team09.analyses.AverageAnalysis;
+import ca.yorku.eecs3311.team09.analyses.LazyAnalysis;
+import ca.yorku.eecs3311.team09.analyses.RatioAnalysis;
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
 
 /**
  * A visitor class that stringifies the result of an Analysis.

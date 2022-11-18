@@ -1,5 +1,7 @@
 package ca.yorku.eecs3311.team09.analyses;
 
+import ca.yorku.eecs3311.team09.analyses.visitors.AnalysisVisitor;
+import ca.yorku.eecs3311.team09.analyses.visitors.PlotVisitor;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 
@@ -13,7 +15,7 @@ public class HealthCareMortality extends LazyAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Problems accessing health care (Women) Vs. mortality rate";
+    public static final String TITLE = "Health care vs mortality rate";
 
     /**
      * Returns a new instance of this analysis.
@@ -34,5 +36,10 @@ public class HealthCareMortality extends LazyAnalysis {
     @Override
     public void accept(AnalysisVisitor visitor) {
         visitor.visitAnalysis(this);
+    }
+
+    @Override
+    public void accept(PlotVisitor visitor) {
+        visitor.plotAnalysis(this);
     }
 }
