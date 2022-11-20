@@ -3,294 +3,230 @@ package ca.yorku.eecs3311.team09.plots;
 import ca.yorku.eecs3311.team09.analyses.*;
 import ca.yorku.eecs3311.team09.enums.Indicator;
 import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.MouseListener;
 import java.util.Map;
 
 /**
  * Generates a {@link javax.swing.JComponent Panel} containing a bar chart of the visited analysis result.
  */
 public class ReportPlot extends Plot {
+    private static class ReportPane extends JScrollPane {
+        protected JTextArea reportTextArea;
+
+        public ReportPane(JTextArea reportTextArea) {
+            super(reportTextArea);
+            this.reportTextArea = reportTextArea;
+        }
+
+        @Override
+        public void addMouseListener(MouseListener l) {
+            super.addMouseListener(l);
+            System.out.println("listener added!");
+            this.reportTextArea.addMouseListener(l);
+        }
+
+        @Override
+        public void setName(String name) {
+            super.setName(name);
+            this.reportTextArea.setName(name);
+        }
+    }
+
     public ReportPlot(PlotDesigner designer) {
         this.designer = designer;
     }
 
 
     public JScrollPane createReport(String result) {
-
-        JTextArea report = new JTextArea(); // creating text area
-
-        report.setEditable(false);
-
-        report.setBackground(Color.white);
-
+        JTextArea report = new JTextArea();
         report.append(result);
-        JScrollPane textpane = new JScrollPane(report);
-        designer.setScrollSize(textpane);
-
-        return textpane;
+        designer.formatReport(report);
+        JScrollPane textPane = new ReportPane(report);
+        designer.setScrollSize(textPane);
+        return textPane;
     }
 
     @Override
     public void plotAnalysis(AirPollutionForestArea analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
+        String reportText = this.generateDefaultReport(
+                analysis.getTitle(),
+                analysis.getFromDate(),
+                analysis.getToDate(),
+                analysis.getResult()
+        );
 
-        Map<Integer, Double> airPollution = result.get(Indicator.AIR_POLLUTION_MEAN);
-        String label1 = "PM2.5 Air Pollution";
-
-        Map<Integer, Double> forestArea = result.get(Indicator.FOREST_AREA);
-        String label2 = "Forest Area";
-
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-        for (Integer year : airPollution.keySet()) {
-
-            one = one + ("\n\nYear: " + year + "\n");
-            one = one + ("\n" + "Airpollution % Annual Change : " + airPollution.get(year));
-            one = one + ("\n" + "Forest Area % Annual Change : " + forestArea.get(year));
-
-
-        }// end for
-
-
-
-      /* one =one+  ReportPlot.insertData(dataset, airPollution, label1,"% Annual Change");
-       one=one+ ReportPlot.insertData(dataset, forestArea, label2, "% Annual Change");*/
-
-
-        this.plot = createReport(one);
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(CO2EnergyUseAirPollution analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
+        String reportText = this.generateDefaultReport(
+                analysis.getTitle(),
+                analysis.getFromDate(),
+                analysis.getToDate(),
+                analysis.getResult()
+        );
 
-        Map<Integer, Double> co2Emissions = result.get(Indicator.CO2_EMISSIONS);
-        String label1 = "CO2 Emissions metric ton per capita";
-
-        Map<Integer, Double> energyUse = result.get(Indicator.ENERGY_USE);
-        String label2 = "Energy Use kg per capita";
-
-        Map<Integer, Double> airPollution = result.get(Indicator.AIR_POLLUTION_MEAN);
-        String label3 = "Air Pollution per m^3";
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-        for (Integer year : co2Emissions.keySet()) {
-
-            one = one + ("\n\nYear: " + year + "\n");
-            one = one + ("\n" + "CO2 Emission Ratio : " + co2Emissions.get(year));
-            one = one + ("\n" + "Energy Use Ratio : " + energyUse.get(year));
-            one = one + ("\n" + "Air Pollution Ratio : " + airPollution.get(year));
-
-
-        }
-
-        this.plot = createReport(one);
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(CO2GDP analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String reportText = this.generateRatioReport(
+                analysis.getTitle(),
+                analysis.getFromDate(),
+                analysis.getToDate(),
+                analysis.getResult()
+        );
 
-        Map<Integer, Double> result = analysis.getResult();
-        String label = "CO2 Emission to GDP per capita";
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-        for (Integer year : result.keySet()) {
-
-            one = one + ("\n\nYear: " + year + "\n");
-            one = one + ("\n" + "% Annual Change : " + result.get(year));
-
-        }// end for
-
-
-        //  one=one+ ReportPlot.insertData(dataset, result, label,"% Annual Change");
-
-        JScrollPane report = createReport(one); // creating text area
-
-        this.plot = report;
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(ForestArea analysis) {
-
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String reportText = this.generateAverageReport(
+                analysis.getTitle(),
+                Indicator.FOREST_AREA.getLabel(),
+                analysis.getResult().get(Indicator.FOREST_AREA)
+        );
 
-        Map<Indicator, Double> result = analysis.getResult();
-
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-
-        for (Indicator i : result.keySet()) {
-
-            one = one + ("\n\n" + i + "\n");
-            one = one + ("\n" + "Forest Area percent of land: " + result.get(i));
-
-        }
-
-
-        // one= one+ ReportPlot.insertData(dataset, result, label,"Ratio");
-
-        JScrollPane report = createReport(one); // creating text area
-
-        this.plot = report;
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(GovEducationHealthExpenditure analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
+        String reportText = this.generateDefaultReport(
+                analysis.getTitle(),
+                analysis.getFromDate(),
+                analysis.getToDate(),
+                analysis.getResult()
+        );
 
-        Map<Integer, Double> eduExpenditure = result.get(Indicator.GOV_EXPENDITURE_EDU_GDP);
-        String label1 = "Government Expenditure on Education";
-
-        Map<Integer, Double> healthExpenditure = result.get(Indicator.HEALTH_EXPENDITURE_GDP);
-        String label2 = "Government Expenditure on Health";
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-
-        for (Integer year : eduExpenditure.keySet()) {
-
-            one = one + ("\n\nYear: " + year + "\n");
-            one = one + ("\n" + "Edu Expenditure % Annual Change : " + eduExpenditure.get(year));
-            one = one + ("\n" + "Health Expenditure % Annual Change: " + healthExpenditure.get(year));
-
-
-        }// end for
-
-
-       /* one= one+ ReportPlot.insertData(dataset, eduExpenditure, label1,"% Annual Change");
-        one=one+ReportPlot.insertData(dataset, healthExpenditure, label2,"% Annual Change");
-        */
-        JScrollPane report = createReport(one); // creating text area
-
-        this.plot = report;
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(GovernmentExpenditure analysis) {
-
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String reportText = this.generateAverageReport(
+                analysis.getTitle(),
+                Indicator.FOREST_AREA.getLabel(),
+                analysis.getResult().get(Indicator.FOREST_AREA)
+        );
 
-        Map<Indicator, Double> result = analysis.getResult();
-
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-
-        for (Indicator i : result.keySet()) {
-
-            one = one + ("\n\n" + i + "\n");
-            one = one + ("\n" + "Government Expenditure: " + result.get(i));
-
-        }
-
-
-        // one= one+ ReportPlot.insertData(dataset, result, label,"Ratio");
-
-        this.plot = createReport(one);
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(HealthCareMortality analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
+        String reportText = this.generateDefaultReport(
+                analysis.getTitle(),
+                analysis.getFromDate(),
+                analysis.getToDate(),
+                analysis.getResult()
+        );
 
-        Map<Integer, Double> womenHCProblem = result.get(Indicator.PROBLEM_ACCESSING_HC_WOMEN);
-        String label1 = "Problems in accessing health care (% of women)";
-
-        Map<Integer, Double> mortality = result.get(Indicator.MORTALITY_RATE_INFANT);
-        String label2 = "Mortality rate, infant";
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-
-        for (Integer year : womenHCProblem.keySet()) {
-
-            one = one + ("\n\nYear: " + year + "\n");
-            one = one + ("\n" + "Women Heatlth care accsess Indcidents/per 1,000 births : " + womenHCProblem.get(year));
-            one = one + ("\n" + "Infant Mortality Indcidents/per 1,000 births : " + mortality.get(year));
-
-
-        }// end for
-
-
-       /* one= one+ ReportPlot.insertData(dataset, womenHCProblem, label1,"Indcidents/per 1,000 births");
-        one= one+ReportPlot.insertData(dataset, mortality, label2,"Indcidents/per 1,000 births");
-        */
-        JScrollPane report = createReport(one); // creating text area
-
-        this.plot = report;
+        this.plot = createReport(reportText);
     }
 
     @Override
     public void plotAnalysis(HealthExpenditureHospitalBeds analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String reportText = this.generateRatioReport(
+                analysis.getTitle(),
+                analysis.getFromDate(),
+                analysis.getToDate(),
+                analysis.getResult()
+        );
 
-        Map<Integer, Double> result = analysis.getResult();
-        String label = "Expenditure to GDP ratio";
-
-        String one = "\n========================\n" + analysis.getTitle() + "\n========================\n";
-
-        for (Integer year : result.keySet()) {
-
-            one = one + ("\n\nYear: " + year + "\n");
-            one = one + ("\n" + "Ratio : " + result.get(year));
-
-        }// end for
-
-
-        // one= one+ ReportPlot.insertData(dataset, result, label,"Ratio");
-
-        this.plot = createReport(one);
+        this.plot = createReport(reportText);
     }
 
-    private static String insertData(
-            DefaultCategoryDataset dataset,
-            Map<Integer, Double> column,
-            String label, String name
-    ) {
+    private String generateDefaultReport(String title, int fromDate, int toDate,
+                                         Map<Indicator, Map<Integer, Double>> result) {
+        StringBuilder builder = new StringBuilder();
 
-        String result = "\n" + label;
-
-        for (Integer year : column.keySet()) {
-            dataset.setValue(
-                    column.get(year),
-                    label,
-                    year
-            );
-
-
-            result = result + ("\n" + name + ": " + column.get(year) + " and Year: " + year + "\n");
-
+        this.writeTitle(builder, title);
+        for (int year = fromDate; year <= toDate; year++) {
+            boolean datePrinted = false;
+            for (Indicator indicator : result.keySet()) {
+                Map<Integer, Double> series = result.get(indicator);
+                if (!series.containsKey(year))
+                    continue;
+                if (!datePrinted) {
+                    this.writeYear(builder, year);
+                    datePrinted = true;
+                }
+                this.writeValue(builder, indicator.getLabel(), series.get(year));
+            }
         }
 
-        return result;
+        return builder.toString();
+    }
+
+    private String generateRatioReport(String title, int fromDate, int toDate,
+                                       Map<Integer, Double> result) {
+        StringBuilder builder = new StringBuilder();
+
+        this.writeTitle(builder, title);
+
+        for (int year = fromDate; year <= toDate; year++) {
+            if (result.containsKey(year)) {
+                this.writeYear(builder, year);
+                this.writeValue(builder, "ratio", result.get(year));
+            }
+        }
+
+        return builder.toString();
+    }
+
+    private String generateAverageReport(String title, String label, Double value) {
+        StringBuilder builder = new StringBuilder();
+
+        this.writeTitle(builder, title);
+
+        this.writeValue(builder, label, value);
+
+        return builder.toString();
+    }
+
+    private void writeTitle(StringBuilder builder, String title) {
+        builder.append(title);
+        builder.append("\n");
+
+        String underline = new String(new char[title.length()]).replace("\0", "=");
+        builder.append(underline);
+        builder.append("\n");
+    }
+
+    private void writeYear(StringBuilder builder, int year) {
+        builder.append(String.format(
+                "%d:\n",
+                year
+        ));
+    }
+
+    private void writeValue(StringBuilder builder, String label, Double value) {
+        builder.append(String.format(
+                "\t%s => %.2f\n",
+                label, value
+        ));
     }
 
     @Override

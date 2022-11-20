@@ -159,7 +159,7 @@ public class SQLUserModel extends UserModel {
         } catch (NullPointerException e) {
             throw new RuntimeException("Invalid connection string...");
         } catch (Exception e) {
-            throw new RuntimeException("Could not access database...");
+            throw new RuntimeException("Could not access database..." + e.getMessage());
         }
     }
 }

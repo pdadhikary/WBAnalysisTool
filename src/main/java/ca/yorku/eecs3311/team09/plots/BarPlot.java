@@ -7,7 +7,7 @@ import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.CategoryTableXYDataset;
 
 import java.util.Map;
 
@@ -23,7 +23,8 @@ public class BarPlot extends Plot {
     public void plotAnalysis(AirPollutionForestArea analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        CategoryTableXYDataset dataset = new CategoryTableXYDataset();
+
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> airPollution = result.get(Indicator.AIR_POLLUTION_MEAN);
@@ -35,24 +36,22 @@ public class BarPlot extends Plot {
         BarPlot.insertData(dataset, airPollution, label1);
         BarPlot.insertData(dataset, forestArea, label2);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        JFreeChart barChart = ChartFactory.createXYBarChart(
                 analysis.getTitle(),
                 "Year",
+                false,
                 "% Annual Change",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(barChart);
     }
 
     @Override
     public void plotAnalysis(CO2EnergyUseAirPollution analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        CategoryTableXYDataset dataset = new CategoryTableXYDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> co2Emissions = result.get(Indicator.CO2_EMISSIONS);
@@ -68,41 +67,37 @@ public class BarPlot extends Plot {
         BarPlot.insertData(dataset, energyUse, label2);
         BarPlot.insertData(dataset, airPollution, label3);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        JFreeChart barChart = ChartFactory.createXYBarChart(
                 analysis.getTitle(),
                 "Year",
+                false,
                 "% Annual Change",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(barChart);
     }
 
     @Override
     public void plotAnalysis(CO2GDP analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        CategoryTableXYDataset dataset = new CategoryTableXYDataset();
 
         Map<Integer, Double> result = analysis.getResult();
         String label = "CO2 Emission to GDP per capita";
 
         BarPlot.insertData(dataset, result, label);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        JFreeChart barChart = ChartFactory.createXYBarChart(
                 analysis.getTitle(),
                 "Year",
+                false,
                 "Ratio",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(barChart);
     }
 
     @Override
@@ -114,7 +109,7 @@ public class BarPlot extends Plot {
     public void plotAnalysis(GovEducationHealthExpenditure analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        CategoryTableXYDataset dataset = new CategoryTableXYDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> eduExpenditure = result.get(Indicator.GOV_EXPENDITURE_EDU_GDP);
@@ -126,17 +121,15 @@ public class BarPlot extends Plot {
         BarPlot.insertData(dataset, eduExpenditure, label1);
         BarPlot.insertData(dataset, healthExpenditure, label2);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        JFreeChart barChart = ChartFactory.createXYBarChart(
                 analysis.getTitle(),
                 "Year",
+                false,
                 "% Annual Change",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(barChart);
     }
 
     @Override
@@ -148,7 +141,7 @@ public class BarPlot extends Plot {
     public void plotAnalysis(HealthCareMortality analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        CategoryTableXYDataset dataset = new CategoryTableXYDataset();
         Map<Indicator, Map<Integer, Double>> result = analysis.getResult();
 
         Map<Integer, Double> womenHCProblem = result.get(Indicator.PROBLEM_ACCESSING_HC_WOMEN);
@@ -160,59 +153,63 @@ public class BarPlot extends Plot {
         BarPlot.insertData(dataset, womenHCProblem, label1);
         BarPlot.insertData(dataset, mortality, label2);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        JFreeChart barChart = ChartFactory.createXYBarChart(
                 analysis.getTitle(),
                 "Year",
+                false,
                 "Incidents/per 1,000 births",
                 dataset
         );
 
-        this.designer.applyTheme(barChart);
-        ChartPanel panel = new ChartPanel(barChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(barChart);
     }
 
     @Override
     public void plotAnalysis(HealthExpenditureHospitalBeds analysis) {
         analysis.performCalculation();
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        CategoryTableXYDataset dataset = new CategoryTableXYDataset();
 
         Map<Integer, Double> result = analysis.getResult();
         String label = "Expenditure to GDP ratio";
 
         BarPlot.insertData(dataset, result, label);
 
-        JFreeChart barChart = ChartFactory.createBarChart(
+        JFreeChart barChart = ChartFactory.createXYBarChart(
                 analysis.getTitle(),
                 "Year",
+                false,
                 "Ratio",
                 dataset
         );
 
+        this.format(barChart);
+    }
+
+    private static void insertData(
+            CategoryTableXYDataset dataset,
+            Map<Integer, Double> column,
+            String label
+    ) {
+        for (Integer year : column.keySet()) {
+            dataset.add(
+                    year,
+                    column.get(year),
+                    label
+            );
+        }
+    }
+
+    private void format(JFreeChart barChart) {
         this.designer.applyTheme(barChart);
+        this.designer.setYearFormat(barChart);
         ChartPanel panel = new ChartPanel(barChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }
 
-    private static void insertData(
-            DefaultCategoryDataset dataset,
-            Map<Integer, Double> column,
-            String label
-    ) {
-        for (Integer year : column.keySet()) {
-            dataset.setValue(
-                    column.get(year),
-                    label,
-                    year
-            );
-        }
-    }
-
     @Override
     public String toString() {
-        return "Bar Chart";
+        return "Bar Plot";
     }
 }

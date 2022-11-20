@@ -2,7 +2,7 @@ package ca.yorku.eecs3311.team09.controller;
 
 import ca.yorku.eecs3311.team09.analyses.factory.AnalysisFactory;
 import ca.yorku.eecs3311.team09.enums.Country;
-import ca.yorku.eecs3311.team09.plots.Plot;
+import ca.yorku.eecs3311.team09.plots.factory.PlotFactory;
 
 import javax.swing.*;
 import java.util.List;
@@ -16,7 +16,7 @@ public interface IAppController {
 
     List<AnalysisFactory> getAnalyses();
 
-    List<Plot> getPlotViews();
+    List<PlotFactory> getPlotViews();
 
     JComponent handlePlotCreation();
 
@@ -25,6 +25,4 @@ public interface IAppController {
     void handleRecalculation();
 
     void handlePlotSelection(String plotId);
-
-    int getSelectedIndex();
 }

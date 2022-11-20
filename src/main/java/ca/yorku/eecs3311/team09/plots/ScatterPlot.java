@@ -14,12 +14,10 @@ import java.util.Map;
 
 public class ScatterPlot extends Plot {
 
-    // Initialize designer
     public ScatterPlot(PlotDesigner designer) {
         this.designer = designer;
     }
 
-    //  Series builder
     private static XYSeries createSeries(Map<Integer, Double> column, String label) {
 
         XYSeries series = new XYSeries(label);
@@ -31,7 +29,6 @@ public class ScatterPlot extends Plot {
         return series;
     }
 
-    // Exceptions
     @Override
     public void plotAnalysis(ForestArea analysis) {
         throw new IncompatibleAnalysisException("This analysis is incompatible with scatter plot!");
@@ -43,7 +40,6 @@ public class ScatterPlot extends Plot {
     }
 
 
-    ///////////////////////////// 1-Series Analysis /////////////////////////////
     @Override
     public void plotAnalysis(CO2GDP analysis) {
         analysis.performCalculation();
@@ -60,12 +56,7 @@ public class ScatterPlot extends Plot {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "Incidents per 1000 Births", dataset);
 
-        this.designer.applyTheme(scatterPlot);
-        ChartPanel panel = new ChartPanel(scatterPlot);
-
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
-
+        this.format(scatterPlot);
     }
 
     @Override
@@ -84,15 +75,9 @@ public class ScatterPlot extends Plot {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "Ratio", dataset);
 
-        this.designer.applyTheme(scatterPlot);
-        ChartPanel panel = new ChartPanel(scatterPlot);
-
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
-
+        this.format(scatterPlot);
     }
 
-    ///////////////////////////// 2-Series Analysis /////////////////////////////
     @Override
     public void plotAnalysis(HealthCareMortality analysis) {
         analysis.performCalculation();
@@ -115,12 +100,7 @@ public class ScatterPlot extends Plot {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "Incidents per 1000 Births", dataset);
 
-        this.designer.applyTheme(scatterPlot);
-        ChartPanel panel = new ChartPanel(scatterPlot);
-
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
-
+        this.format(scatterPlot);
     }
 
     @Override
@@ -146,11 +126,7 @@ public class ScatterPlot extends Plot {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "% Annual Change", dataset);
 
-        this.designer.applyTheme(scatterPlot);
-        ChartPanel panel = new ChartPanel(scatterPlot);
-
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(scatterPlot);
     }
 
     @Override
@@ -176,14 +152,9 @@ public class ScatterPlot extends Plot {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "% Annual Change", dataset);
 
-        this.designer.applyTheme(scatterPlot);
-        ChartPanel panel = new ChartPanel(scatterPlot);
-
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(scatterPlot);
     }
 
-    ///////////////////////////// 3-Series Analysis /////////////////////////////
     @Override
     public void plotAnalysis(CO2EnergyUseAirPollution analysis) {
         analysis.performCalculation();
@@ -212,9 +183,13 @@ public class ScatterPlot extends Plot {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "% Annual Change", dataset);
 
-        this.designer.applyTheme(scatterPlot);
-        ChartPanel panel = new ChartPanel(scatterPlot);
+        this.format(scatterPlot);
+    }
 
+    private void format(JFreeChart scatterChart) {
+        this.designer.applyTheme(scatterChart);
+        this.designer.setYearFormat(scatterChart);
+        ChartPanel panel = new ChartPanel(scatterChart);
         this.designer.formatChartPanel(panel);
         this.plot = panel;
     }

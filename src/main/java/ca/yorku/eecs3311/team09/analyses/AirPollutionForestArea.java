@@ -15,7 +15,7 @@ public class AirPollutionForestArea extends AnnualPercentChangeAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Air pollution vs forest area";
+    public static final String TITLE = "Air pollution vs forest area % change";
 
     /**
      * Returns a new instance of this analysis.

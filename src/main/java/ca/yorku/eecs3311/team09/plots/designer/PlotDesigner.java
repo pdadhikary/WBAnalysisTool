@@ -18,4 +18,6 @@ public interface PlotDesigner {
     void formatChartPanel(ChartPanel panel);
 
     void setScrollSize(JScrollPane pane);
+
+    void formatReport(JTextArea report);
 }

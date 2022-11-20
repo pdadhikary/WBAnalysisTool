@@ -1,5 +1,6 @@
 package ca.yorku.eecs3311.team09.controller;
 
+import ca.yorku.eecs3311.team09.exceptions.RestrictedDataException;
 import ca.yorku.eecs3311.team09.exceptions.ValidationException;
 
 import java.util.List;
@@ -51,8 +52,22 @@ public class FormValidationUtility {
         }
     }
 
-    // TODO: implement validation result
-    public static void isInBetween(Integer fromDate, Integer toDate, List<Integer> exclusionList) {
+    public static void checkLessThanEqual(Integer min, Integer value, String msg) {
+        if (value < min)
+            throw new ValidationException(msg);
+    }
 
+    public static void restrictInputs(Integer min, Integer max, List<Integer> inputs, String msg) {
+        for (Integer input : inputs) {
+            if (input <= max && input >= min)
+                throw new RestrictedDataException(msg);
+        }
+    }
+
+    public static void restrictInputs(String value, List<String> inputs, String msg) {
+        for (String input : inputs) {
+            if (input.equals(value))
+                throw new RestrictedDataException(msg);
+        }
     }
 }

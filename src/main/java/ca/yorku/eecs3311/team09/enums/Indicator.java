@@ -6,57 +6,57 @@ package ca.yorku.eecs3311.team09.enums;
 public enum Indicator {
 
     CO2_EMISSIONS(
-            "CO2 emissions (as metric tons per capita)",
+            "CO2 emissions t/capita)",
             "EN.ATM.CO2E.PC"
     ),
 
     ENERGY_USE(
-            "Energy use (kg of oil equivalent per capita)",
+            "Energy use kg/capita",
             "EG.USE.PCAP.KG.OE"
     ),
 
     AIR_POLLUTION_MEAN(
-            "PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)",
+            "Air pollution (ig/m3)",
             "EN.ATM.PM25.MC.M3"
     ),
 
     FOREST_AREA(
-            "Forest area (% of land area)",
+            "Forest area (% land area)",
             "AG.LND.FRST.ZS"
     ),
 
     GDP_PER_CAPITA_USD(
-            "GDP per capita (current US$)",
+            "GDP per capita (US$)",
             "NY.GDP.PCAP.CD"
     ),
 
     GOV_EXPENDITURE_EDU_GDP(
-            "Government expenditure on education, total (% of GDP)",
+            "Government education expenditure (% of GDP)",
             "SE.XPD.TOTL.GD.ZS"
     ),
 
     HEALTH_EXPENDITURE_USD(
-            "Current health expenditure per capita (current US$)",
+            "Health expenditure/capita (US$)",
             "SH.XPD.CHEX.PC.CD"
     ),
 
     HOSPITAL_BEDS(
-            "Hospital beds (per 1,000 people)",
+            "Hospital beds/1000)",
             "SH.MED.BEDS.ZS"
     ),
 
     PROBLEM_ACCESSING_HC_WOMEN(
-            "Problems in accessing health care (% of women): Q1 (lowest)",
+            "Problems accessing health care (% of women)",
             "SH.ACS.MONY.Q1.ZS"
     ),
 
     MORTALITY_RATE_INFANT(
-            "Mortality rate, infant (per 1,000 live births)",
+            "Infant Mortality rate/1000",
             "SP.DYN.IMRT.IN"
     ),
 
     HEALTH_EXPENDITURE_GDP(
-            "Current health expenditure (% of GDP)",
+            "Health expenditure (% of GDP)",
             "SH.XPD.CHEX.GD.ZS"
     );
 

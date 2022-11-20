@@ -9,8 +9,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
-import java.util.Map;
-
 /**
  * Generates a {@link javax.swing.JComponent Panel} containing a pie chart of the visited analysis result.
  */
@@ -39,25 +37,12 @@ public class PiePlot extends Plot {
     public void plotAnalysis(ForestArea analysis) {
         analysis.performCalculation();
 
-        DefaultPieDataset dataset = new DefaultPieDataset();
+        Indicator indicator = Indicator.FOREST_AREA;
+        Double value = analysis.getResult().get(indicator);
 
-        Map<Indicator, Double> result = analysis.getResult();
+        JFreeChart pieChart = this.createChart(value, analysis.getTitle(), indicator.getLabel());
 
-        Double total = 0.0;
-        for (Indicator i : result.keySet()) {
-            Double indicatorValue = result.get(i);
-            total += indicatorValue;
-            PiePlot.insertData(dataset, indicatorValue, i.getLabel());
-
-        }
-        PiePlot.insertData(dataset, 100 - total, "The Rest");
-
-        JFreeChart pieChart = ChartFactory.createPieChart(analysis.getTitle(), dataset);
-
-        this.designer.applyTheme(pieChart);
-        ChartPanel panel = new ChartPanel(pieChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(pieChart);
     }
 
     @Override
@@ -70,26 +55,12 @@ public class PiePlot extends Plot {
     public void plotAnalysis(GovernmentExpenditure analysis) {
         analysis.performCalculation();
 
-        DefaultPieDataset dataset = new DefaultPieDataset();
+        Indicator indicator = Indicator.GOV_EXPENDITURE_EDU_GDP;
+        Double value = analysis.getResult().get(indicator);
 
-        Map<Indicator, Double> result = analysis.getResult();
+        JFreeChart pieChart = this.createChart(value, analysis.getTitle(), indicator.getLabel());
 
-        Double total = 0.0;
-        for (Indicator i : result.keySet()) {
-            Double indicatorValue = result.get(i);
-            total += indicatorValue;
-            PiePlot.insertData(dataset, indicatorValue, i.getLabel());
-
-        }
-        PiePlot.insertData(dataset, 100 - total, "The Rest");
-
-        JFreeChart pieChart = ChartFactory.createPieChart(analysis.getTitle(), dataset);
-
-        this.designer.applyTheme(pieChart);
-        ChartPanel panel = new ChartPanel(pieChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
-
+        this.format(pieChart);
     }
 
     @Override
@@ -104,13 +75,29 @@ public class PiePlot extends Plot {
         throw new IncompatibleAnalysisException("This analysis is incompatible with a pie plot!");
     }
 
-    private static void insertData(
-            DefaultPieDataset dataset,
-            Double column,
-            String label
-    ) {
-        System.out.println("label: " + label + ", " + "column: " + column);
-        dataset.insertValue(0, label, column);
+    private JFreeChart createChart(Double value, String title, String label) {
+        DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
+        Double rest = 100 - value;
+
+        dataset.insertValue(
+                0,
+                String.format("%s - [%.2f%%]", label, value),
+                value
+        );
+        dataset.insertValue(
+                1,
+                String.format("The rest - [%.2f%%]", rest),
+                rest
+        );
+
+        return ChartFactory.createPieChart(title, dataset);
+    }
+
+    private void format(JFreeChart pieChart) {
+        this.designer.applyTheme(pieChart);
+        ChartPanel panel = new ChartPanel(pieChart);
+        this.designer.formatChartPanel(panel);
+        this.plot = panel;
     }
 
     @Override

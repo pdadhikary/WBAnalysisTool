@@ -14,7 +14,7 @@ public class GovernmentExpenditure extends AverageAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Government education expenditure";
+    public static final String TITLE = "Average education expenditure";
 
     /**
      * Returns a new instance of this analysis.

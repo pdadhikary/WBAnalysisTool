@@ -3,10 +3,8 @@ package ca.yorku.eecs3311.team09.views;
 import ca.yorku.eecs3311.team09.analyses.factory.AnalysisFactory;
 import ca.yorku.eecs3311.team09.controller.IAppController;
 import ca.yorku.eecs3311.team09.enums.Country;
-import ca.yorku.eecs3311.team09.exceptions.IncompatibleAnalysisException;
-import ca.yorku.eecs3311.team09.exceptions.MissingDataException;
-import ca.yorku.eecs3311.team09.exceptions.PlotUIException;
-import ca.yorku.eecs3311.team09.plots.Plot;
+import ca.yorku.eecs3311.team09.exceptions.*;
+import ca.yorku.eecs3311.team09.plots.factory.PlotFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
     /**
      * list of plot types users can select from.
      */
-    protected JComboBox<Plot> plotType;
+    protected JComboBox<PlotFactory> plotType;
 
     /**
      * recalculate button.
@@ -82,7 +82,7 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
 
         this.setTitle("Country Statistics");
         this.setIconImage(new ImageIcon(LoginView.LOGO_URI).getImage());
-        this.setSize(1000, 700);
+        this.setSize(1280, 900);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -92,7 +92,7 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         this.center = new JPanel();
 
         createPlotViewSelection();
-        createDataSelection();
+        createCountrySelection();
         createAnalysisSelection();
         createDateSelection();
 
@@ -124,7 +124,7 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
     /**
      * Creates data selection fields
      */
-    protected void createDataSelection() {
+    protected void createCountrySelection() {
         JLabel countryName = new JLabel("Choose A Country: ");
         this.countriesList = new JComboBox<>(
                 new Vector<>(
@@ -142,20 +142,24 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
     protected void createDateSelection() {
         JLabel fromLabel = new JLabel("From");
         JLabel toLabel = new JLabel("To");
-        List<Integer> dates = IntStream.range(
+
+        List<Integer> fromDates = IntStream.rangeClosed(
                 this.controller.getMinDate(),
                 this.controller.getMaxDate()
         ).boxed().collect(Collectors.toList());
 
+        List<Integer> toDates = new ArrayList<>(fromDates);
+        Collections.reverse(toDates);
+
         this.fromDate = new JComboBox<>(
                 new Vector<>(
-                        dates
+                        fromDates
                 )
         );
 
         this.toDate = new JComboBox<>(
                 new Vector<>(
-                        dates
+                        toDates
                 )
         );
 
@@ -198,27 +202,27 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         );
     }
 
-    public Country getCountry() {
+    public Country getSelectedCountry() {
         int selectedIndex = this.countriesList.getSelectedIndex();
         return this.countriesList.getItemAt(selectedIndex);
     }
 
-    public Integer getFromDate() {
+    public Integer getSelectedFromDate() {
         int selectedIndex = this.fromDate.getSelectedIndex();
         return this.fromDate.getItemAt(selectedIndex);
     }
 
-    public Integer getToDate() {
+    public Integer getSelectedToDate() {
         int selectedIndex = this.toDate.getSelectedIndex();
         return this.toDate.getItemAt(selectedIndex);
     }
 
-    public AnalysisFactory getAnalysis() {
+    public AnalysisFactory getSelectedAnalysis() {
         int selectedIndex = this.analysisList.getSelectedIndex();
         return this.analysisList.getItemAt(selectedIndex);
     }
 
-    public Plot getPlot() {
+    public PlotFactory getSelectedPlot() {
         int selectedIndex = this.plotType.getSelectedIndex();
         return this.plotType.getItemAt(selectedIndex);
     }
@@ -289,12 +293,39 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
                     "Data Not Available",
                     JOptionPane.ERROR_MESSAGE
             );
+        } catch (UnsupportedAnalysisException | UnsupportedPlotException exception) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    exception.getMessage(),
+                    "Unsupported Operation",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } catch (RestrictedDataException exception) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    exception.getMessage(),
+                    "Data Restricted",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } catch (ValidationException exception) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    exception.getMessage(),
+                    "Validation Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } catch (RuntimeException exception) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    exception.getMessage(),
+                    "Something went wrong...",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Clicked!");
         JComponent component = (JComponent) e.getSource();
         this.controller.handlePlotSelection(component.getName());
     }

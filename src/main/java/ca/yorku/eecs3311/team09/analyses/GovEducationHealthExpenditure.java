@@ -15,7 +15,7 @@ public class GovEducationHealthExpenditure extends AnnualPercentChangeAnalysis {
     /**
      * Title of the Analysis class.
      */
-    public static final String TITLE = "Education vs health expenditure";
+    public static final String TITLE = "Education vs health expenditure % change";
 
     public GovEducationHealthExpenditure(Country country, Integer fromDate, Integer toDate) {
         this.title = GovEducationHealthExpenditure.TITLE;

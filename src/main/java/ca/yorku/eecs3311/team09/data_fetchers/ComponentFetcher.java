@@ -22,7 +22,7 @@ public final class ComponentFetcher implements DataFetcher {
      * Link to World Bank API
      */
     private static final String WB_LINK = "https://api.worldbank.org/v2/country/%s/indicator/%s?date=%d:%d&format=json";
-    
+
     /**
      * Child decorator
      */
@@ -66,7 +66,7 @@ public final class ComponentFetcher implements DataFetcher {
         try {
             URL url = new URL(link);
 
-            JsonObject[] objects = ComponentFetcher.parseData(url);
+            JsonObject[] objects = this.parseData(url);
 
             assert objects != null;
 
@@ -111,7 +111,7 @@ public final class ComponentFetcher implements DataFetcher {
      * @param url URL to the JSON string to parse
      * @return parsed JSON objects
      */
-    private static JsonObject[] parseData(URL url) {
+    private JsonObject[] parseData(URL url) {
         JsonObject[] objects = null;
         try (InputStreamReader reader = new InputStreamReader(url.openStream())) {
             Gson gson = new GsonBuilder().setLenient().create();
@@ -121,10 +121,17 @@ public final class ComponentFetcher implements DataFetcher {
             JsonElement[] resultMap = gson.fromJson(jsonElement.toString(), type);
 
             objects = gson.fromJson(resultMap[1], JsonObject[].class);
-        } catch (IOException | JsonIOException e) {
-            throw new RuntimeException("could not connect to the URL: " + e);
-        } catch (Exception e) {
-            throw new RuntimeException("Json data could not be read: " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not establish connection to World Bank...");
+        } catch (JsonIOException e) {
+            throw new RuntimeException("World bank data corrupted...");
+        } catch (IndexOutOfBoundsException e) {
+            throw new RuntimeException(String.format("Invalid parameters, countryCode=%s; from=%d; to=%d; indicator=%s",
+                    this.country.getCode(),
+                    this.fromDate,
+                    this.toDate,
+                    this.indicator.getIndicator_token()
+            ));
         }
 
         return objects;

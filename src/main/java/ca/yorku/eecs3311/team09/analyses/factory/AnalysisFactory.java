@@ -2,18 +2,19 @@ package ca.yorku.eecs3311.team09.analyses.factory;
 
 import ca.yorku.eecs3311.team09.analyses.*;
 import ca.yorku.eecs3311.team09.enums.Country;
+import ca.yorku.eecs3311.team09.exceptions.UnsupportedAnalysisException;
 
 public class AnalysisFactory {
-    private String analysisName;
-    private String analysisCode;
+    protected final String analysisName;
+    protected final String analysisCode;
 
-    public AnalysisFactory(String analysisCode, String analysisTitle) {
+    public AnalysisFactory(String analysisCode, String analysisName) {
         if (analysisCode == null) {
             throw new RuntimeException("Analysis code cannot be null!");
         }
 
         this.analysisCode = analysisCode;
-        this.analysisName = analysisTitle;
+        this.analysisName = analysisName;
     }
 
     public IAnalysis getAnalysis(Country country, Integer fromDate, Integer toDate) {
@@ -45,10 +46,14 @@ public class AnalysisFactory {
                 analysis = new HealthExpenditureHospitalBeds(country, fromDate, toDate);
                 break;
             default:
-                throw new RuntimeException("Unrecognized analysis...");
+                throw new UnsupportedAnalysisException(this.analysisName + " is an unsupported analysis");
         }
 
         return analysis;
+    }
+
+    public String getAnalysisCode() {
+        return analysisCode;
     }
 
     @Override

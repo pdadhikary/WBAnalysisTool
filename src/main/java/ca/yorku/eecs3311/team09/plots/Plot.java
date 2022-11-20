@@ -9,8 +9,8 @@ import javax.swing.*;
  * Plots a visited analysis.
  */
 public abstract class Plot implements PlotVisitor {
-    JComponent plot;
-    PlotDesigner designer;
+    protected JComponent plot;
+    protected PlotDesigner designer;
 
     /**
      * Return the plot generated after this {@link PlotVisitor PlotVisitor} is accepted

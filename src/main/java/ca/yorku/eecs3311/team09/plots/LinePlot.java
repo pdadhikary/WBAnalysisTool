@@ -86,13 +86,7 @@ public class LinePlot extends Plot {
                 dataset
         );
 
-        this.designer.applyTheme(lineChart);
-        this.designer.setYearFormat(lineChart);
-        XYPlot xyPlot = lineChart.getXYPlot();
-        this.designer.designPlot(xyPlot);
-        ChartPanel panel = new ChartPanel(lineChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(lineChart);
     }
 
     @Override
@@ -114,13 +108,7 @@ public class LinePlot extends Plot {
                 dataset
         );
 
-        this.designer.applyTheme(lineChart);
-        this.designer.setYearFormat(lineChart);
-        XYPlot xyPlot = lineChart.getXYPlot();
-        this.designer.designPlot(xyPlot);
-        ChartPanel panel = new ChartPanel(lineChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(lineChart);
     }
 
     @Override
@@ -153,13 +141,7 @@ public class LinePlot extends Plot {
                 dataset
         );
 
-        this.designer.applyTheme(lineChart);
-        this.designer.setYearFormat(lineChart);
-        XYPlot xyPlot = lineChart.getXYPlot();
-        this.designer.designPlot(xyPlot);
-        ChartPanel panel = new ChartPanel(lineChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(lineChart);
     }
 
     @Override
@@ -192,13 +174,7 @@ public class LinePlot extends Plot {
                 dataset
         );
 
-        this.designer.applyTheme(lineChart);
-        this.designer.setYearFormat(lineChart);
-        XYPlot xyPlot = lineChart.getXYPlot();
-        this.designer.designPlot(xyPlot);
-        ChartPanel panel = new ChartPanel(lineChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(lineChart);
     }
 
     @Override
@@ -220,16 +196,10 @@ public class LinePlot extends Plot {
                 dataset
         );
 
-        this.designer.applyTheme(lineChart);
-        this.designer.setYearFormat(lineChart);
-        XYPlot xyPlot = lineChart.getXYPlot();
-        this.designer.designPlot(xyPlot);
-        ChartPanel panel = new ChartPanel(lineChart);
-        this.designer.formatChartPanel(panel);
-        this.plot = panel;
+        this.format(lineChart);
     }
 
-    public static XYSeries createSeries(Map<Integer, Double> colum, String label) {
+    private static XYSeries createSeries(Map<Integer, Double> colum, String label) {
         XYSeries series = new XYSeries(label);
 
         for (Integer year : colum.keySet()) {
@@ -242,8 +212,18 @@ public class LinePlot extends Plot {
         return series;
     }
 
+    private void format(JFreeChart lineChart) {
+        this.designer.applyTheme(lineChart);
+        this.designer.setYearFormat(lineChart);
+        XYPlot xyPlot = lineChart.getXYPlot();
+        this.designer.designPlot(xyPlot);
+        ChartPanel panel = new ChartPanel(lineChart);
+        this.designer.formatChartPanel(panel);
+        this.plot = panel;
+    }
+
     @Override
     public String toString() {
-        return "Line Chart";
+        return "Line Plot";
     }
 }

@@ -1,23 +1,23 @@
 package ca.yorku.eecs3311.team09.models;
 
 import ca.yorku.eecs3311.team09.analyses.factory.AnalysisFactory;
-import ca.yorku.eecs3311.team09.plots.Plot;
+import ca.yorku.eecs3311.team09.plots.factory.PlotFactory;
 
 import java.util.*;
 
 public class PlotsModel implements IPlotsModel {
     protected static class PlotEntry {
         protected AnalysisFactory factory;
-        protected Plot plot;
+        protected PlotFactory plot;
 
-        public PlotEntry(AnalysisFactory factory, Plot plot) {
+        public PlotEntry(AnalysisFactory factory, PlotFactory plot) {
             this.factory = factory;
             this.plot = plot;
         }
     }
 
-    Map<String, PlotEntry> plotMap;
-    List<String> plotPosition;
+    protected Map<String, PlotEntry> plotMap;
+    protected List<String> plotPosition;
 
     public PlotsModel() {
         this.plotMap = new HashMap<>();
@@ -25,7 +25,7 @@ public class PlotsModel implements IPlotsModel {
     }
 
     @Override
-    public void addPlot(int index, String plotId, AnalysisFactory analysisFactory, Plot plot) {
+    public void addPlot(int index, String plotId, AnalysisFactory analysisFactory, PlotFactory plot) {
         PlotEntry entry = new PlotEntry(analysisFactory, plot);
         this.plotPosition.add(index, plotId);
         this.plotMap.put(plotId, entry);
@@ -53,7 +53,7 @@ public class PlotsModel implements IPlotsModel {
     }
 
     @Override
-    public Plot getPlot(String plotId) {
+    public PlotFactory getPlot(String plotId) {
         return this.plotMap.get(plotId).plot;
     }
 

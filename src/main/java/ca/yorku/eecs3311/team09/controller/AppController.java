@@ -2,29 +2,30 @@ package ca.yorku.eecs3311.team09.controller;
 
 import ca.yorku.eecs3311.team09.analyses.IAnalysis;
 import ca.yorku.eecs3311.team09.analyses.factory.AnalysisFactory;
+import ca.yorku.eecs3311.team09.controller.config_loader.ConfigLoader;
 import ca.yorku.eecs3311.team09.enums.Country;
 import ca.yorku.eecs3311.team09.exceptions.PlotUIException;
 import ca.yorku.eecs3311.team09.models.ILoginObserver;
 import ca.yorku.eecs3311.team09.models.IPlotsModel;
 import ca.yorku.eecs3311.team09.models.IUserModel;
-import ca.yorku.eecs3311.team09.plots.*;
-import ca.yorku.eecs3311.team09.plots.designer.DefaultPlotDesigner;
-import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
+import ca.yorku.eecs3311.team09.plots.Plot;
+import ca.yorku.eecs3311.team09.plots.factory.PlotFactory;
 import ca.yorku.eecs3311.team09.views.AppView;
 
 import javax.swing.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class AppController implements IAppController, ILoginObserver {
+
+    protected ConfigLoader configLoader;
     protected AppView view;
     protected IUserModel userModel;
-
     protected IPlotsModel plotsModel;
-
     protected int selectedPlot = -1;
 
     public AppController(IUserModel userModel, IPlotsModel plotsModel) {
+        this.configLoader = new ConfigLoader();
+
         this.userModel = userModel;
         this.plotsModel = plotsModel;
 
@@ -35,49 +36,27 @@ public class AppController implements IAppController, ILoginObserver {
 
     @Override
     public List<Country> getCountries() {
-        return Arrays.asList(
-                Country.INDIA,
-                Country.CANADA,
-                Country.BRAZIL,
-                Country.CHINA,
-                Country.USA
-        );
+        return this.configLoader.getCountries();
     }
 
     @Override
     public Integer getMaxDate() {
-        return 2020;
+        return this.configLoader.getMaxDate();
     }
 
     @Override
     public Integer getMinDate() {
-        return 2010;
+        return this.configLoader.getMinDate();
     }
 
     @Override
     public List<AnalysisFactory> getAnalyses() {
-        return Arrays.asList(
-                new AnalysisFactory("AirPollutionForestArea", "AirPollutionForestArea"),
-                new AnalysisFactory("CO2EnergyUseAirPollution", "CO2EnergyUseAirPollution"),
-                new AnalysisFactory("CO2GDP", "CO2GDP"),
-                new AnalysisFactory("ForestArea", "ForestArea"),
-                new AnalysisFactory("GovEducationHealthExpenditure", "GovEducationHealthExpenditure"),
-                new AnalysisFactory("GovernmentExpenditure", "GovernmentExpenditure"),
-                new AnalysisFactory("HealthCareMortality", "HealthCareMortality"),
-                new AnalysisFactory("HealthExpenditureHospitalBeds", "HealthExpenditureHospitalBeds")
-        );
+        return this.configLoader.getAnalyses();
     }
 
     @Override
-    public List<Plot> getPlotViews() {
-        PlotDesigner designer = DefaultPlotDesigner.getInstance();
-        return Arrays.asList(
-                new LinePlot(designer),
-                new BarPlot(designer),
-                new PiePlot(designer),
-                new ScatterPlot(designer),
-                new ReportPlot(designer)
-        );
+    public List<PlotFactory> getPlotViews() {
+        return this.configLoader.getPlots();
     }
 
     @Override
@@ -87,13 +66,17 @@ public class AppController implements IAppController, ILoginObserver {
 
     @Override
     public JComponent handlePlotCreation() {
-        AnalysisFactory factory = this.view.getAnalysis();
-        Plot plot = this.view.getPlot();
-        Country country = this.view.getCountry();
-        Integer fromDate = this.view.getFromDate();
-        Integer toDate = this.view.getToDate();
+        this.validateState();
 
-        IAnalysis analysis = factory.getAnalysis(country, fromDate, toDate);
+        AnalysisFactory analysisFactory = this.view.getSelectedAnalysis();
+        PlotFactory plotFactory = this.view.getSelectedPlot();
+
+        Country country = this.view.getSelectedCountry();
+        Integer fromDate = this.view.getSelectedFromDate();
+        Integer toDate = this.view.getSelectedToDate();
+
+        IAnalysis analysis = analysisFactory.getAnalysis(country, fromDate, toDate);
+        Plot plot = plotFactory.getPlot();
         analysis.accept(plot);
 
         JComponent generatedPlot = plot.getPlot();
@@ -102,8 +85,8 @@ public class AppController implements IAppController, ILoginObserver {
         this.plotsModel.addPlot(
                 this.selectedPlot + 1,
                 plotId,
-                factory,
-                plot
+                analysisFactory,
+                plotFactory
         );
 
         this.view.addPlotView(generatedPlot, this.selectedPlot + 1);
@@ -128,15 +111,18 @@ public class AppController implements IAppController, ILoginObserver {
             throw new PlotUIException("Please select a plot view to perform recalculation.");
         }
 
-        Country country = this.view.getCountry();
-        Integer fromDate = this.view.getFromDate();
-        Integer toDate = this.view.getToDate();
+        this.validateState();
+
+        Country country = this.view.getSelectedCountry();
+        Integer fromDate = this.view.getSelectedFromDate();
+        Integer toDate = this.view.getSelectedToDate();
 
         String plotId = this.plotsModel.getPlotId(this.selectedPlot);
-        AnalysisFactory factory = this.plotsModel.getAnalysis(plotId);
-        Plot plot = this.plotsModel.getPlot(plotId);
+        AnalysisFactory analysisFactory = this.plotsModel.getAnalysis(plotId);
+        PlotFactory plotFactory = this.plotsModel.getPlot(plotId);
 
-        IAnalysis analysis = factory.getAnalysis(country, fromDate, toDate);
+        IAnalysis analysis = analysisFactory.getAnalysis(country, fromDate, toDate);
+        Plot plot = plotFactory.getPlot();
         analysis.accept(plot);
 
         JComponent generatedPlot = plot.getPlot();
@@ -159,8 +145,30 @@ public class AppController implements IAppController, ILoginObserver {
         }
     }
 
-    @Override
-    public int getSelectedIndex() {
-        return this.selectedPlot;
+    protected void validateState() {
+        FormValidationUtility.checkLessThanEqual(
+                this.view.getSelectedFromDate(),
+                this.view.getSelectedToDate(),
+                "'From' cannot be greater than 'To' date"
+        );
+
+        String selectedAnalysisCode = this.view.getSelectedAnalysis().getAnalysisCode();
+        List<Integer> restrictedDates = this.configLoader.getDateExclusion(selectedAnalysisCode);
+
+        FormValidationUtility.restrictInputs(
+                this.view.getSelectedFromDate(),
+                this.view.getSelectedToDate(),
+                restrictedDates,
+                "The following dates are restricted: " + restrictedDates
+        );
+
+        String selectedCountryCode = this.view.getSelectedCountry().getCode();
+        List<String> restrictedCountries = this.configLoader.getCountryCodeExclusion(selectedAnalysisCode);
+
+        FormValidationUtility.restrictInputs(
+                selectedCountryCode,
+                restrictedCountries,
+                "Data for the following countries are restricted: " + restrictedCountries
+        );
     }
 }
