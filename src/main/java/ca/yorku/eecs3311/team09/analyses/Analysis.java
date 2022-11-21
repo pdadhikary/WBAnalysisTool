@@ -98,9 +98,8 @@ public abstract class Analysis implements IAnalysis {
             // for each year check if data is available for all indicators
             boolean data_available = true;
             for (Indicator indicator : data.keySet()) {
-                data_available &= !Double.isNaN(
-                        data.get(indicator).get(year)
-                );
+                Double value = data.get(indicator).get(year);
+                data_available &= value != null && !Double.isNaN(value);
             }
 
             // if data is not available queue it up for deletion

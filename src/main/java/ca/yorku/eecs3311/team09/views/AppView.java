@@ -391,6 +391,7 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
                     JOptionPane.WARNING_MESSAGE
             );
         } catch (RuntimeException exception) {
+            exception.printStackTrace();
             JOptionPane.showMessageDialog(
                     this,
                     exception.getMessage(),

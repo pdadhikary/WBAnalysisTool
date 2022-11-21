@@ -38,16 +38,6 @@ public class ReportPlot extends Plot {
         this.designer = designer;
     }
 
-
-    public JScrollPane createReport(String result) {
-        JTextArea report = new JTextArea();
-        report.append(result);
-        designer.formatReport(report);
-        JScrollPane textPane = new ReportPane(report);
-        designer.setScrollSize(textPane);
-        return textPane;
-    }
-
     @Override
     public void plotAnalysis(AirPollutionForestArea analysis) {
         analysis.performCalculation();
@@ -272,6 +262,15 @@ public class ReportPlot extends Plot {
                 "\t%s => %.2f\n",
                 label, value
         ));
+    }
+
+    private JScrollPane createReport(String result) {
+        JTextArea report = new JTextArea();
+        report.append(result);
+        designer.formatReport(report);
+        JScrollPane textPane = new ReportPane(report);
+        designer.setScrollSize(textPane);
+        return textPane;
     }
 
     @Override
