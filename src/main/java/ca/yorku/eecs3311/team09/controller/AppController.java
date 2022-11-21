@@ -15,14 +15,43 @@ import ca.yorku.eecs3311.team09.views.AppView;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * A controller for the {@link AppView AppView}. Uses the appsettings.json
+ * file to determine user selection options.
+ */
 public class AppController implements IAppController, ILoginObserver {
 
+    /**
+     * App configuration.
+     */
     protected ConfigLoader configLoader;
+
+    /**
+     * View to control.
+     */
     protected AppView view;
+
+    /**
+     * User model.
+     */
     protected IUserModel userModel;
+
+    /**
+     * Plots model.
+     */
     protected IPlotsModel plotsModel;
+
+    /**
+     * The position of the plot currently selected.
+     */
     protected int selectedPlot = -1;
 
+    /**
+     * Initialize a new app controller.
+     *
+     * @param userModel  user model
+     * @param plotsModel plots model
+     */
     public AppController(IUserModel userModel, IPlotsModel plotsModel) {
         this.configLoader = new ConfigLoader();
 
@@ -33,6 +62,7 @@ public class AppController implements IAppController, ILoginObserver {
 
         this.view = new AppView(this);
     }
+
 
     @Override
     public List<Country> getCountries() {
@@ -145,6 +175,9 @@ public class AppController implements IAppController, ILoginObserver {
         }
     }
 
+    /**
+     * Validate user's selected options against the app configurations.
+     */
     protected void validateState() {
         FormValidationUtility.checkLessThanEqual(
                 this.view.getSelectedFromDate(),

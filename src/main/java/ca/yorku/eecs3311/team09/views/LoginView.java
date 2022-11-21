@@ -71,6 +71,11 @@ public class LoginView extends JFrame implements ActionListener {
         this.add(loginPanel);
     }
 
+    /**
+     * Handle user event.
+     *
+     * @param e event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String username = this.usernameField.getText();
@@ -99,6 +104,9 @@ public class LoginView extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Show a successful registration message to the user.
+     */
     public void showRegistrationSuccess() {
         JOptionPane.showMessageDialog(
                 this,

@@ -199,19 +199,31 @@ public class LinePlot extends Plot {
         this.format(lineChart);
     }
 
-    private static XYSeries createSeries(Map<Integer, Double> colum, String label) {
+    /**
+     * Create an XYSeries with the given column and label.
+     *
+     * @param column data column
+     * @param label  data label
+     * @return a new {@link XYSeries XYSeries}
+     */
+    private static XYSeries createSeries(Map<Integer, Double> column, String label) {
         XYSeries series = new XYSeries(label);
 
-        for (Integer year : colum.keySet()) {
+        for (Integer year : column.keySet()) {
             series.add(
                     year,
-                    colum.get(year)
+                    column.get(year)
             );
         }
 
         return series;
     }
 
+    /**
+     * Format and set the {@link JFreeChart Chart} as a plot.
+     *
+     * @param lineChart Chart to format as a plot
+     */
     private void format(JFreeChart lineChart) {
         this.designer.applyTheme(lineChart);
         this.designer.setYearFormat(lineChart);

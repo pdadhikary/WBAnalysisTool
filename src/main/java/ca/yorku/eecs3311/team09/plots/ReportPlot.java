@@ -158,6 +158,15 @@ public class ReportPlot extends Plot {
         this.plot = createReport(reportText);
     }
 
+    /**
+     * Generate a report from analysis data.
+     *
+     * @param title    report title
+     * @param fromDate start date of analysis
+     * @param toDate   end date of analysis
+     * @param result   analysis result
+     * @return report
+     */
     private String generateDefaultReport(String title, int fromDate, int toDate,
                                          Map<Indicator, Map<Integer, Double>> result) {
         StringBuilder builder = new StringBuilder();
@@ -180,6 +189,15 @@ public class ReportPlot extends Plot {
         return builder.toString();
     }
 
+    /**
+     * Generate a report from analysis data.
+     *
+     * @param title    report title
+     * @param fromDate start date of analysis
+     * @param toDate   end date of analysis
+     * @param result   analysis result
+     * @return report
+     */
     private String generateRatioReport(String title, int fromDate, int toDate,
                                        Map<Integer, Double> result) {
         StringBuilder builder = new StringBuilder();
@@ -196,6 +214,14 @@ public class ReportPlot extends Plot {
         return builder.toString();
     }
 
+    /**
+     * Generate a report from analysis data.
+     *
+     * @param title report title
+     * @param label data label
+     * @param value data value
+     * @return report
+     */
     private String generateAverageReport(String title, String label, Double value) {
         StringBuilder builder = new StringBuilder();
 
@@ -206,6 +232,12 @@ public class ReportPlot extends Plot {
         return builder.toString();
     }
 
+    /**
+     * Write the title with formatting added.
+     *
+     * @param builder string builder
+     * @param title   title
+     */
     private void writeTitle(StringBuilder builder, String title) {
         builder.append(title);
         builder.append("\n");
@@ -215,6 +247,12 @@ public class ReportPlot extends Plot {
         builder.append("\n");
     }
 
+    /**
+     * Write the year with formatting added.
+     *
+     * @param builder string builder
+     * @param year    title
+     */
     private void writeYear(StringBuilder builder, int year) {
         builder.append(String.format(
                 "%d:\n",
@@ -222,6 +260,13 @@ public class ReportPlot extends Plot {
         ));
     }
 
+    /**
+     * Write the label and value pair with formatting added.
+     *
+     * @param builder string builder
+     * @param label   label
+     * @param value   value
+     */
     private void writeValue(StringBuilder builder, String label, Double value) {
         builder.append(String.format(
                 "\t%s => %.2f\n",

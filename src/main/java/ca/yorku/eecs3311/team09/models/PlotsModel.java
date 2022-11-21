@@ -5,9 +5,22 @@ import ca.yorku.eecs3311.team09.plots.factory.PlotFactory;
 
 import java.util.*;
 
+/**
+ * Uses an ArrayList and Hashmap to keep track of plot position, and the
+ * associated analysis and plot factories.
+ */
 public class PlotsModel implements IPlotsModel {
+    /**
+     * An entry object of the hashmap.
+     */
     protected static class PlotEntry {
+        /**
+         * analysis factory.
+         */
         protected AnalysisFactory factory;
+        /**
+         * plot factory.
+         */
         protected PlotFactory plot;
 
         public PlotEntry(AnalysisFactory factory, PlotFactory plot) {
@@ -16,9 +29,18 @@ public class PlotsModel implements IPlotsModel {
         }
     }
 
+    /**
+     * Map of plotId to entry.
+     */
     protected Map<String, PlotEntry> plotMap;
+    /**
+     * Position of each plotId.
+     */
     protected List<String> plotPosition;
 
+    /**
+     * Initialize a new PlotsModel.
+     */
     public PlotsModel() {
         this.plotMap = new HashMap<>();
         this.plotPosition = new ArrayList<>();

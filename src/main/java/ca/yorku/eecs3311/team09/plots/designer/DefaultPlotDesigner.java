@@ -11,10 +11,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 
+/**
+ * A singleton plot designer.
+ */
 public class DefaultPlotDesigner implements PlotDesigner {
 
+    /**
+     * Chart theme.
+     */
     private final StandardChartTheme chartTheme;
 
+    /**
+     * Singleton plot designer
+     */
     private static final PlotDesigner designer = new DefaultPlotDesigner();
 
     private DefaultPlotDesigner() {
@@ -48,14 +57,6 @@ public class DefaultPlotDesigner implements PlotDesigner {
         renderer.setSeriesStroke(0, new BasicStroke(2.0f));
 
         plot.setRenderer(renderer);
-    }
-
-    @Override
-    public void designPlot(JTextArea plot) {
-        plot.setEditable(false);
-        plot.setPreferredSize(new Dimension(400, 300));
-        plot.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        plot.setBackground(Color.white);
     }
 
     @Override

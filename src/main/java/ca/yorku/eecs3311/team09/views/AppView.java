@@ -20,31 +20,33 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * The main app GUI.
+ * The main app GUI. Provides handles for user functionalities and
+ * contains handles for mouse interactions with the
+ * {@link ca.yorku.eecs3311.team09.plots.Plot Plots}.
  */
 public class AppView extends JFrame implements ActionListener, MouseListener {
     /**
-     * list of countries users can select from.
+     * list of countries.
      */
     protected JComboBox<Country> countriesList;
 
     /**
-     * list of analyses users can select from.
+     * list of analyses.
      */
     protected JComboBox<AnalysisFactory> analysisList;
 
     /**
-     * list of beginning dates users can select from.
+     * start dates.
      */
     protected JComboBox<Integer> fromDate;
 
     /**
-     * list of end dates users can select from.
+     * end dates.
      */
     protected JComboBox<Integer> toDate;
 
     /**
-     * list of plot types users can select from.
+     * list of plots.
      */
     protected JComboBox<PlotFactory> plotType;
 
@@ -53,8 +55,14 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
      */
     protected JButton recalculateButton;
 
+    /**
+     * add button
+     */
     protected JButton addButton;
 
+    /**
+     * remove button
+     */
     protected JButton removeButton;
 
     /**
@@ -63,19 +71,24 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
     protected JPanel north;
 
     /**
-     * panel containing analysis selection fields.
+     * panel containing analysis and plot selection fields.
      */
     protected JPanel south;
 
     /**
-     * panel containing graph panels.
+     * panel containing the generated plots.
      */
     protected JPanel center;
 
+    /**
+     * controller of this view.
+     */
     protected IAppController controller;
 
     /**
-     * returns a new AppView
+     * Create an app view.
+     *
+     * @param controller controller of the view.
      */
     public AppView(IAppController controller) {
         this.controller = controller;
@@ -170,7 +183,7 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
     }
 
     /**
-     * Creates DATE selection fields
+     * Creates plot selection fields
      */
     protected void createPlotViewSelection() {
         JLabel plotLabel = new JLabel("Available Views");
@@ -192,6 +205,11 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         this.south.add(this.removeButton);
     }
 
+    /**
+     * Greet the user upon successful login.
+     *
+     * @param username username
+     */
     public void greetUser(String username) {
         this.setVisible(true);
         JOptionPane.showMessageDialog(
@@ -202,36 +220,73 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         );
     }
 
+    /**
+     * Return the current selected country.
+     *
+     * @return selected country
+     */
     public Country getSelectedCountry() {
         int selectedIndex = this.countriesList.getSelectedIndex();
         return this.countriesList.getItemAt(selectedIndex);
     }
 
+    /**
+     * Return the current selected from date.
+     *
+     * @return selected from date
+     */
     public Integer getSelectedFromDate() {
         int selectedIndex = this.fromDate.getSelectedIndex();
         return this.fromDate.getItemAt(selectedIndex);
     }
 
+    /**
+     * Return the current selected to date.
+     *
+     * @return selected to date.
+     */
     public Integer getSelectedToDate() {
         int selectedIndex = this.toDate.getSelectedIndex();
         return this.toDate.getItemAt(selectedIndex);
     }
 
+    /**
+     * Return the current selected to analysis factory.
+     *
+     * @return selected analysis.
+     */
     public AnalysisFactory getSelectedAnalysis() {
         int selectedIndex = this.analysisList.getSelectedIndex();
         return this.analysisList.getItemAt(selectedIndex);
     }
 
+    /**
+     * Return the current selected to plot factory.
+     *
+     * @return selected plot.
+     */
     public PlotFactory getSelectedPlot() {
         int selectedIndex = this.plotType.getSelectedIndex();
         return this.plotType.getItemAt(selectedIndex);
     }
 
+    /**
+     * 4
+     * Display the given plot in the plot window.
+     *
+     * @param plotView plot to show
+     * @param index    position of the view
+     */
     public void addPlotView(JComponent plotView, int index) {
         this.center.add(plotView, index);
         this.center.revalidate();
     }
 
+    /**
+     * Remove the plot view at the specified position.
+     *
+     * @param index position of the view
+     */
     public void removePlotView(int index) {
         this.center.remove(index);
         this.center.revalidate();
@@ -239,12 +294,23 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         this.repaint();
     }
 
+    /**
+     * Replace the view at the specified index with the provided view.
+     *
+     * @param plotView updated view
+     * @param index    position to replace
+     */
     public void updatePlotView(JComponent plotView, int index) {
         plotView.addMouseListener(this);
         this.removePlotView(index);
         this.addPlotView(plotView, index);
     }
 
+    /**
+     * Highlight the plot view in the given index.
+     *
+     * @param index position of the view
+     */
     public void addPlotHighlight(int index) {
         if (index > -1 && index < this.center.getComponentCount()) {
             JComponent component = (JComponent) this.center.getComponent(index);
@@ -253,6 +319,11 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * Unhighlight the plot view in the given index.
+     *
+     * @param index position of the view
+     */
     public void removePlotHighlight(int index) {
         if (index > -1 && index < this.center.getComponentCount()) {
             JComponent component = (JComponent) this.center.getComponent(index);
@@ -261,6 +332,11 @@ public class AppView extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * Handle user events.
+     *
+     * @param e event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         try {

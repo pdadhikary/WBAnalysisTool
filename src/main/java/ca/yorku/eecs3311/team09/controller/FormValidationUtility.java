@@ -52,11 +52,26 @@ public class FormValidationUtility {
         }
     }
 
+    /**
+     * Throws a {@link ValidationException} if the value is less than value floor.
+     *
+     * @param min   value floor
+     * @param value value
+     * @param msg   message
+     */
     public static void checkLessThanEqual(Integer min, Integer value, String msg) {
         if (value < min)
             throw new ValidationException(msg);
     }
 
+    /**
+     * Throws a {@link ValidationException} if a value in the list of inputs is within the range of [min, max].
+     *
+     * @param min    value floor
+     * @param max    value ceiling
+     * @param inputs inputs
+     * @param msg    message
+     */
     public static void restrictInputs(Integer min, Integer max, List<Integer> inputs, String msg) {
         for (Integer input : inputs) {
             if (input <= max && input >= min)
@@ -64,8 +79,15 @@ public class FormValidationUtility {
         }
     }
 
-    public static void restrictInputs(String value, List<String> inputs, String msg) {
-        for (String input : inputs) {
+    /**
+     * Throws a {@link ValidationException} if value is contained within the list of restrictions.
+     *
+     * @param value        value
+     * @param restrictions restrictions
+     * @param msg          message
+     */
+    public static void restrictInputs(String value, List<String> restrictions, String msg) {
+        for (String input : restrictions) {
             if (input.equals(value))
                 throw new RestrictedDataException(msg);
         }

@@ -10,7 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Main class.
+ */
 public class App {
+
+    /**
+     * Initialize the app with a database and environment("DEV" or "PROD").
+     *
+     * @param environment environment
+     */
     public App(String environment) {
         String baseDir = Objects.requireNonNull(App.class.getResource("/database")).getPath();
         String connectionSuffix = "jdbc:sqlite:";
@@ -37,6 +46,11 @@ public class App {
         loginController.showLoginView();
     }
 
+    /**
+     * Create a database if it doesn't already exist.
+     *
+     * @param path path to the database.
+     */
     public static void make_test_db(String path) {
         File dbFile = new File(path);
         boolean dirCreated = dbFile.getParentFile().mkdirs();
@@ -47,10 +61,13 @@ public class App {
         }
     }
 
+    /**
+     * Main entry point to the program.
+     *
+     * @param args arguments
+     */
     public static void main(String[] args) {
         new App("DEV");
-//        ConfigLoader loader = new ConfigLoader();
-//        System.out.println(loader.getPlots());
     }
 
 }

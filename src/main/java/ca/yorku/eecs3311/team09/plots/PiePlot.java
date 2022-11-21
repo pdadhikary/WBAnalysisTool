@@ -75,6 +75,15 @@ public class PiePlot extends Plot {
         throw new IncompatibleAnalysisException("This analysis is incompatible with a pie plot!");
     }
 
+    /**
+     * Generate a pie chart with the given label, value, and
+     * it's percentage complement.
+     *
+     * @param value value of the pie chart
+     * @param title title
+     * @param label data label
+     * @return a new {@link JFreeChart JFreeChart}
+     */
     private JFreeChart createChart(Double value, String title, String label) {
         DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
         Double rest = 100 - value;
@@ -93,6 +102,11 @@ public class PiePlot extends Plot {
         return ChartFactory.createPieChart(title, dataset);
     }
 
+    /**
+     * Format and set the {@link JFreeChart Chart} as a plot.
+     *
+     * @param pieChart Chart to format as a plot
+     */
     private void format(JFreeChart pieChart) {
         this.designer.applyTheme(pieChart);
         ChartPanel panel = new ChartPanel(pieChart);

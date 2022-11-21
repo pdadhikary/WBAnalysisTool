@@ -18,17 +18,6 @@ public class ScatterPlot extends Plot {
         this.designer = designer;
     }
 
-    private static XYSeries createSeries(Map<Integer, Double> column, String label) {
-
-        XYSeries series = new XYSeries(label);
-
-        for (Integer year : column.keySet()) {
-            series.add(year, column.get(year));
-        }
-
-        return series;
-    }
-
     @Override
     public void plotAnalysis(ForestArea analysis) {
         throw new IncompatibleAnalysisException("This analysis is incompatible with scatter plot!");
@@ -186,6 +175,29 @@ public class ScatterPlot extends Plot {
         this.format(scatterPlot);
     }
 
+    /**
+     * Create an XYSeries with the given column and label.
+     *
+     * @param column data column
+     * @param label  data label
+     * @return a new {@link XYSeries XYSeries}
+     */
+    private static XYSeries createSeries(Map<Integer, Double> column, String label) {
+
+        XYSeries series = new XYSeries(label);
+
+        for (Integer year : column.keySet()) {
+            series.add(year, column.get(year));
+        }
+
+        return series;
+    }
+
+    /**
+     * Format and set the {@link JFreeChart Chart} as a plot.
+     *
+     * @param scatterChart Chart to format as a plot
+     */
     private void format(JFreeChart scatterChart) {
         this.designer.applyTheme(scatterChart);
         this.designer.setYearFormat(scatterChart);

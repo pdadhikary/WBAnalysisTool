@@ -186,6 +186,13 @@ public class BarPlot extends Plot {
         this.format(barChart);
     }
 
+    /**
+     * Inset the column into the provided dataset with the given label.
+     *
+     * @param dataset dataset to modify
+     * @param column  column to insert
+     * @param label   data label
+     */
     private static void insertData(
             CategoryTableXYDataset dataset,
             Map<Integer, Double> column,
@@ -200,6 +207,11 @@ public class BarPlot extends Plot {
         }
     }
 
+    /**
+     * Format and set the {@link JFreeChart Chart} as a plot.
+     *
+     * @param barChart Chart to format as a plot
+     */
     private void format(JFreeChart barChart) {
         this.designer.applyTheme(barChart);
         this.designer.setYearFormat(barChart);
