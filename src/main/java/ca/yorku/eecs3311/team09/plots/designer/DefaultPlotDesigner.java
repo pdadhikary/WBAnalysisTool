@@ -83,7 +83,6 @@ public class DefaultPlotDesigner implements PlotDesigner {
     @Override
     public void setScrollSize(JScrollPane pane) {
         pane.setPreferredSize(new Dimension(450, 300));
-        pane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
     }
 
     @Override

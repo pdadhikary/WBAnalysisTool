@@ -31,7 +31,7 @@ public enum Indicator {
     ),
 
     GOV_EXPENDITURE_EDU_GDP(
-            "Government education expenditure (% of GDP)",
+            "Education expenditure (% of GDP)",
             "SE.XPD.TOTL.GD.ZS"
     ),
 

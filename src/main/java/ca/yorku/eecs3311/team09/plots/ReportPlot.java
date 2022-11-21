@@ -113,8 +113,8 @@ public class ReportPlot extends Plot {
 
         String reportText = this.generateAverageReport(
                 analysis.getTitle(),
-                Indicator.FOREST_AREA.getLabel(),
-                analysis.getResult().get(Indicator.FOREST_AREA)
+                Indicator.GOV_EXPENDITURE_EDU_GDP.getLabel(),
+                analysis.getResult().get(Indicator.GOV_EXPENDITURE_EDU_GDP)
         );
 
         this.plot = createReport(reportText);
