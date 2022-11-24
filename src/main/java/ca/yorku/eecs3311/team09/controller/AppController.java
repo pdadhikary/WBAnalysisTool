@@ -138,7 +138,8 @@ public class AppController implements IAppController, ILoginObserver {
     @Override
     public void handleRecalculation() {
         if (this.selectedPlot == -1) {
-            throw new PlotUIException("Please select a plot view to perform recalculation.");
+            throw new PlotUIException("Please select a plot view to perform recalculation.\n" +
+                    "Or use the '+' button to add a new view.");
         }
 
         this.validateState();
