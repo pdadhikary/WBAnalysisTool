@@ -12,6 +12,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import java.util.Map;
 
+/**
+ * Generates a {@link javax.swing.JComponent Panel} containing a scatter chart of the visited analysis result.
+ */
 public class ScatterPlot extends Plot {
 
     public ScatterPlot(PlotDesigner designer) {
@@ -43,7 +46,9 @@ public class ScatterPlot extends Plot {
         dataset.addSeries(series1);
 
 
-        JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "Incidents per 1000 Births", dataset);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot(
+                analysis.getTitle(), "Year", "Incidents per 1000 Births", dataset
+        );
 
         this.format(scatterPlot);
     }
@@ -62,7 +67,9 @@ public class ScatterPlot extends Plot {
         dataset.addSeries(series1);
 
 
-        JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "Ratio", dataset);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot(
+                analysis.getTitle(), "Year", "Ratio", dataset
+        );
 
         this.format(scatterPlot);
     }
@@ -87,7 +94,9 @@ public class ScatterPlot extends Plot {
         XYSeries series2 = ScatterPlot.createSeries(mortality, label2);
         dataset.addSeries(series2);
 
-        JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "Incidents per 1000 Births", dataset);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot(
+                analysis.getTitle(), "Year", "Incidents per 1000 Births", dataset
+        );
 
         this.format(scatterPlot);
     }
@@ -113,7 +122,9 @@ public class ScatterPlot extends Plot {
         dataset.addSeries(series2);
 
 
-        JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "% Annual Change", dataset);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot(
+                analysis.getTitle(), "Year", "% Annual Change", dataset
+        );
 
         this.format(scatterPlot);
     }
@@ -139,7 +150,9 @@ public class ScatterPlot extends Plot {
         dataset.addSeries(series2);
 
 
-        JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "% Annual Change", dataset);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot(
+                analysis.getTitle(), "Year", "% Annual Change", dataset
+        );
 
         this.format(scatterPlot);
     }
@@ -170,7 +183,9 @@ public class ScatterPlot extends Plot {
         XYSeries series3 = ScatterPlot.createSeries(airPollution, label3);
         dataset.addSeries(series3);
 
-        JFreeChart scatterPlot = ChartFactory.createScatterPlot(analysis.getTitle(), "Year", "% Annual Change", dataset);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot(
+                analysis.getTitle(), "Year", "% Annual Change", dataset
+        );
 
         this.format(scatterPlot);
     }

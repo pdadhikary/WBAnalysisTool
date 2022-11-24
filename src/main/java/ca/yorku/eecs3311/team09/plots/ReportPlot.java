@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.Map;
 
 /**
- * Generates a {@link javax.swing.JComponent Panel} containing a bar chart of the visited analysis result.
+ * Generates a {@link javax.swing.JComponent Panel} containing a report of the visited analysis result.
  */
 public class ReportPlot extends Plot {
     private static class ReportPane extends JScrollPane {

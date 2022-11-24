@@ -5,10 +5,25 @@ import ca.yorku.eecs3311.team09.plots.*;
 import ca.yorku.eecs3311.team09.plots.designer.DefaultPlotDesigner;
 import ca.yorku.eecs3311.team09.plots.designer.PlotDesigner;
 
+/**
+ * A class that acts as a dispatcher for {@link Plot Plot} objects.
+ */
 public class PlotFactory {
+    /**
+     * Name of the plot
+     */
     protected final String plotName;
+    /**
+     * Plot type
+     */
     protected final String plotType;
 
+    /**
+     * Initializes a new plot factory.
+     *
+     * @param plotType plot type
+     * @param plotName plot name
+     */
     public PlotFactory(String plotType, String plotName) {
         if (plotType == null) {
             throw new RuntimeException("Analysis code cannot be null!");
@@ -18,6 +33,11 @@ public class PlotFactory {
         this.plotName = plotName;
     }
 
+    /**
+     * Returns a Plot of the specified type.
+     *
+     * @return plot
+     */
     public Plot getPlot() {
         Plot plot;
         PlotDesigner designer = DefaultPlotDesigner.getInstance();
@@ -45,10 +65,20 @@ public class PlotFactory {
         return plot;
     }
 
+    /**
+     * Return the plot type.
+     *
+     * @return plot type
+     */
     public String getPlotType() {
         return this.plotType;
     }
 
+    /**
+     * Return the plot name.
+     *
+     * @return plot name
+     */
     @Override
     public String toString() {
         return this.plotName;

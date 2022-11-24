@@ -67,7 +67,7 @@ public class App {
      * @param args arguments
      */
     public static void main(String[] args) {
-        new App("DEV");
+        new App("PROD");
     }
 
 }
