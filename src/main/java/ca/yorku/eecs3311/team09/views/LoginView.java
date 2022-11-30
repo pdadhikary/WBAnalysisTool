@@ -116,6 +116,22 @@ public class LoginView extends JFrame implements ActionListener {
         );
     }
 
+    public JTextField getUsernameField() {
+        return this.usernameField;
+    }
+
+    public JTextField getPasswordField() {
+        return this.passwordField;
+    }
+
+    public JButton getSubmitBtn() {
+        return this.submitBtn;
+    }
+
+    public JButton getRegisterBtn() {
+        return this.registerBtn;
+    }
+
     /**
      * Creates all the input fields and labels for this view.
      */

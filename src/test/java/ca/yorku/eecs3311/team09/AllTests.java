@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
         DataFetcherTest.class,
         AnalysisTest.class,
         SQLUserModelTest.class,
-        LoginControllerValidationTest.class
+        LoginControllerValidationTest.class,
+        LoginViewTest.class
 })
 public class AllTests {
 }
