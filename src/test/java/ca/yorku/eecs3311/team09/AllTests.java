@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
         AnalysisTest.class,
         SQLUserModelTest.class,
         LoginControllerValidationTest.class,
-        LoginViewTest.class
+        LoginViewTest.class,
+        AppViewTest.class
 })
 public class AllTests {
 }
