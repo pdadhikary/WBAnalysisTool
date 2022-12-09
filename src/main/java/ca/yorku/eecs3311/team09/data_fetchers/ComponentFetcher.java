@@ -21,7 +21,7 @@ public final class ComponentFetcher implements DataFetcher {
     /**
      * Link to World Bank API
      */
-    private static final String WB_LINK = "https://api.worldbank.org/v2/country/%s/indicator/%s?date=%d:%d&format=json";
+    private String url = "https://api.worldbank.org/v2/country/%s/indicator/%s?date=%d:%d&format=json";
 
     /**
      * Child decorator
@@ -32,6 +32,17 @@ public final class ComponentFetcher implements DataFetcher {
     private final int fromDate;
     private final int toDate;
 
+    
+    public ComponentFetcher(String url, Indicator indicator, DataFetcher fetcher) {
+    	this.url = url;
+    	this.fetcher = fetcher;
+        this.indicator = indicator;
+
+        this.country = fetcher.getCountry();
+        this.fromDate = fetcher.getFromDate();
+        this.toDate = fetcher.getToDate();
+    }
+    
     /**
      * Returns a new ComponentFetcher
      *
@@ -39,13 +50,11 @@ public final class ComponentFetcher implements DataFetcher {
      * @param fetcher   the child decorator
      */
     public ComponentFetcher(Indicator indicator, DataFetcher fetcher) {
-        this.fetcher = fetcher;
-        this.indicator = indicator;
-
-        this.country = fetcher.getCountry();
-        this.fromDate = fetcher.getFromDate();
-        this.toDate = fetcher.getToDate();
-
+    	this(
+    	"https://api.worldbank.org/v2/country/%s/indicator/%s?date=%d:%d&format=json",
+    	indicator,
+    	fetcher
+    	);
     }
 
     /**
@@ -56,7 +65,7 @@ public final class ComponentFetcher implements DataFetcher {
     @Override
     public Map<Indicator, Map<Integer, Double>> getData() {
         String link = String.format(
-                ComponentFetcher.WB_LINK,
+                this.url,
                 this.country.getCode(),
                 this.indicator.getIndicator_token(),
                 this.fromDate,
